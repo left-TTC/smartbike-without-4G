@@ -66,6 +66,7 @@ int main(void)
 			{
 				Controller_on();
 				Bikelockcount ++;           //when Bikelockcount = 1£¬don't enter the loop
+				NormalOperationFlag();
 			}
  			if(whilecount%100==0)         
 			{
@@ -104,6 +105,10 @@ int main(void)
 					Get_BatteryLockState();
 				}
 			}
+			if (whilecount % 30 == 0)          //need measure speed,0.  
+			{
+				Send_CurrentRotate();
+			}
 		}
 		
 //--------------------Bikelock on But Bluetooth is disconnected -------------
@@ -131,7 +136,7 @@ int main(void)
 					Noblue_dirve = 0;
 				}
 			}
-			if (whilecount % 1000 == 0)            
+			if (whilecount % 30 == 0)          //need measure speed,0.  
 			{
 				Send_CurrentRotate();
 			}

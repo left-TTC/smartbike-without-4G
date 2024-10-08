@@ -97,6 +97,11 @@ void Battery_lockFail(void)
 {
 	Send_AT_Command("battery4");
 }
+
+void NormalOperationFlag(void)
+{
+	Send_AT_Command("ready");
+}
 //-----------------------------------check related to BlueTooth-------------------
 void Blue_check(void)
 {

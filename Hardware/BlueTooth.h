@@ -9,7 +9,7 @@ void Battery_openNotify(void);
 void Battery_offNotify(void);
 void Battery_openFail(void);
 void Battery_lockFail(void);
-void test(void);
+void NormalOperationFlag(void);
 void Send_AT_Command(const char* command);
 
 #endif
