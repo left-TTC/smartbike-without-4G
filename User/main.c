@@ -19,7 +19,7 @@ extern int Site_move;
 int once_load = 1;
 
 int main(void)
-{
+ {
 	OLED_Init();
 	Serial_Init();
 	AD_Init();
@@ -144,10 +144,6 @@ int main(void)
 			{
 				Controller_off();
 				Bikelockcount = 0;
-			}
-			if(once_load == 0)
-			{
-				once_load ++;
 			}
 		}
 //-------------------------Battery command----------------------------

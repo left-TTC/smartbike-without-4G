@@ -54,7 +54,7 @@ void Get_BatteryLockState(void)
 	}
 	else
 	{
-		if(BatteryLock_number ==0)               //it means have send lockopen command,but lock is still off
+		if(BatteryLock_number ==1)               //it means have send lockopen command,but lock is still off
 		{
 			Battery_openFail();
 		}

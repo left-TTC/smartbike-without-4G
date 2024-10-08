@@ -9,6 +9,7 @@
 volatile int Tooth_Flag = 1;
 extern int BikeLock_number;
 extern int BatteryLock_number;
+extern int once_load;
 
 //----------------------------------------Init-----------------
 void Blue_Init(void)//USART3
@@ -132,7 +133,8 @@ void USART3_IRQHandler(void)
 			
 			if (strstr(receivedata1, "unbikelock") != NULL)
             {
-                BikeLock_number = 0;  
+                BikeLock_number = 0;
+				once_load = 1;
             }
             else if (strstr(receivedata1, "bikelock") != NULL)
             {
