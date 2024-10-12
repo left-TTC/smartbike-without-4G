@@ -8,19 +8,18 @@
 #include "CONTROLLER.h"
 #include "BATTERY.h"
 
-uint16_t ADValue = 0;
-float Voltage;
 volatile int check_tooth = 0;
-uint8_t Noblue_dirve = 0;
 int BikeLock_number = 0;
 int BatteryLock_number = 2;
 extern int Tooth_Flag;
 extern int Site_move;
 int once_load = 1;
+int Afterdrive_check;
 
 int main(void)
  {
-	OLED_Init();
+ 
+	 OLED_Init();
 	Serial_Init();
 	AD_Init();
 	OLED_Init();
@@ -37,17 +36,8 @@ int main(void)
 //--------------------------while ++-----------------------
 		if(once_load == 1 && Tooth_Flag ==0)           //when frist started using this car           
 		{
-			Get_BatteryLockState();                 //upstate batterylock state
+			GetStateWhenopen();                 //upstate batterylock state
 			once_load = 0;
-		}
-		if(whilecount%10==0)
-		{
-			ADValue = AD_GetValue();
-			Voltage = (float)ADValue / 4095 * 3.3;
-		
-			OLED_ShowNum(1, 9, ADValue, 4);
-			OLED_ShowNum(2, 9, Voltage, 1);
-			OLED_ShowNum(2, 11, (uint16_t)(Voltage * 100) % 100, 2);
 		}
 		
 		whilecount++;                          //100 =1s
@@ -67,6 +57,7 @@ int main(void)
 				Controller_on();
 				Bikelockcount ++;           //when Bikelockcount = 1£¬don't enter the loop
 				NormalOperationFlag();
+				Afterdrive_check = 0;
 			}
  			if(whilecount%100==0)         
 			{
@@ -79,11 +70,6 @@ int main(void)
 			if(whilecount%100==40)
 			{
 				unLockBikeCommand3();
-			}
-			if (whilecount % 1000 == 0)            
-			{
-				Send_CurrentRotate();
-				Noblue_dirve = 0;                  //reset,prevent the next Bluetooth disconnection and lock car directly without notification
 			}
 			if (whilecount % 3000 == 0)            //30s
 			{
@@ -100,55 +86,26 @@ int main(void)
 						check_tooth = 0;
 					}
 				}
-				if(whilecount % 6000 == 0)             //every 60s check batterylock state
-				{
-					Get_BatteryLockState();
-				}
 			}
-			if (whilecount % 30 == 0)          //need measure speed,0.  
+			if(whilecount % 50 == 0)             //every 60s check batterylock state
 			{
+				Get_BatteryLockState();
 				Send_CurrentRotate();
 			}
 		}
-		
-//--------------------Bikelock on But Bluetooth is disconnected -------------
-
-		if(BikeLock_number == 1 && Tooth_Flag == 1)        //have opened the lock but BlueTooth drop
-		{
-			if(whilecount%100==0)
-			{
-				unLockBikeCommand1();
-			}			
-			if(whilecount%100==20)
-			{
-				unLockBikeCommand2();
-			}	
-			if(whilecount%100==40)
-			{
-				unLockBikeCommand3();
-			}
-			if(whilecount % 500 == 0)
-			{
-				Noblue_dirve ++;
-				if (Noblue_dirve > 5)
-				{
-					BikeLock_number = 0;
-					Noblue_dirve = 0;
-				}
-			}
-			if (whilecount % 30 == 0)          //need measure speed,0.  
-			{
-				Send_CurrentRotate();
-			}
-		}
-		
+				
 //---------------------------Bikelock off-------------------------	
-		if(BikeLock_number == 0)                  //lock
+		if(BikeLock_number == 0 )                  //lock
 		{
 			if(Bikelockcount%10==1)        //logically redundant ,set just at once 
 			{
 				Controller_off();
 				Bikelockcount = 0;
+			}
+			if(Afterdrive_check %10 == 1 )
+			{
+				Get_BatteryLockState();
+				Afterdrive_check ++;
 			}
 		}
 //-------------------------Battery command----------------------------
@@ -163,7 +120,7 @@ int main(void)
 			if(Batterylockcount%101==0)         //delay ~1s
 			{
 				BatteryLock_Reset();
-				Get_BatteryLockState();
+				checkBatteryCommand();
 				BatteryLock_number = 2;
 				Batterylockcount = 0;            //Batterylockcount(max) == 101
 			}
@@ -179,7 +136,7 @@ int main(void)
 			if(Batterylockcount%101==0)           //delay ~1s
 			{
 				BatteryLock_Reset();
-				Get_BatteryLockState();
+				checkBatteryCommand();
 				BatteryLock_number = 2;
 				Batterylockcount = 0;
 			}

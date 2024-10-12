@@ -10,6 +10,7 @@ volatile int Tooth_Flag = 1;
 extern int BikeLock_number;
 extern int BatteryLock_number;
 extern int once_load;
+extern int Afterdrive_check;
 
 //----------------------------------------Init-----------------
 void Blue_Init(void)//USART3
@@ -78,7 +79,7 @@ void Send_AT_Command(const char* command)
     BlueAT_SendData('\n');
 }
 //----------------------------------------Send information----------------------
-void Battery_openNotify(void)
+void Battery_openNotify(void)            //tell bluetooth that my lock'state is open
 {
 	Send_AT_Command("battery1");
 }
@@ -136,28 +137,21 @@ void USART3_IRQHandler(void)
         {
             receivedata1[index1] = '\0';  
 			
-			if (strstr(receivedata1, "unbikelock") != NULL)
+			if (strstr(receivedata1, "unbikelock") != NULL)      //stop drving,one cycling cycle is only once
             {
                 BikeLock_number = 0;
 				once_load = 1;
+				Afterdrive_check = 1;
             }
-            else if (strstr(receivedata1, "bikelock") != NULL)
+            else if (strstr(receivedata1, "bikelock") != NULL)   //open,also only
             {
                  BikeLock_number = 1; 
-			}
-			else if (strstr(receivedata1, "unbatterylock") != NULL)
-            {
-                BatteryLock_number = 0; 
-            }				
-            else if (strstr(receivedata1, "batterylock") != NULL)
+			}				
+            else if (strstr(receivedata1, "batterylock") != NULL) //need only an unlock,lock is automatic
             {
                 BatteryLock_number = 1; 
             }
-            else
-            {
-                Send_AT_Command("unknown command");
-            }
-
+			
 			memset(receivedata1,0,BUFFER_SIZE3);
             index1 = 0;  
         }

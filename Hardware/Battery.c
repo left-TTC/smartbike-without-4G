@@ -3,6 +3,7 @@
 #include "BLUETOOTH.h"
 
 extern int BatteryLock_number;
+uint8_t LastlyPinState ; 
 
 void Battery_Init(void)
 {
@@ -37,32 +38,64 @@ void BatteryLock_Reset(void)        //need wait for unlocking at intervals of 1s
 	GPIO_ResetBits(GPIOA,GPIO_Pin_6);
 }
 
+void GetStateWhenopen(void)         //used to tell device the lock state when start driving and give LastlyPinState a state
+{
+	LastlyPinState = GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_5);
+	
+	if(LastlyPinState == 1)  //means lock has been opened
+	{
+		Battery_openNotify();
+	}
+	else if(LastlyPinState == 0)
+	{
+		Battery_offNotify();
+	}
+}
+
 void Get_BatteryLockState(void)
 {
 	uint8_t PIN_State = GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_5);
 	
-	if(PIN_State == 1)                      //high,means batterylock open
+	if (PIN_State == LastlyPinState)              // BatteryLock_number == 2
 	{
-		if(BatteryLock_number ==0)               //it means have send lockoff command,but lock is still open
+		//do nothing
+	}
+	else if (LastlyPinState == 1 && PIN_State == 0) //automatically lock when find the physical lock status
+	{
+		BatteryLock_number = 0; //lock
+	}
+	
+	LastlyPinState = PIN_State;
+}
+
+void checkBatteryCommand(void)
+{
+	int PIN = GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_5);
+	
+	if(BatteryLock_number == 1)         //means in onlock command
+	{
+		if(PIN == 1)     //means is's on now 
 		{
-			Battery_lockFail();
+			Battery_openNotify();
 		}
 		else
-		{
-			Battery_openNotify();            //send a open signal to app
-		}
-	}
-	else
-	{
-		if(BatteryLock_number ==1)               //it means have send lockopen command,but lock is still off
 		{
 			Battery_openFail();
 		}
+	}
+	else if (BatteryLock_number == 0)
+	{
+		if(PIN == 0)     //means is's off now 
+		{
+			Battery_offNotify();
+		}
 		else
 		{
-			Battery_offNotify();            //send a open signal to app
-		}	
+			Battery_lockFail();
+		}
 	}
+	
+	
 }
 //-----------------------------
 

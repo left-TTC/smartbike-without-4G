@@ -1,6 +1,4 @@
 #include "stm32f10x.h"                  // Device header
-#define M_PI 3.1415926535
-#define DeadZone 50 
 #include <math.h>
 #include <stdio.h> 
 #include <string.h>
@@ -50,7 +48,7 @@ void AD_Init(void)
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; 
     NVIC_Init(&NVIC_InitStructure);
 
-    ADC_ITConfig(ADC1, ADC_IT_EOC, ENABLE); 
+    //ADC_ITConfig(ADC1, ADC_IT_EOC, ENABLE); 
 	ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 	
 }
@@ -89,22 +87,8 @@ void Check_move(void)
 
 //------------------------------------------------------------
 
-void ADC1_2_IRQHandler(void)
- {
-	uint16_t now_advalue = AD_GetValue();
-	if(Countstate == 0 && now_advalue > (ADValue+DeadZone))// means voltage is rising
-	{
-		if(now_advalue > 1365)
-		{
-			Rotate_Counter++;
-			Countstate = 1;
-		}
-	}
-	else if(Countstate == 1 && now_advalue < (ADValue - DeadZone))
-	{
-		Countstate = 0;
-	}
+//void ADC1_2_IRQHandler(void)
+//{
 	
-	ADValue = now_advalue;   //upstate the ADvalue
-}
+//}
 
