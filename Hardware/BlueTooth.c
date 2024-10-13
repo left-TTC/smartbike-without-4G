@@ -10,7 +10,6 @@ volatile int Tooth_Flag = 1;
 extern int BikeLock_number;
 extern int BatteryLock_number;
 extern int once_load;
-extern int Afterdrive_check;
 
 //----------------------------------------Init-----------------
 void Blue_Init(void)//USART3
@@ -110,13 +109,11 @@ void Blue_check(void)
 	
 	if(PIN_State == 1)
 	{
-		//strcpy(fault_string,"NO Tooth ");
 		Tooth_Flag = 1;
 	}
 	else 
 	{
 		Tooth_Flag = 0;
-		//strcpy(fault_string,"Tooth OK ");
 	}
 }
 
@@ -141,7 +138,6 @@ void USART3_IRQHandler(void)
             {
                 BikeLock_number = 0;
 				once_load = 1;
-				Afterdrive_check = 1;
             }
             else if (strstr(receivedata1, "bikelock") != NULL)   //open,also only
             {

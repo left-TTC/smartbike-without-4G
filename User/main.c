@@ -14,12 +14,12 @@ int BatteryLock_number = 2;
 extern int Tooth_Flag;
 extern int Site_move;
 int once_load = 1;
-int Afterdrive_check;
+int NoMoveFlag = 0;
 
 int main(void)
  {
  
-	 OLED_Init();
+	OLED_Init();
 	Serial_Init();
 	AD_Init();
 	OLED_Init();
@@ -36,8 +36,9 @@ int main(void)
 //--------------------------while ++-----------------------
 		if(once_load == 1 && Tooth_Flag ==0)           //when frist started using this car           
 		{
-			GetStateWhenopen();                 //upstate batterylock state
 			once_load = 0;
+			BatteryVoltage_get();
+			GetStateWhenopen();
 		}
 		
 		whilecount++;                          //100 =1s
@@ -57,7 +58,6 @@ int main(void)
 				Controller_on();
 				Bikelockcount ++;           //when Bikelockcount = 1£¬don't enter the loop
 				NormalOperationFlag();
-				Afterdrive_check = 0;
 			}
  			if(whilecount%100==0)         
 			{
@@ -92,20 +92,62 @@ int main(void)
 				Get_BatteryLockState();
 				Send_CurrentRotate();
 			}
+			if(whilecount %3000 == 0)
+			{
+				BatteryVoltage_get();
+			}
+			if(NoMoveFlag > 0 )
+			{
+				NoMoveFlag = 0;
+			}
 		}
 				
 //---------------------------Bikelock off-------------------------	
-		if(BikeLock_number == 0 )                  //lock
+		if(BikeLock_number == 0 && Tooth_Flag == 0)                  //lock
 		{
 			if(Bikelockcount%10==1)        //logically redundant ,set just at once 
 			{
 				Controller_off();
 				Bikelockcount = 0;
 			}
-			if(Afterdrive_check %10 == 1 )
+			if(whilecount % 50 == 0)
 			{
 				Get_BatteryLockState();
-				Afterdrive_check ++;
+			}
+			if(whilecount %3000 == 0)
+			{
+				BatteryVoltage_get();
+			}
+		}
+//------------------------forget lock the car-------------------------
+		if(BikeLock_number == 1 && Tooth_Flag == 1)   //user is far away from the device or bluetooth disconnected
+		{
+			if(whilecount %1000 == 0)
+			{
+				Check_move();
+			}
+			if(Site_move == 1 && whilecount %2000 == 0)
+			{
+				NoMoveFlag ++;
+				if(NoMoveFlag > 3)
+				{
+					BikeLock_number = 0;
+					NoMoveFlag = 0;
+				}
+			}
+			if(Site_move == 0 && whilecount %2000 == 0)  //means device is still moving but bulutooth disconnect
+			{
+				//remind user to connect bluetooth
+				NoMoveFlag = 0;
+			}	
+		}
+//-----------------------used to lock the car without bluetooth-------
+		if(BikeLock_number == 0 && Tooth_Flag == 1)
+		{
+			if(Bikelockcount%10==1)        //logically redundant ,set just at once 
+			{
+				Controller_off();
+				Bikelockcount = 0;
 			}
 		}
 //-------------------------Battery command----------------------------
