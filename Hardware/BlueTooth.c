@@ -3,13 +3,16 @@
 #include <stdlib.h> 
 #include <stdio.h>
 #include "Battery.h"
-
-#define BUFFER_SIZE3 32
+#define BUFFER_SIZE3 1024
      
 volatile int Tooth_Flag = 1;
 extern int BikeLock_number;
 extern int BatteryLock_number;
 extern int once_load;
+char Address[50];
+char Message[20];
+char SignatureHash[129];
+char time[20];
 
 //----------------------------------------Init-----------------
 void Blue_Init(void)//USART3
@@ -117,9 +120,10 @@ void Blue_check(void)
 	}
 }
 
+
 //------------------------------------IQ------------------------------------------------  
 volatile uint16_t bufferIndex1 = 0;
-uint8_t index1 = 0;
+uint16_t index1 = 0;
 char receivedata1[BUFFER_SIZE3];
 //         0xFFE1: Write Without Response APP --> UART?           0xFFE2: Notify  UART --> APP?
 //   0x01 LockBike    0x02 Unlockbike  0x03 batterylock  0x04  batteryUnlock
@@ -130,30 +134,24 @@ void USART3_IRQHandler(void)
     {
         char byte = USART_ReceiveData(USART3); 
 
-        if (byte == '$' || index1 >= BUFFER_SIZE3 - 1)
+        if (byte == '{')
         {
-            receivedata1[index1] = '\0';  
-			
-			if (strstr(receivedata1, "unbikelock") != NULL)      //stop drving,one cycling cycle is only once
-            {
-                BikeLock_number = 0;
-				once_load = 1;
-            }
-            else if (strstr(receivedata1, "bikelock") != NULL)   //open,also only
-            {
-                 BikeLock_number = 1; 
-			}				
-            else if (strstr(receivedata1, "batterylock") != NULL) //need only an unlock,lock is automatic
-            {
-                BatteryLock_number = 1; 
-            }
-			
-			memset(receivedata1,0,BUFFER_SIZE3);
-            index1 = 0;  
+            index1 = 0; 
         }
-        else
+
+        if (index1 < BUFFER_SIZE3 - 1)
         {
             receivedata1[index1++] = byte;  
+
+            if (byte == '}') 
+            {
+                receivedata1[index1] = '\0'; 
+
+                sscanf(receivedata1, "{\"Address\": \"%[^\"]\", \"Message\": \"%[^\"]\", \"SignatureHash\": \"%[^\"]\", \"time\": \"%[^\"]\"", Address, Message, SignatureHash, time);
+
+                memset(receivedata1, 0, BUFFER_SIZE3);
+                index1 = 0;  
+            }
         }
 
         GPIO_SetBits(GPIOC, GPIO_Pin_13);  

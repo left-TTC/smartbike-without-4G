@@ -32,6 +32,8 @@
 ".\objects\bluetooth.o"
 ".\objects\battery.o"
 ".\objects\controller.o"
+".\objects\uecc.o"
+".\objects\signatureverify.o"
 ".\objects\main.o"
 ".\objects\stm32f10x_it.o"
 --library_type=microlib --strict --scatter ".\Objects\Project.sct"

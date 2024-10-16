@@ -730,6 +730,26 @@
               <FileType>5</FileType>
               <FilePath>.\Hardware\Controller.h</FilePath>
             </File>
+            <File>
+              <FileName>uECC.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\uECC.c</FilePath>
+            </File>
+            <File>
+              <FileName>uECC.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\uECC.h</FilePath>
+            </File>
+            <File>
+              <FileName>SignatureVerify.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\SignatureVerify.c</FilePath>
+            </File>
+            <File>
+              <FileName>SignatureVerify.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\SignatureVerify.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
