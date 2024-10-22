@@ -134,24 +134,34 @@ void USART3_IRQHandler(void)
     {
         char byte = USART_ReceiveData(USART3); 
 
-        if (byte == '{')
+        if (byte == '$' || index1 >= BUFFER_SIZE3 - 1)
         {
-            index1 = 0; 
-        }
+            receivedata1[index1] = '\0';  
+			
+			if (strstr(receivedata1, "unbikelock") != NULL)
+            {
+                BikeLock_number = 0;
+				once_load = 1;
+            }
+            else if (strstr(receivedata1, "bikelock") != NULL)
+            {
+                 BikeLock_number = 1; 
+			}
+			else if (strstr(receivedata1, "unbatterylock") != NULL)
+            {
+                BatteryLock_number = 0; 
+            }				
+            else if (strstr(receivedata1, "batterylock") != NULL)
+            {
+                BatteryLock_number = 1; 
+            }
 
-        if (index1 < BUFFER_SIZE3 - 1)
+			memset(receivedata1,0,BUFFER_SIZE3);
+            index1 = 0;  
+        }
+        else
         {
             receivedata1[index1++] = byte;  
-
-            if (byte == '}') 
-            {
-                receivedata1[index1] = '\0'; 
-
-                sscanf(receivedata1, "{\"Address\": \"%[^\"]\", \"Message\": \"%[^\"]\", \"SignatureHash\": \"%[^\"]\", \"time\": \"%[^\"]\"", Address, Message, SignatureHash, time);
-
-                memset(receivedata1, 0, BUFFER_SIZE3);
-                index1 = 0;  
-            }
         }
 
         GPIO_SetBits(GPIOC, GPIO_Pin_13);  
