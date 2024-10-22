@@ -7,6 +7,7 @@
 #include "BLUETOOTH.h"
 #include "CONTROLLER.h"
 #include "BATTERY.h"
+#include "beep.h"
 
 volatile int check_tooth = 0;
 int BikeLock_number = 0;
@@ -26,6 +27,7 @@ int main(void)
 	Blue_Init();
 	Battery_Init();
 	Controller_Init();
+	beep_Init();
 	
 	uint32_t whilecount = 0;
 	uint32_t Batterylockcount = 0;
@@ -37,8 +39,13 @@ int main(void)
 		if(once_load == 1 && Tooth_Flag ==0)           //when frist started using this car           
 		{
 			once_load = 0;
-			BatteryVoltage_get();
+			BatteryVoltage_get();                      //get batterysource
 			GetStateWhenopen();
+		}
+		
+		if(once_load == 0 && Tooth_Flag ==1)           //when frist started using this car           
+		{
+			once_load = 1;
 		}
 		
 		whilecount++;                          //100 =1s
@@ -57,6 +64,7 @@ int main(void)
 			{
 				Controller_on();
 				Bikelockcount ++;           //when Bikelockcount = 1£¬don't enter the loop
+				beep_unlock();
 				NormalOperationFlag();
 			}
  			if(whilecount%100==0)         
@@ -87,13 +95,13 @@ int main(void)
 					}
 				}
 			}
-			if(whilecount % 50 == 0)             //every 60s check batterylock state
+			if(whilecount % 50 == 0)             //every 0.5s update the state of rotate
 			{
-				Get_BatteryLockState();
 				Send_CurrentRotate();
 			}
-			if(whilecount %3000 == 0)
+			if(whilecount %100 == 0)             //every 1s get battery and batterylock state
 			{
+				Get_BatteryLockState();
 				BatteryVoltage_get();
 			}
 			if(NoMoveFlag > 0 )
@@ -109,14 +117,12 @@ int main(void)
 			{
 				Controller_off();
 				Bikelockcount = 0;
+				beep_lock();
 			}
-			if(whilecount % 50 == 0)
-			{
-				Get_BatteryLockState();
-			}
-			if(whilecount %3000 == 0)
+			if(whilecount %100 == 0)      //every 1s get batterysource
 			{
 				BatteryVoltage_get();
+				Get_BatteryLockState();
 			}
 		}
 //------------------------forget lock the car-------------------------
@@ -148,6 +154,7 @@ int main(void)
 			{
 				Controller_off();
 				Bikelockcount = 0;
+				beep_lock();
 			}
 		}
 //-------------------------Battery command----------------------------

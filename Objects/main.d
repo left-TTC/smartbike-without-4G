@@ -37,3 +37,4 @@
 .\objects\main.o: .\Hardware\BLUETOOTH.h
 .\objects\main.o: .\Hardware\CONTROLLER.h
 .\objects\main.o: .\Hardware\BATTERY.h
+.\objects\main.o: .\Hardware\beep.h

@@ -731,16 +731,6 @@
               <FilePath>.\Hardware\Controller.h</FilePath>
             </File>
             <File>
-              <FileName>uECC.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Hardware\uECC.c</FilePath>
-            </File>
-            <File>
-              <FileName>uECC.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Hardware\uECC.h</FilePath>
-            </File>
-            <File>
               <FileName>SignatureVerify.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Hardware\SignatureVerify.c</FilePath>
@@ -749,6 +739,16 @@
               <FileName>SignatureVerify.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Hardware\SignatureVerify.h</FilePath>
+            </File>
+            <File>
+              <FileName>beep.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\beep.c</FilePath>
+            </File>
+            <File>
+              <FileName>beep.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\beep.h</FilePath>
             </File>
           </Files>
         </Group>

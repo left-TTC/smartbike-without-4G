@@ -150,9 +150,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>149</LineNumber>
+          <LineNumber>155</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134228596</Address>
+          <Address>134228862</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -161,7 +161,7 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\User\main.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\Project\User/main.c\149</Expression>
+          <Expression>\\Project\User/main.c\155</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -215,7 +215,7 @@
         <Ww>
           <count>0</count>
           <WinNumber>2</WinNumber>
-          <ItemText>Rotate_Counter</ItemText>
+          <ItemText>BatteryV</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
@@ -1155,8 +1155,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Hardware\uECC.c</PathWithFileName>
-      <FilenameWithoutPath>uECC.c</FilenameWithoutPath>
+      <PathWithFileName>.\Hardware\SignatureVerify.c</PathWithFileName>
+      <FilenameWithoutPath>SignatureVerify.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1167,8 +1167,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Hardware\uECC.h</PathWithFileName>
-      <FilenameWithoutPath>uECC.h</FilenameWithoutPath>
+      <PathWithFileName>.\Hardware\SignatureVerify.h</PathWithFileName>
+      <FilenameWithoutPath>SignatureVerify.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1179,8 +1179,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Hardware\SignatureVerify.c</PathWithFileName>
-      <FilenameWithoutPath>SignatureVerify.c</FilenameWithoutPath>
+      <PathWithFileName>.\Hardware\beep.c</PathWithFileName>
+      <FilenameWithoutPath>beep.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -1191,8 +1191,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Hardware\SignatureVerify.h</PathWithFileName>
-      <FilenameWithoutPath>SignatureVerify.h</FilenameWithoutPath>
+      <PathWithFileName>.\Hardware\beep.h</PathWithFileName>
+      <FilenameWithoutPath>beep.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
