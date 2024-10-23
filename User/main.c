@@ -20,7 +20,7 @@ int NoMoveFlag = 0;
 int main(void)
  {
  
-	OLED_Init();
+ 	OLED_Init();
 	Serial_Init();
 	AD_Init();
 	OLED_Init();
@@ -32,6 +32,7 @@ int main(void)
 	uint32_t whilecount = 0;
 	uint32_t Batterylockcount = 0;
 	int Bikelockcount = 0;
+	uint16_t ad;
 	
 	while (1)
 	{
@@ -54,6 +55,8 @@ int main(void)
 		if (whilecount%100==0)       //a whilecount == 0.01s   1s
 		{
 			Blue_check();            //Determine whether Bluetooth is connected
+			ad = AD1_GetValue();
+			OLED_ShowNum(1,1,ad,4);
 		}
 		
 //----------------------BikeLock on And Bluetooth connected----------------------
@@ -79,27 +82,15 @@ int main(void)
 			{
 				unLockBikeCommand3();
 			}
-			if (whilecount % 3000 == 0)            //30s
+			if (whilecount % 500 == 0)           
 			{
-				Check_move();
-				if(Tooth_Flag == 1 && Site_move == 1)     //BuleTooth disconnected and haven't moved for a 2 min
-				{
-					check_tooth ++;
-					if(check_tooth > 5)
-					{
-						BikeLock_number = 0;       //Bikelock but withoutnotify
-					}
-					else if(Tooth_Flag == 0 || Site_move == 0)  
-					{
-						check_tooth = 0;
-					}
-				}
+				NoMoveFlag = 0;
 			}
 			if(whilecount % 50 == 0)             //every 0.5s update the state of rotate
 			{
 				Send_CurrentRotate();
 			}
-			if(whilecount %100 == 0)             //every 1s get battery and batterylock state
+			if(whilecount %100 == 20)             //every 1s get battery and batterylock state
 			{
 				Get_BatteryLockState();
 				BatteryVoltage_get();
@@ -132,7 +123,7 @@ int main(void)
 			{
 				Check_move();
 			}
-			if(Site_move == 1 && whilecount %2000 == 0)
+			if(Site_move == 1 && whilecount %800 == 0)
 			{
 				NoMoveFlag ++;
 				if(NoMoveFlag > 3)
@@ -141,9 +132,9 @@ int main(void)
 					NoMoveFlag = 0;
 				}
 			}
-			if(Site_move == 0 && whilecount %2000 == 0)  //means device is still moving but bulutooth disconnect
+			if(Site_move == 0 && whilecount %800 == 0)  //means device is still moving but bulutooth disconnect
 			{
-				//remind user to connect bluetooth
+				                                //remind user to connect bluetooth/beep
 				NoMoveFlag = 0;
 			}	
 		}
