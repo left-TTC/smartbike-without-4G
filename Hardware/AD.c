@@ -9,7 +9,7 @@ volatile uint32_t Rotate_Counter = 0;
 int Site_move = 0;
 uint16_t CheckHelp = 0;
 float BatteryVoltage = 0;  //store power supply voltage
-
+int if_up = 0;      //==0 means it's up 
 
 
 void AD_Init(void)
@@ -39,8 +39,8 @@ void AD_Init(void)
     ADC_InitStructure.ADC_NbrOfChannel = 1;
     ADC_Init(ADC1, &ADC_InitStructure);
     
-    ADC_RegularChannelConfig(ADC1, ADC_Channel_0, 1, ADC_SampleTime_239Cycles5); // PA0
-	ADC_AnalogWatchdogThresholdsConfig(ADC1, 0x0574, 0x0000);
+    ADC_RegularChannelConfig(ADC1, ADC_Channel_0, 1, ADC_SampleTime_7Cycles5); // PA0
+	ADC_AnalogWatchdogThresholdsConfig(ADC1, 1395, 100);
 	ADC_AnalogWatchdogSingleChannelConfig(ADC1, ADC_Channel_0);
 	ADC_AnalogWatchdogCmd(ADC1, ADC_AnalogWatchdog_SingleRegEnable);
 	ADC_ITConfig(ADC1, ADC_IT_AWD, ENABLE);
@@ -127,8 +127,21 @@ void Check_move(void)
 //------------------------------------------------------------
 void ADC1_2_IRQHandler(void)
 {
-	if (ADC_GetFlagStatus(ADC1, ADC_FLAG_AWD)) {
-		Rotate_Counter ++;
+	if (ADC_GetFlagStatus(ADC1, ADC_FLAG_AWD) == 1) {
+		uint16_t AD_value = AD1_GetValue();
+		
+		if (AD_value > 1395)               //judge whether the ad > 1395
+		{
+			if(if_up == 0)                 //means it's fristly count
+			{
+				Rotate_Counter ++;
+				if_up = 1;
+			}
+		}
+		else
+		{
+			if_up = 0;
+		}
         ADC_ClearFlag(ADC1, ADC_FLAG_AWD); 
     }
 }

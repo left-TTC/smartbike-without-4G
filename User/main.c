@@ -58,6 +58,11 @@ int main(void)
 			ad = AD1_GetValue();
 			OLED_ShowNum(1,1,ad,4);
 		}
+		if (whilecount%10==0)       //a whilecount == 0.01s   1s
+		{
+			ad = AD1_GetValue();
+			OLED_ShowNum(1,1,ad,4);
+		}
 		
 //----------------------BikeLock on And Bluetooth connected----------------------
 //BikeLock_number£º1-on 0-off;Tooth_Flag: 1-disconnect 0-connect;
