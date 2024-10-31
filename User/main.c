@@ -14,6 +14,7 @@ int BikeLock_number = 0;
 int BatteryLock_number = 2;
 extern int Tooth_Flag;
 extern int Site_move;
+extern int canDOACommand;
 int once_load = 1;
 int NoMoveFlag = 0;
 
@@ -47,6 +48,12 @@ int main(void)
 		if(once_load == 0 && Tooth_Flag ==1)           //when frist started using this car           
 		{
 			once_load = 1;
+		}
+		
+		if(canDOACommand == 1)                    //do to command
+		{
+			DoToTheseJson();
+			canDOACommand = 0;
 		}
 		
 		whilecount++;                          //100 =1s

@@ -9,10 +9,12 @@ volatile int Tooth_Flag = 1;
 extern int BikeLock_number;
 extern int BatteryLock_number;
 extern int once_load;
-char Address[50];
-char Message[20];
-char SignatureHash[129];
-char time[20];
+char Command[100];
+char PubKey[100];
+char Signature[100];
+char Address[100];
+int canDOACommand = 0;
+char Command_verify1[100];
 
 //----------------------------------------Init-----------------
 void Blue_Init(void)//USART3
@@ -119,53 +121,134 @@ void Blue_check(void)
 		Tooth_Flag = 0;
 	}
 }
+//------------------------------verify-------------------------------------------------
+int Verify_Time(time)
+{
+	return 1;
+}
+int Command_verify(char * command, char * signature ,char * pubkey,char * address)
+{
+	return 1;
+}
+void parseCommand(void) {
+    //Command[] = "{\\"TimeStamp\\":1730363149,\\"command\\":\\"bikelock\\"}"
+	//
+}
+void restoreCommand(void) {   
+    int j = 0;
+    for (int i = 0; Command[i] != '\0'; i++) {
+        if (Command[i] == '\\' && Command[i + 1] == '"') {
+            Command_verify1[j++] = '"';  
+            i++; 
+        } else {
+            Command_verify1[j++] = Command[i];  
+        }
+    }
+    Command_verify1[j] = '\0'; 
+}
+void DoToCommand(char time[20],char BikeCommand[50])
+{
+	//{\"TimeStamp\":1730364354,\"command\":\"unlock\"}
+	//12345678901234567890123456789012345678901234567
+	for (int i = 15; i < 25; i++) {
+        time[i - 15] = Command_verify1[i];
+    }
+    time[10] = '\0'; 
+	int j =0;
+	for (int i = 40; Command_verify1[i] != '\0'; i++) {
+        if (Command_verify1[i] == '\\') {
+            break; 
+        }
+        BikeCommand[j++] = Command_verify1[i];
+    }
+    BikeCommand[j] = '\0';
+}
+void DoToTheseJson(void)
+{	
+	char time[20];
+    char BikeCommand[50];
+	restoreCommand();
+	DoToCommand(time,BikeCommand);
+	if(Verify_Time(time) == 1)
+	{
+		if(Command_verify(Command_verify1,Signature,PubKey,Address) == 1 )
+		{
+			if(strcmp(BikeCommand, "batterylock") == 0)
+			{
+				BatteryLock_number = 1;
+			}
+			else if(strcmp(BikeCommand, "bikelock") == 0)
+			{
+				BikeLock_number = 1; 
+			}
+			else if(strcmp(BikeCommand, "unbikelock") == 0)
+			{
+				BikeLock_number = 0;
+				once_load = 1;
+			}
+		}
+	}
+}
+//------------------------------------IQ------------------------------------------------ 
+void parseData(char *data) {
+    char *cmdStart = strstr(data, "\"cmd\":\"");
+    char *pubKeyStart = strstr(data, "\"PubKey\":\"");
+    char *signatureStart = strstr(data, "\"signature\":\"");
+    char *addressStart = strstr(data, "\"address\":\"");
 
+    if (cmdStart) {
+        char *cmdEnd = strstr(cmdStart, "\",");
+        if (cmdEnd) {
+            size_t length = cmdEnd - cmdStart + 1; 
+            strncpy(Command, cmdStart + 7, length - 8); 
+            Command[length - 8] = '\0'; 
+            for (int i = 0; i < strlen(Command); i++) {
+                if (Command[i] == '"') {
+                    memmove(&Command[i + 1], &Command[i], strlen(Command) - i + 1);
+                    Command[i] = '\\';
+                    i++;  
+                }
+            }
+        }
+    }
 
-//------------------------------------IQ------------------------------------------------  
+    if (pubKeyStart) {
+        sscanf(pubKeyStart, "\"PubKey\":\"%[^\"]\"", PubKey);
+    }
+    if (signatureStart) {
+        sscanf(signatureStart, "\"signature\":\"%[^\"]\"", Signature);
+    }
+    if (addressStart) {
+        sscanf(addressStart, "\"address\":\"%[^\"]\"", Address);
+    }
+}
+
 volatile uint16_t bufferIndex1 = 0;
 uint16_t index1 = 0;
 char receivedata1[BUFFER_SIZE3];
 //         0xFFE1: Write Without Response APP --> UART?           0xFFE2: Notify  UART --> APP?
 //   0x01 LockBike    0x02 Unlockbike  0x03 batterylock  0x04  batteryUnlock
-
 void USART3_IRQHandler(void)
 {
     if (USART_GetITStatus(USART3, USART_IT_RXNE) != RESET)  
     {
         char byte = USART_ReceiveData(USART3); 
 
-        if (byte == '$' || index1 >= BUFFER_SIZE3 - 1)
+        if (byte == '\n' || index1 >= BUFFER_SIZE3 - 1)
         {
-            receivedata1[index1] = '\0';  
-			
-			if (strstr(receivedata1, "unbikelock") != NULL)
-            {
-                BikeLock_number = 0;
-				once_load = 1;
-            }
-            else if (strstr(receivedata1, "bikelock") != NULL)
-            {
-                 BikeLock_number = 1; 
-			}
-			else if (strstr(receivedata1, "unbatterylock") != NULL)
-            {
-                BatteryLock_number = 0; 
-            }				
-            else if (strstr(receivedata1, "batterylock") != NULL)
-            {
-                BatteryLock_number = 1; 
-            }
-
-			memset(receivedata1,0,BUFFER_SIZE3);
-            index1 = 0;  
+            receivedata1[index1] = '\0'; 
+            
+            parseData(receivedata1);
+            
+            memset(receivedata1, 0, BUFFER_SIZE3); 
+            index1 = 0; 
+            canDOACommand = 1; 
         }
         else
         {
-            receivedata1[index1++] = byte;  
+            receivedata1[index1++] = byte; 
         }
-
         GPIO_SetBits(GPIOC, GPIO_Pin_13);  
-
         USART_ClearITPendingBit(USART3, USART_IT_RXNE);  
     }
 }

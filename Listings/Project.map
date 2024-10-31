@@ -173,7 +173,7 @@ Section Cross References
     ad.o(i.BatteryVoltage_get) refers to ad.o(.data) for BatteryVoltage
     ad.o(i.BatteryVoltage_get) refers to ad.o(.constdata) for .constdata
     ad.o(i.Check_move) refers to ad.o(.data) for CheckHelp
-    ad.o(i.Send_CurrentRotate) refers to memcpya.o(.text) for __aeabi_memcpy4
+    ad.o(i.Send_CurrentRotate) refers to memmovea.o(.text) for __aeabi_memcpy4
     ad.o(i.Send_CurrentRotate) refers to printfa.o(i.__0sprintf) for __2sprintf
     ad.o(i.Send_CurrentRotate) refers to strcat.o(.text) for strcat
     ad.o(i.Send_CurrentRotate) refers to bluetooth.o(i.Send_AT_Command) for Send_AT_Command
@@ -195,17 +195,32 @@ Section Cross References
     bluetooth.o(i.Blue_Init) refers to stm32f10x_usart.o(i.USART_Cmd) for USART_Cmd
     bluetooth.o(i.Blue_check) refers to stm32f10x_gpio.o(i.GPIO_ReadInputDataBit) for GPIO_ReadInputDataBit
     bluetooth.o(i.Blue_check) refers to bluetooth.o(.data) for Tooth_Flag
+    bluetooth.o(i.DoToCommand) refers to bluetooth.o(.bss) for Command_verify1
+    bluetooth.o(i.DoToTheseJson) refers to bluetooth.o(i.restoreCommand) for restoreCommand
+    bluetooth.o(i.DoToTheseJson) refers to bluetooth.o(i.DoToCommand) for DoToCommand
+    bluetooth.o(i.DoToTheseJson) refers to bluetooth.o(i.Verify_Time) for Verify_Time
+    bluetooth.o(i.DoToTheseJson) refers to bluetooth.o(i.Command_verify) for Command_verify
+    bluetooth.o(i.DoToTheseJson) refers to strcmp.o(.text) for strcmp
+    bluetooth.o(i.DoToTheseJson) refers to bluetooth.o(.bss) for Address
+    bluetooth.o(i.DoToTheseJson) refers to main.o(.data) for BatteryLock_number
     bluetooth.o(i.NormalOperationFlag) refers to bluetooth.o(i.Send_AT_Command) for Send_AT_Command
     bluetooth.o(i.Send_AT_Command) refers to bluetooth.o(i.BlueAT_SendData) for BlueAT_SendData
     bluetooth.o(i.USART3_IRQHandler) refers to stm32f10x_usart.o(i.USART_GetITStatus) for USART_GetITStatus
     bluetooth.o(i.USART3_IRQHandler) refers to stm32f10x_usart.o(i.USART_ReceiveData) for USART_ReceiveData
-    bluetooth.o(i.USART3_IRQHandler) refers to strstr.o(.text) for strstr
+    bluetooth.o(i.USART3_IRQHandler) refers to bluetooth.o(i.parseData) for parseData
     bluetooth.o(i.USART3_IRQHandler) refers to memseta.o(.text) for __aeabi_memclr
     bluetooth.o(i.USART3_IRQHandler) refers to stm32f10x_gpio.o(i.GPIO_SetBits) for GPIO_SetBits
     bluetooth.o(i.USART3_IRQHandler) refers to stm32f10x_usart.o(i.USART_ClearITPendingBit) for USART_ClearITPendingBit
     bluetooth.o(i.USART3_IRQHandler) refers to bluetooth.o(.data) for index1
     bluetooth.o(i.USART3_IRQHandler) refers to bluetooth.o(.bss) for receivedata1
-    bluetooth.o(i.USART3_IRQHandler) refers to main.o(.data) for BikeLock_number
+    bluetooth.o(i.parseData) refers to _scanf_str.o(.text) for _scanf_string
+    bluetooth.o(i.parseData) refers to strstr.o(.text) for strstr
+    bluetooth.o(i.parseData) refers to strncpy.o(.text) for strncpy
+    bluetooth.o(i.parseData) refers to strlen.o(.text) for strlen
+    bluetooth.o(i.parseData) refers to memmovea.o(.text) for __aeabi_memmove
+    bluetooth.o(i.parseData) refers to __0sscanf.o(.text) for __0sscanf
+    bluetooth.o(i.parseData) refers to bluetooth.o(.bss) for Command
+    bluetooth.o(i.restoreCommand) refers to bluetooth.o(.bss) for Command
     battery.o(i.BatteryLock_Reset) refers to stm32f10x_gpio.o(i.GPIO_ResetBits) for GPIO_ResetBits
     battery.o(i.BatteryLock_off) refers to stm32f10x_gpio.o(i.GPIO_SetBits) for GPIO_SetBits
     battery.o(i.BatteryLock_on) refers to stm32f10x_gpio.o(i.GPIO_SetBits) for GPIO_SetBits
@@ -248,6 +263,7 @@ Section Cross References
     main.o(i.main) refers to beep.o(i.beep_Init) for beep_Init
     main.o(i.main) refers to ad.o(i.BatteryVoltage_get) for BatteryVoltage_get
     main.o(i.main) refers to battery.o(i.GetStateWhenopen) for GetStateWhenopen
+    main.o(i.main) refers to bluetooth.o(i.DoToTheseJson) for DoToTheseJson
     main.o(i.main) refers to delay.o(i.Delay_ms) for Delay_ms
     main.o(i.main) refers to bluetooth.o(i.Blue_check) for Blue_check
     main.o(i.main) refers to ad.o(i.AD1_GetValue) for AD1_GetValue
@@ -513,6 +529,8 @@ Section Cross References
     printfa.o(i._printf_pre_padding) refers (Special) to iusefp.o(.text) for __I$use$fp
     printfa.o(i._snputc) refers (Special) to iusefp.o(.text) for __I$use$fp
     printfa.o(i._sputc) refers (Special) to iusefp.o(.text) for __I$use$fp
+    __0sscanf.o(.text) refers to scanf_char.o(.text) for __vfscanf_char
+    __0sscanf.o(.text) refers to _sgetc.o(.text) for _sgetc
     dmul.o(.text) refers (Special) to iusefp.o(.text) for __I$use$fp
     dmul.o(.text) refers to depilogue.o(.text) for _double_epilogue
     ddiv.o(.text) refers (Special) to iusefp.o(.text) for __I$use$fp
@@ -531,6 +549,8 @@ Section Cross References
     entry9b.o(.ARM.Collect$$$$0000000C) refers to main.o(i.main) for main
     uldiv.o(.text) refers to llushr.o(.text) for __aeabi_llsr
     uldiv.o(.text) refers to llshl.o(.text) for __aeabi_llsl
+    scanf_char.o(.text) refers to _scanf.o(.text) for __vfscanf
+    scanf_char.o(.text) refers to isspace_c.o(.text) for isspace
     depilogue.o(.text) refers to llshl.o(.text) for __aeabi_llsl
     depilogue.o(.text) refers to llushr.o(.text) for __aeabi_llsr
     dadd.o(.text) refers to llshl.o(.text) for __aeabi_llsl
@@ -539,6 +559,9 @@ Section Cross References
     dfixul.o(.text) refers to llushr.o(.text) for __aeabi_llsr
     dfixul.o(.text) refers to llshl.o(.text) for __aeabi_llsl
     init.o(.text) refers to entry5.o(.ARM.Collect$$$$00000004) for __main_after_scatterload
+    isspace_c.o(.text) refers to ctype_c.o(.text) for __ctype_lookup
+    _scanf.o(.text) refers (Weak) to _scanf_str.o(.text) for _scanf_string
+    ctype_c.o(.text) refers to ctype_c.o(.constdata) for .constdata
 
 
 ==============================================================================
@@ -997,8 +1020,9 @@ Removing Unused input sections from the image.
     Removing serial.o(i.Serial_SendNumber), (58 bytes).
     Removing serial.o(i.Serial_SendString), (26 bytes).
     Removing serial.o(i.fputc), (16 bytes).
+    Removing bluetooth.o(i.parseCommand), (2 bytes).
 
-452 unused section(s) (total 18688 bytes) removed from the image.
+453 unused section(s) (total 18690 bytes) removed from the image.
 
 ==============================================================================
 
@@ -1008,49 +1032,61 @@ Image Symbol Table
 
     Symbol Name                              Value     Ov Type        Size  Object(Section)
 
+    ../clib/microlib/ctype/ctype.c           0x00000000   Number         0  isspace_c.o ABSOLUTE
+    ../clib/microlib/ctype/ctype.c           0x00000000   Number         0  ctype_c.o ABSOLUTE
     ../clib/microlib/division.c              0x00000000   Number         0  uldiv.o ABSOLUTE
     ../clib/microlib/division.c              0x00000000   Number         0  uidiv.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry5.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11b.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9a.o ABSOLUTE
-    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry2.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry11a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry10a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9b.o ABSOLUTE
     ../clib/microlib/init/entry.s            0x00000000   Number         0  entry.o ABSOLUTE
-    ../clib/microlib/longlong.c              0x00000000   Number         0  llsshr.o ABSOLUTE
-    ../clib/microlib/longlong.c              0x00000000   Number         0  llushr.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry9a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8b.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry8a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry7a.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry5.o ABSOLUTE
+    ../clib/microlib/init/entry.s            0x00000000   Number         0  entry2.o ABSOLUTE
     ../clib/microlib/longlong.c              0x00000000   Number         0  llshl.o ABSOLUTE
-    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf5.o ABSOLUTE
+    ../clib/microlib/longlong.c              0x00000000   Number         0  llushr.o ABSOLUTE
+    ../clib/microlib/longlong.c              0x00000000   Number         0  llsshr.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf3.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printfb.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf0.o ABSOLUTE
     ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf1.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf2.o ABSOLUTE
     ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf6.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf4.o ABSOLUTE
+    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf5.o ABSOLUTE
     ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf7.o ABSOLUTE
     ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf8.o ABSOLUTE
     ../clib/microlib/printf/printf.c         0x00000000   Number         0  printfa.o ABSOLUTE
-    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf0.o ABSOLUTE
-    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printfb.o ABSOLUTE
-    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf2.o ABSOLUTE
-    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf3.o ABSOLUTE
-    ../clib/microlib/printf/printf.c         0x00000000   Number         0  printf4.o ABSOLUTE
     ../clib/microlib/printf/stubs.s          0x00000000   Number         0  stubs.o ABSOLUTE
     ../clib/microlib/stdio/streams.c         0x00000000   Number         0  stdout.o ABSOLUTE
-    ../clib/microlib/string/memcpy.c         0x00000000   Number         0  memcpyb.o ABSOLUTE
     ../clib/microlib/string/memcpy.c         0x00000000   Number         0  memcpya.o ABSOLUTE
+    ../clib/microlib/string/memcpy.c         0x00000000   Number         0  memmovea.o ABSOLUTE
+    ../clib/microlib/string/memcpy.c         0x00000000   Number         0  memmoveb.o ABSOLUTE
+    ../clib/microlib/string/memcpy.c         0x00000000   Number         0  memcpyb.o ABSOLUTE
     ../clib/microlib/string/memset.c         0x00000000   Number         0  memseta.o ABSOLUTE
     ../clib/microlib/string/strcat.c         0x00000000   Number         0  strcat.o ABSOLUTE
+    ../clib/microlib/string/strcmp.c         0x00000000   Number         0  strcmp.o ABSOLUTE
+    ../clib/microlib/string/strlen.c         0x00000000   Number         0  strlen.o ABSOLUTE
+    ../clib/microlib/string/strncpy.c        0x00000000   Number         0  strncpy.o ABSOLUTE
     ../clib/microlib/string/strstr.c         0x00000000   Number         0  strstr.o ABSOLUTE
     ../clib/microlib/stubs.s                 0x00000000   Number         0  iusefp.o ABSOLUTE
+    ../clib/scanf.c                          0x00000000   Number         0  scanf_char.o ABSOLUTE
+    ../clib/scanf.c                          0x00000000   Number         0  _scanf_str.o ABSOLUTE
+    ../clib/scanf.c                          0x00000000   Number         0  __0sscanf.o ABSOLUTE
+    ../clib/scanf.c                          0x00000000   Number         0  _scanf.o ABSOLUTE
+    ../clib/scanf.c                          0x00000000   Number         0  _sgetc.o ABSOLUTE
     ../fplib/microlib/d2f.c                  0x00000000   Number         0  d2f.o ABSOLUTE
     ../fplib/microlib/f2d.c                  0x00000000   Number         0  f2d.o ABSOLUTE
     ../fplib/microlib/fpadd.c                0x00000000   Number         0  dadd.o ABSOLUTE
     ../fplib/microlib/fpdiv.c                0x00000000   Number         0  ddiv.o ABSOLUTE
-    ../fplib/microlib/fpepilogue.c           0x00000000   Number         0  depilogue.o ABSOLUTE
     ../fplib/microlib/fpepilogue.c           0x00000000   Number         0  fepilogue.o ABSOLUTE
+    ../fplib/microlib/fpepilogue.c           0x00000000   Number         0  depilogue.o ABSOLUTE
     ../fplib/microlib/fpfix.c                0x00000000   Number         0  dfixul.o ABSOLUTE
     ../fplib/microlib/fpflt.c                0x00000000   Number         0  dfltui.o ABSOLUTE
     ../fplib/microlib/fpmul.c                0x00000000   Number         0  dmul.o ABSOLUTE
@@ -1108,146 +1144,164 @@ Image Symbol Table
     .ARM.Collect$$$$00002712                 0x080000fc   Section        4  entry2.o(.ARM.Collect$$$$00002712)
     __lit__00000000                          0x080000fc   Data           4  entry2.o(.ARM.Collect$$$$00002712)
     .text                                    0x08000100   Section       36  startup_stm32f10x_md.o(.text)
-    .text                                    0x08000124   Section        0  memcpya.o(.text)
-    .text                                    0x08000148   Section        0  memseta.o(.text)
-    .text                                    0x0800016c   Section        0  strcat.o(.text)
-    .text                                    0x08000184   Section        0  strstr.o(.text)
-    .text                                    0x080001a8   Section        0  dmul.o(.text)
-    .text                                    0x0800028c   Section        0  ddiv.o(.text)
-    .text                                    0x0800036a   Section        0  dfltui.o(.text)
-    .text                                    0x08000384   Section        0  f2d.o(.text)
-    .text                                    0x080003aa   Section        0  d2f.o(.text)
-    .text                                    0x080003e2   Section        0  uidiv.o(.text)
-    .text                                    0x0800040e   Section        0  uldiv.o(.text)
-    .text                                    0x08000470   Section        0  iusefp.o(.text)
-    .text                                    0x08000470   Section        0  fepilogue.o(.text)
-    .text                                    0x080004de   Section        0  depilogue.o(.text)
-    .text                                    0x08000598   Section        0  dadd.o(.text)
-    .text                                    0x080006e6   Section        0  dfixul.o(.text)
-    .text                                    0x08000718   Section       48  cdrcmple.o(.text)
-    .text                                    0x08000748   Section       36  init.o(.text)
-    .text                                    0x0800076c   Section        0  llshl.o(.text)
-    .text                                    0x0800078a   Section        0  llushr.o(.text)
-    .text                                    0x080007aa   Section        0  llsshr.o(.text)
-    i.AD1_GetValue                           0x080007d0   Section        0  ad.o(i.AD1_GetValue)
-    i.AD2_GetValue                           0x080007f4   Section        0  ad.o(i.AD2_GetValue)
-    i.ADC1_2_IRQHandler                      0x08000818   Section        0  ad.o(i.ADC1_2_IRQHandler)
-    i.ADC_AnalogWatchdogCmd                  0x0800086c   Section        0  stm32f10x_adc.o(i.ADC_AnalogWatchdogCmd)
-    i.ADC_AnalogWatchdogSingleChannelConfig  0x08000880   Section        0  stm32f10x_adc.o(i.ADC_AnalogWatchdogSingleChannelConfig)
-    i.ADC_AnalogWatchdogThresholdsConfig     0x08000890   Section        0  stm32f10x_adc.o(i.ADC_AnalogWatchdogThresholdsConfig)
-    i.ADC_ClearFlag                          0x08000896   Section        0  stm32f10x_adc.o(i.ADC_ClearFlag)
-    i.ADC_Cmd                                0x0800089c   Section        0  stm32f10x_adc.o(i.ADC_Cmd)
-    i.ADC_GetCalibrationStatus               0x080008b2   Section        0  stm32f10x_adc.o(i.ADC_GetCalibrationStatus)
-    i.ADC_GetConversionValue                 0x080008c6   Section        0  stm32f10x_adc.o(i.ADC_GetConversionValue)
-    i.ADC_GetFlagStatus                      0x080008ce   Section        0  stm32f10x_adc.o(i.ADC_GetFlagStatus)
-    i.ADC_GetResetCalibrationStatus          0x080008e0   Section        0  stm32f10x_adc.o(i.ADC_GetResetCalibrationStatus)
-    i.ADC_ITConfig                           0x080008f4   Section        0  stm32f10x_adc.o(i.ADC_ITConfig)
-    i.ADC_Init                               0x0800090c   Section        0  stm32f10x_adc.o(i.ADC_Init)
-    i.ADC_RegularChannelConfig               0x0800095c   Section        0  stm32f10x_adc.o(i.ADC_RegularChannelConfig)
-    i.ADC_ResetCalibration                   0x08000a14   Section        0  stm32f10x_adc.o(i.ADC_ResetCalibration)
-    i.ADC_SoftwareStartConvCmd               0x08000a1e   Section        0  stm32f10x_adc.o(i.ADC_SoftwareStartConvCmd)
-    i.ADC_StartCalibration                   0x08000a34   Section        0  stm32f10x_adc.o(i.ADC_StartCalibration)
-    i.AD_Init                                0x08000a40   Section        0  ad.o(i.AD_Init)
-    i.BatteryLock_Reset                      0x08000b98   Section        0  battery.o(i.BatteryLock_Reset)
-    i.BatteryLock_off                        0x08000bb0   Section        0  battery.o(i.BatteryLock_off)
-    i.BatteryLock_on                         0x08000bc0   Section        0  battery.o(i.BatteryLock_on)
-    i.BatteryVoltage_get                     0x08000bd0   Section        0  ad.o(i.BatteryVoltage_get)
-    i.Battery_Init                           0x08000c50   Section        0  battery.o(i.Battery_Init)
-    i.Battery_lockFail                       0x08000c94   Section        0  bluetooth.o(i.Battery_lockFail)
-    i.Battery_offNotify                      0x08000cac   Section        0  bluetooth.o(i.Battery_offNotify)
-    i.Battery_openFail                       0x08000cc4   Section        0  bluetooth.o(i.Battery_openFail)
-    i.Battery_openNotify                     0x08000cdc   Section        0  bluetooth.o(i.Battery_openNotify)
-    i.BlueAT_SendData                        0x08000cf4   Section        0  bluetooth.o(i.BlueAT_SendData)
-    i.Blue_Init                              0x08000d14   Section        0  bluetooth.o(i.Blue_Init)
-    i.Blue_check                             0x08000e10   Section        0  bluetooth.o(i.Blue_check)
-    i.BusFault_Handler                       0x08000e38   Section        0  stm32f10x_it.o(i.BusFault_Handler)
-    i.Check_move                             0x08000e3c   Section        0  ad.o(i.Check_move)
-    i.Controller_Init                        0x08000e6c   Section        0  controller.o(i.Controller_Init)
-    i.Controller_off                         0x08000e98   Section        0  controller.o(i.Controller_off)
-    i.Controller_on                          0x08000ea8   Section        0  controller.o(i.Controller_on)
-    i.DebugMon_Handler                       0x08000eb8   Section        0  stm32f10x_it.o(i.DebugMon_Handler)
-    i.Delay_ms                               0x08000eba   Section        0  delay.o(i.Delay_ms)
-    i.Delay_us                               0x08000ed2   Section        0  delay.o(i.Delay_us)
-    i.GPIO_Init                              0x08000f00   Section        0  stm32f10x_gpio.o(i.GPIO_Init)
-    i.GPIO_ReadInputDataBit                  0x08001016   Section        0  stm32f10x_gpio.o(i.GPIO_ReadInputDataBit)
-    i.GPIO_ResetBits                         0x08001028   Section        0  stm32f10x_gpio.o(i.GPIO_ResetBits)
-    i.GPIO_SetBits                           0x0800102c   Section        0  stm32f10x_gpio.o(i.GPIO_SetBits)
-    i.GPIO_WriteBit                          0x08001030   Section        0  stm32f10x_gpio.o(i.GPIO_WriteBit)
-    i.GetStateWhenopen                       0x0800103c   Section        0  battery.o(i.GetStateWhenopen)
-    i.Get_BatteryLockState                   0x0800106c   Section        0  battery.o(i.Get_BatteryLockState)
-    i.HardFault_Handler                      0x080010a4   Section        0  stm32f10x_it.o(i.HardFault_Handler)
-    i.MemManage_Handler                      0x080010a8   Section        0  stm32f10x_it.o(i.MemManage_Handler)
-    i.NMI_Handler                            0x080010ac   Section        0  stm32f10x_it.o(i.NMI_Handler)
-    i.NVIC_Init                              0x080010b0   Section        0  misc.o(i.NVIC_Init)
-    i.NVIC_PriorityGroupConfig               0x08001120   Section        0  misc.o(i.NVIC_PriorityGroupConfig)
-    i.NormalOperationFlag                    0x08001134   Section        0  bluetooth.o(i.NormalOperationFlag)
-    i.OLED_Clear                             0x08001148   Section        0  oled.o(i.OLED_Clear)
-    i.OLED_I2C_Init                          0x08001174   Section        0  oled.o(i.OLED_I2C_Init)
-    i.OLED_I2C_SendByte                      0x080011c4   Section        0  oled.o(i.OLED_I2C_SendByte)
-    i.OLED_I2C_Start                         0x08001218   Section        0  oled.o(i.OLED_I2C_Start)
-    i.OLED_I2C_Stop                          0x0800124c   Section        0  oled.o(i.OLED_I2C_Stop)
-    i.OLED_Init                              0x08001274   Section        0  oled.o(i.OLED_Init)
-    i.OLED_Pow                               0x08001322   Section        0  oled.o(i.OLED_Pow)
-    i.OLED_SetCursor                         0x08001336   Section        0  oled.o(i.OLED_SetCursor)
-    i.OLED_ShowChar                          0x08001358   Section        0  oled.o(i.OLED_ShowChar)
-    i.OLED_ShowNum                           0x080013cc   Section        0  oled.o(i.OLED_ShowNum)
-    i.OLED_WriteCommand                      0x08001410   Section        0  oled.o(i.OLED_WriteCommand)
-    i.OLED_WriteData                         0x08001430   Section        0  oled.o(i.OLED_WriteData)
-    i.PendSV_Handler                         0x08001450   Section        0  stm32f10x_it.o(i.PendSV_Handler)
-    i.RCC_ADCCLKConfig                       0x08001454   Section        0  stm32f10x_rcc.o(i.RCC_ADCCLKConfig)
-    i.RCC_APB1PeriphClockCmd                 0x0800146c   Section        0  stm32f10x_rcc.o(i.RCC_APB1PeriphClockCmd)
-    i.RCC_APB2PeriphClockCmd                 0x0800148c   Section        0  stm32f10x_rcc.o(i.RCC_APB2PeriphClockCmd)
-    i.RCC_GetClocksFreq                      0x080014ac   Section        0  stm32f10x_rcc.o(i.RCC_GetClocksFreq)
-    i.SVC_Handler                            0x08001580   Section        0  stm32f10x_it.o(i.SVC_Handler)
-    i.Send_AT_Command                        0x08001582   Section        0  bluetooth.o(i.Send_AT_Command)
-    i.Send_CurrentRotate                     0x080015a4   Section        0  ad.o(i.Send_CurrentRotate)
-    i.Serial_Init                            0x080015dc   Section        0  serial.o(i.Serial_Init)
-    i.Serial_SendArray                       0x08001694   Section        0  serial.o(i.Serial_SendArray)
-    i.Serial_SendByte                        0x080016b0   Section        0  serial.o(i.Serial_SendByte)
-    i.SetSysClock                            0x080016d0   Section        0  system_stm32f10x.o(i.SetSysClock)
-    SetSysClock                              0x080016d1   Thumb Code     8  system_stm32f10x.o(i.SetSysClock)
-    i.SetSysClockTo72                        0x080016d8   Section        0  system_stm32f10x.o(i.SetSysClockTo72)
-    SetSysClockTo72                          0x080016d9   Thumb Code   214  system_stm32f10x.o(i.SetSysClockTo72)
-    i.SysTick_Handler                        0x080017b8   Section        0  stm32f10x_it.o(i.SysTick_Handler)
-    i.SystemInit                             0x080017bc   Section        0  system_stm32f10x.o(i.SystemInit)
-    i.USART1_IRQHandler                      0x0800181c   Section        0  serial.o(i.USART1_IRQHandler)
-    i.USART3_IRQHandler                      0x080018bc   Section        0  bluetooth.o(i.USART3_IRQHandler)
-    i.USART_ClearITPendingBit                0x080019c4   Section        0  stm32f10x_usart.o(i.USART_ClearITPendingBit)
-    i.USART_Cmd                              0x080019e2   Section        0  stm32f10x_usart.o(i.USART_Cmd)
-    i.USART_GetFlagStatus                    0x080019fa   Section        0  stm32f10x_usart.o(i.USART_GetFlagStatus)
-    i.USART_GetITStatus                      0x08001a14   Section        0  stm32f10x_usart.o(i.USART_GetITStatus)
-    i.USART_ITConfig                         0x08001a68   Section        0  stm32f10x_usart.o(i.USART_ITConfig)
-    i.USART_Init                             0x08001ab4   Section        0  stm32f10x_usart.o(i.USART_Init)
-    i.USART_ReceiveData                      0x08001b8c   Section        0  stm32f10x_usart.o(i.USART_ReceiveData)
-    i.USART_SendData                         0x08001b96   Section        0  stm32f10x_usart.o(i.USART_SendData)
-    i.UsageFault_Handler                     0x08001b9e   Section        0  stm32f10x_it.o(i.UsageFault_Handler)
-    i.__0sprintf                             0x08001ba4   Section        0  printfa.o(i.__0sprintf)
-    i.__scatterload_copy                     0x08001bcc   Section       14  handlers.o(i.__scatterload_copy)
-    i.__scatterload_null                     0x08001bda   Section        2  handlers.o(i.__scatterload_null)
-    i.__scatterload_zeroinit                 0x08001bdc   Section       14  handlers.o(i.__scatterload_zeroinit)
-    i._fp_digits                             0x08001bec   Section        0  printfa.o(i._fp_digits)
-    _fp_digits                               0x08001bed   Thumb Code   366  printfa.o(i._fp_digits)
-    i._printf_core                           0x08001d70   Section        0  printfa.o(i._printf_core)
-    _printf_core                             0x08001d71   Thumb Code  1744  printfa.o(i._printf_core)
-    i._printf_post_padding                   0x0800244c   Section        0  printfa.o(i._printf_post_padding)
-    _printf_post_padding                     0x0800244d   Thumb Code    36  printfa.o(i._printf_post_padding)
-    i._printf_pre_padding                    0x08002470   Section        0  printfa.o(i._printf_pre_padding)
-    _printf_pre_padding                      0x08002471   Thumb Code    46  printfa.o(i._printf_pre_padding)
-    i._sputc                                 0x0800249e   Section        0  printfa.o(i._sputc)
-    _sputc                                   0x0800249f   Thumb Code    10  printfa.o(i._sputc)
-    i.beep                                   0x080024a8   Section        0  beep.o(i.beep)
-    i.beep_Init                              0x080024d8   Section        0  beep.o(i.beep_Init)
-    i.beep_lock                              0x08002504   Section        0  beep.o(i.beep_lock)
-    i.beep_off                               0x08002544   Section        0  beep.o(i.beep_off)
-    i.beep_on                                0x08002554   Section        0  beep.o(i.beep_on)
-    i.beep_unlock                            0x08002564   Section        0  beep.o(i.beep_unlock)
-    i.checkBatteryCommand                    0x080025a4   Section        0  battery.o(i.checkBatteryCommand)
-    i.main                                   0x080025e4   Section        0  main.o(i.main)
-    i.unLockBikeCommand1                     0x0800287c   Section        0  controller.o(i.unLockBikeCommand1)
-    i.unLockBikeCommand2                     0x080028ac   Section        0  controller.o(i.unLockBikeCommand2)
-    i.unLockBikeCommand3                     0x080028e2   Section        0  controller.o(i.unLockBikeCommand3)
-    .constdata                               0x08002918   Section     1520  oled.o(.constdata)
-    .constdata                               0x08002f08   Section       32  ad.o(.constdata)
+    .text                                    0x08000124   Section        0  memmovea.o(.text)
+    .text                                    0x08000164   Section        0  memseta.o(.text)
+    .text                                    0x08000188   Section        0  strcat.o(.text)
+    .text                                    0x080001a0   Section        0  strstr.o(.text)
+    .text                                    0x080001c4   Section        0  strncpy.o(.text)
+    .text                                    0x080001dc   Section        0  strlen.o(.text)
+    .text                                    0x080001ea   Section        0  strcmp.o(.text)
+    .text                                    0x08000208   Section        0  __0sscanf.o(.text)
+    .text                                    0x08000240   Section        0  _scanf_str.o(.text)
+    .text                                    0x08000320   Section        0  dmul.o(.text)
+    .text                                    0x08000404   Section        0  ddiv.o(.text)
+    .text                                    0x080004e2   Section        0  dfltui.o(.text)
+    .text                                    0x080004fc   Section        0  f2d.o(.text)
+    .text                                    0x08000522   Section        0  d2f.o(.text)
+    .text                                    0x0800055a   Section        0  uidiv.o(.text)
+    .text                                    0x08000586   Section        0  uldiv.o(.text)
+    .text                                    0x080005e8   Section        0  scanf_char.o(.text)
+    _scanf_char_input                        0x080005e9   Thumb Code    12  scanf_char.o(.text)
+    .text                                    0x08000610   Section        0  _sgetc.o(.text)
+    .text                                    0x08000650   Section        0  fepilogue.o(.text)
+    .text                                    0x08000650   Section        0  iusefp.o(.text)
+    .text                                    0x080006be   Section        0  depilogue.o(.text)
+    .text                                    0x08000778   Section        0  dadd.o(.text)
+    .text                                    0x080008c6   Section        0  dfixul.o(.text)
+    .text                                    0x080008f8   Section       48  cdrcmple.o(.text)
+    .text                                    0x08000928   Section       36  init.o(.text)
+    .text                                    0x0800094c   Section        0  llshl.o(.text)
+    .text                                    0x0800096a   Section        0  llushr.o(.text)
+    .text                                    0x0800098a   Section        0  llsshr.o(.text)
+    .text                                    0x080009ae   Section        0  isspace_c.o(.text)
+    .text                                    0x080009b8   Section        0  _scanf.o(.text)
+    .text                                    0x08000ce4   Section        0  ctype_c.o(.text)
+    i.AD1_GetValue                           0x08000d0c   Section        0  ad.o(i.AD1_GetValue)
+    i.AD2_GetValue                           0x08000d30   Section        0  ad.o(i.AD2_GetValue)
+    i.ADC1_2_IRQHandler                      0x08000d54   Section        0  ad.o(i.ADC1_2_IRQHandler)
+    i.ADC_AnalogWatchdogCmd                  0x08000da8   Section        0  stm32f10x_adc.o(i.ADC_AnalogWatchdogCmd)
+    i.ADC_AnalogWatchdogSingleChannelConfig  0x08000dbc   Section        0  stm32f10x_adc.o(i.ADC_AnalogWatchdogSingleChannelConfig)
+    i.ADC_AnalogWatchdogThresholdsConfig     0x08000dcc   Section        0  stm32f10x_adc.o(i.ADC_AnalogWatchdogThresholdsConfig)
+    i.ADC_ClearFlag                          0x08000dd2   Section        0  stm32f10x_adc.o(i.ADC_ClearFlag)
+    i.ADC_Cmd                                0x08000dd8   Section        0  stm32f10x_adc.o(i.ADC_Cmd)
+    i.ADC_GetCalibrationStatus               0x08000dee   Section        0  stm32f10x_adc.o(i.ADC_GetCalibrationStatus)
+    i.ADC_GetConversionValue                 0x08000e02   Section        0  stm32f10x_adc.o(i.ADC_GetConversionValue)
+    i.ADC_GetFlagStatus                      0x08000e0a   Section        0  stm32f10x_adc.o(i.ADC_GetFlagStatus)
+    i.ADC_GetResetCalibrationStatus          0x08000e1c   Section        0  stm32f10x_adc.o(i.ADC_GetResetCalibrationStatus)
+    i.ADC_ITConfig                           0x08000e30   Section        0  stm32f10x_adc.o(i.ADC_ITConfig)
+    i.ADC_Init                               0x08000e48   Section        0  stm32f10x_adc.o(i.ADC_Init)
+    i.ADC_RegularChannelConfig               0x08000e98   Section        0  stm32f10x_adc.o(i.ADC_RegularChannelConfig)
+    i.ADC_ResetCalibration                   0x08000f50   Section        0  stm32f10x_adc.o(i.ADC_ResetCalibration)
+    i.ADC_SoftwareStartConvCmd               0x08000f5a   Section        0  stm32f10x_adc.o(i.ADC_SoftwareStartConvCmd)
+    i.ADC_StartCalibration                   0x08000f70   Section        0  stm32f10x_adc.o(i.ADC_StartCalibration)
+    i.AD_Init                                0x08000f7c   Section        0  ad.o(i.AD_Init)
+    i.BatteryLock_Reset                      0x080010d4   Section        0  battery.o(i.BatteryLock_Reset)
+    i.BatteryLock_off                        0x080010ec   Section        0  battery.o(i.BatteryLock_off)
+    i.BatteryLock_on                         0x080010fc   Section        0  battery.o(i.BatteryLock_on)
+    i.BatteryVoltage_get                     0x0800110c   Section        0  ad.o(i.BatteryVoltage_get)
+    i.Battery_Init                           0x0800118c   Section        0  battery.o(i.Battery_Init)
+    i.Battery_lockFail                       0x080011d0   Section        0  bluetooth.o(i.Battery_lockFail)
+    i.Battery_offNotify                      0x080011e8   Section        0  bluetooth.o(i.Battery_offNotify)
+    i.Battery_openFail                       0x08001200   Section        0  bluetooth.o(i.Battery_openFail)
+    i.Battery_openNotify                     0x08001218   Section        0  bluetooth.o(i.Battery_openNotify)
+    i.BlueAT_SendData                        0x08001230   Section        0  bluetooth.o(i.BlueAT_SendData)
+    i.Blue_Init                              0x08001250   Section        0  bluetooth.o(i.Blue_Init)
+    i.Blue_check                             0x0800134c   Section        0  bluetooth.o(i.Blue_check)
+    i.BusFault_Handler                       0x08001374   Section        0  stm32f10x_it.o(i.BusFault_Handler)
+    i.Check_move                             0x08001378   Section        0  ad.o(i.Check_move)
+    i.Command_verify                         0x080013a8   Section        0  bluetooth.o(i.Command_verify)
+    i.Controller_Init                        0x080013b0   Section        0  controller.o(i.Controller_Init)
+    i.Controller_off                         0x080013dc   Section        0  controller.o(i.Controller_off)
+    i.Controller_on                          0x080013ec   Section        0  controller.o(i.Controller_on)
+    i.DebugMon_Handler                       0x080013fc   Section        0  stm32f10x_it.o(i.DebugMon_Handler)
+    i.Delay_ms                               0x080013fe   Section        0  delay.o(i.Delay_ms)
+    i.Delay_us                               0x08001416   Section        0  delay.o(i.Delay_us)
+    i.DoToCommand                            0x08001444   Section        0  bluetooth.o(i.DoToCommand)
+    i.DoToTheseJson                          0x08001490   Section        0  bluetooth.o(i.DoToTheseJson)
+    i.GPIO_Init                              0x08001538   Section        0  stm32f10x_gpio.o(i.GPIO_Init)
+    i.GPIO_ReadInputDataBit                  0x0800164e   Section        0  stm32f10x_gpio.o(i.GPIO_ReadInputDataBit)
+    i.GPIO_ResetBits                         0x08001660   Section        0  stm32f10x_gpio.o(i.GPIO_ResetBits)
+    i.GPIO_SetBits                           0x08001664   Section        0  stm32f10x_gpio.o(i.GPIO_SetBits)
+    i.GPIO_WriteBit                          0x08001668   Section        0  stm32f10x_gpio.o(i.GPIO_WriteBit)
+    i.GetStateWhenopen                       0x08001674   Section        0  battery.o(i.GetStateWhenopen)
+    i.Get_BatteryLockState                   0x080016a4   Section        0  battery.o(i.Get_BatteryLockState)
+    i.HardFault_Handler                      0x080016dc   Section        0  stm32f10x_it.o(i.HardFault_Handler)
+    i.MemManage_Handler                      0x080016e0   Section        0  stm32f10x_it.o(i.MemManage_Handler)
+    i.NMI_Handler                            0x080016e4   Section        0  stm32f10x_it.o(i.NMI_Handler)
+    i.NVIC_Init                              0x080016e8   Section        0  misc.o(i.NVIC_Init)
+    i.NVIC_PriorityGroupConfig               0x08001758   Section        0  misc.o(i.NVIC_PriorityGroupConfig)
+    i.NormalOperationFlag                    0x0800176c   Section        0  bluetooth.o(i.NormalOperationFlag)
+    i.OLED_Clear                             0x08001780   Section        0  oled.o(i.OLED_Clear)
+    i.OLED_I2C_Init                          0x080017ac   Section        0  oled.o(i.OLED_I2C_Init)
+    i.OLED_I2C_SendByte                      0x080017fc   Section        0  oled.o(i.OLED_I2C_SendByte)
+    i.OLED_I2C_Start                         0x08001850   Section        0  oled.o(i.OLED_I2C_Start)
+    i.OLED_I2C_Stop                          0x08001884   Section        0  oled.o(i.OLED_I2C_Stop)
+    i.OLED_Init                              0x080018ac   Section        0  oled.o(i.OLED_Init)
+    i.OLED_Pow                               0x0800195a   Section        0  oled.o(i.OLED_Pow)
+    i.OLED_SetCursor                         0x0800196e   Section        0  oled.o(i.OLED_SetCursor)
+    i.OLED_ShowChar                          0x08001990   Section        0  oled.o(i.OLED_ShowChar)
+    i.OLED_ShowNum                           0x08001a04   Section        0  oled.o(i.OLED_ShowNum)
+    i.OLED_WriteCommand                      0x08001a48   Section        0  oled.o(i.OLED_WriteCommand)
+    i.OLED_WriteData                         0x08001a68   Section        0  oled.o(i.OLED_WriteData)
+    i.PendSV_Handler                         0x08001a88   Section        0  stm32f10x_it.o(i.PendSV_Handler)
+    i.RCC_ADCCLKConfig                       0x08001a8c   Section        0  stm32f10x_rcc.o(i.RCC_ADCCLKConfig)
+    i.RCC_APB1PeriphClockCmd                 0x08001aa4   Section        0  stm32f10x_rcc.o(i.RCC_APB1PeriphClockCmd)
+    i.RCC_APB2PeriphClockCmd                 0x08001ac4   Section        0  stm32f10x_rcc.o(i.RCC_APB2PeriphClockCmd)
+    i.RCC_GetClocksFreq                      0x08001ae4   Section        0  stm32f10x_rcc.o(i.RCC_GetClocksFreq)
+    i.SVC_Handler                            0x08001bb8   Section        0  stm32f10x_it.o(i.SVC_Handler)
+    i.Send_AT_Command                        0x08001bba   Section        0  bluetooth.o(i.Send_AT_Command)
+    i.Send_CurrentRotate                     0x08001bdc   Section        0  ad.o(i.Send_CurrentRotate)
+    i.Serial_Init                            0x08001c14   Section        0  serial.o(i.Serial_Init)
+    i.Serial_SendArray                       0x08001ccc   Section        0  serial.o(i.Serial_SendArray)
+    i.Serial_SendByte                        0x08001ce8   Section        0  serial.o(i.Serial_SendByte)
+    i.SetSysClock                            0x08001d08   Section        0  system_stm32f10x.o(i.SetSysClock)
+    SetSysClock                              0x08001d09   Thumb Code     8  system_stm32f10x.o(i.SetSysClock)
+    i.SetSysClockTo72                        0x08001d10   Section        0  system_stm32f10x.o(i.SetSysClockTo72)
+    SetSysClockTo72                          0x08001d11   Thumb Code   214  system_stm32f10x.o(i.SetSysClockTo72)
+    i.SysTick_Handler                        0x08001df0   Section        0  stm32f10x_it.o(i.SysTick_Handler)
+    i.SystemInit                             0x08001df4   Section        0  system_stm32f10x.o(i.SystemInit)
+    i.USART1_IRQHandler                      0x08001e54   Section        0  serial.o(i.USART1_IRQHandler)
+    i.USART3_IRQHandler                      0x08001ef4   Section        0  bluetooth.o(i.USART3_IRQHandler)
+    i.USART_ClearITPendingBit                0x08001f80   Section        0  stm32f10x_usart.o(i.USART_ClearITPendingBit)
+    i.USART_Cmd                              0x08001f9e   Section        0  stm32f10x_usart.o(i.USART_Cmd)
+    i.USART_GetFlagStatus                    0x08001fb6   Section        0  stm32f10x_usart.o(i.USART_GetFlagStatus)
+    i.USART_GetITStatus                      0x08001fd0   Section        0  stm32f10x_usart.o(i.USART_GetITStatus)
+    i.USART_ITConfig                         0x08002024   Section        0  stm32f10x_usart.o(i.USART_ITConfig)
+    i.USART_Init                             0x08002070   Section        0  stm32f10x_usart.o(i.USART_Init)
+    i.USART_ReceiveData                      0x08002148   Section        0  stm32f10x_usart.o(i.USART_ReceiveData)
+    i.USART_SendData                         0x08002152   Section        0  stm32f10x_usart.o(i.USART_SendData)
+    i.UsageFault_Handler                     0x0800215a   Section        0  stm32f10x_it.o(i.UsageFault_Handler)
+    i.Verify_Time                            0x0800215e   Section        0  bluetooth.o(i.Verify_Time)
+    i.__0sprintf                             0x08002164   Section        0  printfa.o(i.__0sprintf)
+    i.__scatterload_copy                     0x0800218c   Section       14  handlers.o(i.__scatterload_copy)
+    i.__scatterload_null                     0x0800219a   Section        2  handlers.o(i.__scatterload_null)
+    i.__scatterload_zeroinit                 0x0800219c   Section       14  handlers.o(i.__scatterload_zeroinit)
+    i._fp_digits                             0x080021ac   Section        0  printfa.o(i._fp_digits)
+    _fp_digits                               0x080021ad   Thumb Code   366  printfa.o(i._fp_digits)
+    i._printf_core                           0x08002330   Section        0  printfa.o(i._printf_core)
+    _printf_core                             0x08002331   Thumb Code  1744  printfa.o(i._printf_core)
+    i._printf_post_padding                   0x08002a0c   Section        0  printfa.o(i._printf_post_padding)
+    _printf_post_padding                     0x08002a0d   Thumb Code    36  printfa.o(i._printf_post_padding)
+    i._printf_pre_padding                    0x08002a30   Section        0  printfa.o(i._printf_pre_padding)
+    _printf_pre_padding                      0x08002a31   Thumb Code    46  printfa.o(i._printf_pre_padding)
+    i._sputc                                 0x08002a5e   Section        0  printfa.o(i._sputc)
+    _sputc                                   0x08002a5f   Thumb Code    10  printfa.o(i._sputc)
+    i.beep                                   0x08002a68   Section        0  beep.o(i.beep)
+    i.beep_Init                              0x08002a98   Section        0  beep.o(i.beep_Init)
+    i.beep_lock                              0x08002ac4   Section        0  beep.o(i.beep_lock)
+    i.beep_off                               0x08002b04   Section        0  beep.o(i.beep_off)
+    i.beep_on                                0x08002b14   Section        0  beep.o(i.beep_on)
+    i.beep_unlock                            0x08002b24   Section        0  beep.o(i.beep_unlock)
+    i.checkBatteryCommand                    0x08002b64   Section        0  battery.o(i.checkBatteryCommand)
+    i.main                                   0x08002ba4   Section        0  main.o(i.main)
+    i.parseData                              0x08002e54   Section        0  bluetooth.o(i.parseData)
+    i.restoreCommand                         0x08002fa0   Section        0  bluetooth.o(i.restoreCommand)
+    i.unLockBikeCommand1                     0x08002ff0   Section        0  controller.o(i.unLockBikeCommand1)
+    i.unLockBikeCommand2                     0x08003020   Section        0  controller.o(i.unLockBikeCommand2)
+    i.unLockBikeCommand3                     0x08003056   Section        0  controller.o(i.unLockBikeCommand3)
+    .constdata                               0x0800308c   Section     1520  oled.o(.constdata)
+    .constdata                               0x0800367c   Section       32  ad.o(.constdata)
+    .constdata                               0x0800369c   Section       64  ctype_c.o(.constdata)
     .data                                    0x20000000   Section       20  stm32f10x_rcc.o(.data)
     APBAHBPrescTable                         0x20000000   Data          16  stm32f10x_rcc.o(.data)
     ADCPrescTable                            0x20000010   Data           4  stm32f10x_rcc.o(.data)
@@ -1255,12 +1309,12 @@ Image Symbol Table
     RxState                                  0x20000015   Data           1  serial.o(.data)
     pRxPacket                                0x20000016   Data           1  serial.o(.data)
     .data                                    0x20000018   Section       24  ad.o(.data)
-    .data                                    0x20000030   Section        8  bluetooth.o(.data)
-    .data                                    0x20000038   Section        1  battery.o(.data)
-    .data                                    0x2000003c   Section       20  main.o(.data)
-    .bss                                     0x20000050   Section     1000  serial.o(.bss)
-    .bss                                     0x20000438   Section     1243  bluetooth.o(.bss)
-    STACK                                    0x20000918   Section     1024  startup_stm32f10x_md.o(STACK)
+    .data                                    0x20000030   Section       12  bluetooth.o(.data)
+    .data                                    0x2000003c   Section        1  battery.o(.data)
+    .data                                    0x20000040   Section       20  main.o(.data)
+    .bss                                     0x20000054   Section     1000  serial.o(.bss)
+    .bss                                     0x2000043c   Section     1524  bluetooth.o(.bss)
+    STACK                                    0x20000a30   Section     1024  startup_stm32f10x_md.o(STACK)
 
     Global Symbols
 
@@ -1314,6 +1368,9 @@ Image Symbol Table
     __decompress                              - Undefined Weak Reference
     _clock_init                               - Undefined Weak Reference
     _microlib_exit                            - Undefined Weak Reference
+    _scanf_int                                - Undefined Weak Reference
+    _scanf_longlong                           - Undefined Weak Reference
+    _scanf_real                               - Undefined Weak Reference
     __Vectors_Size                           0x000000ec   Number         0  startup_stm32f10x_md.o ABSOLUTE
     __Vectors                                0x08000000   Data           4  startup_stm32f10x_md.o(RESET)
     __Vectors_End                            0x080000ec   Data           0  startup_stm32f10x_md.o(RESET)
@@ -1367,154 +1424,175 @@ Image Symbol Table
     USB_HP_CAN1_TX_IRQHandler                0x0800011b   Thumb Code     0  startup_stm32f10x_md.o(.text)
     USB_LP_CAN1_RX0_IRQHandler               0x0800011b   Thumb Code     0  startup_stm32f10x_md.o(.text)
     WWDG_IRQHandler                          0x0800011b   Thumb Code     0  startup_stm32f10x_md.o(.text)
-    __aeabi_memcpy                           0x08000125   Thumb Code    36  memcpya.o(.text)
-    __aeabi_memcpy4                          0x08000125   Thumb Code     0  memcpya.o(.text)
-    __aeabi_memcpy8                          0x08000125   Thumb Code     0  memcpya.o(.text)
-    __aeabi_memset                           0x08000149   Thumb Code    14  memseta.o(.text)
-    __aeabi_memset4                          0x08000149   Thumb Code     0  memseta.o(.text)
-    __aeabi_memset8                          0x08000149   Thumb Code     0  memseta.o(.text)
-    __aeabi_memclr                           0x08000157   Thumb Code     4  memseta.o(.text)
-    __aeabi_memclr4                          0x08000157   Thumb Code     0  memseta.o(.text)
-    __aeabi_memclr8                          0x08000157   Thumb Code     0  memseta.o(.text)
-    _memset$wrapper                          0x0800015b   Thumb Code    18  memseta.o(.text)
-    strcat                                   0x0800016d   Thumb Code    24  strcat.o(.text)
-    strstr                                   0x08000185   Thumb Code    36  strstr.o(.text)
-    __aeabi_dmul                             0x080001a9   Thumb Code   228  dmul.o(.text)
-    __aeabi_ddiv                             0x0800028d   Thumb Code   222  ddiv.o(.text)
-    __aeabi_ui2d                             0x0800036b   Thumb Code    26  dfltui.o(.text)
-    __aeabi_f2d                              0x08000385   Thumb Code    38  f2d.o(.text)
-    __aeabi_d2f                              0x080003ab   Thumb Code    56  d2f.o(.text)
-    __aeabi_uidiv                            0x080003e3   Thumb Code     0  uidiv.o(.text)
-    __aeabi_uidivmod                         0x080003e3   Thumb Code    44  uidiv.o(.text)
-    __aeabi_uldivmod                         0x0800040f   Thumb Code    98  uldiv.o(.text)
-    __I$use$fp                               0x08000471   Thumb Code     0  iusefp.o(.text)
-    _float_round                             0x08000471   Thumb Code    18  fepilogue.o(.text)
-    _float_epilogue                          0x08000483   Thumb Code    92  fepilogue.o(.text)
-    _double_round                            0x080004df   Thumb Code    30  depilogue.o(.text)
-    _double_epilogue                         0x080004fd   Thumb Code   156  depilogue.o(.text)
-    __aeabi_dadd                             0x08000599   Thumb Code   322  dadd.o(.text)
-    __aeabi_dsub                             0x080006db   Thumb Code     6  dadd.o(.text)
-    __aeabi_drsub                            0x080006e1   Thumb Code     6  dadd.o(.text)
-    __aeabi_d2ulz                            0x080006e7   Thumb Code    48  dfixul.o(.text)
-    __aeabi_cdrcmple                         0x08000719   Thumb Code    48  cdrcmple.o(.text)
-    __scatterload                            0x08000749   Thumb Code    28  init.o(.text)
-    __scatterload_rt2                        0x08000749   Thumb Code     0  init.o(.text)
-    __aeabi_llsl                             0x0800076d   Thumb Code    30  llshl.o(.text)
-    _ll_shift_l                              0x0800076d   Thumb Code     0  llshl.o(.text)
-    __aeabi_llsr                             0x0800078b   Thumb Code    32  llushr.o(.text)
-    _ll_ushift_r                             0x0800078b   Thumb Code     0  llushr.o(.text)
-    __aeabi_lasr                             0x080007ab   Thumb Code    36  llsshr.o(.text)
-    _ll_sshift_r                             0x080007ab   Thumb Code     0  llsshr.o(.text)
-    AD1_GetValue                             0x080007d1   Thumb Code    32  ad.o(i.AD1_GetValue)
-    AD2_GetValue                             0x080007f5   Thumb Code    32  ad.o(i.AD2_GetValue)
-    ADC1_2_IRQHandler                        0x08000819   Thumb Code    70  ad.o(i.ADC1_2_IRQHandler)
-    ADC_AnalogWatchdogCmd                    0x0800086d   Thumb Code    16  stm32f10x_adc.o(i.ADC_AnalogWatchdogCmd)
-    ADC_AnalogWatchdogSingleChannelConfig    0x08000881   Thumb Code    16  stm32f10x_adc.o(i.ADC_AnalogWatchdogSingleChannelConfig)
-    ADC_AnalogWatchdogThresholdsConfig       0x08000891   Thumb Code     6  stm32f10x_adc.o(i.ADC_AnalogWatchdogThresholdsConfig)
-    ADC_ClearFlag                            0x08000897   Thumb Code     6  stm32f10x_adc.o(i.ADC_ClearFlag)
-    ADC_Cmd                                  0x0800089d   Thumb Code    22  stm32f10x_adc.o(i.ADC_Cmd)
-    ADC_GetCalibrationStatus                 0x080008b3   Thumb Code    20  stm32f10x_adc.o(i.ADC_GetCalibrationStatus)
-    ADC_GetConversionValue                   0x080008c7   Thumb Code     8  stm32f10x_adc.o(i.ADC_GetConversionValue)
-    ADC_GetFlagStatus                        0x080008cf   Thumb Code    18  stm32f10x_adc.o(i.ADC_GetFlagStatus)
-    ADC_GetResetCalibrationStatus            0x080008e1   Thumb Code    20  stm32f10x_adc.o(i.ADC_GetResetCalibrationStatus)
-    ADC_ITConfig                             0x080008f5   Thumb Code    24  stm32f10x_adc.o(i.ADC_ITConfig)
-    ADC_Init                                 0x0800090d   Thumb Code    70  stm32f10x_adc.o(i.ADC_Init)
-    ADC_RegularChannelConfig                 0x0800095d   Thumb Code   184  stm32f10x_adc.o(i.ADC_RegularChannelConfig)
-    ADC_ResetCalibration                     0x08000a15   Thumb Code    10  stm32f10x_adc.o(i.ADC_ResetCalibration)
-    ADC_SoftwareStartConvCmd                 0x08000a1f   Thumb Code    22  stm32f10x_adc.o(i.ADC_SoftwareStartConvCmd)
-    ADC_StartCalibration                     0x08000a35   Thumb Code    10  stm32f10x_adc.o(i.ADC_StartCalibration)
-    AD_Init                                  0x08000a41   Thumb Code   324  ad.o(i.AD_Init)
-    BatteryLock_Reset                        0x08000b99   Thumb Code    20  battery.o(i.BatteryLock_Reset)
-    BatteryLock_off                          0x08000bb1   Thumb Code    12  battery.o(i.BatteryLock_off)
-    BatteryLock_on                           0x08000bc1   Thumb Code    12  battery.o(i.BatteryLock_on)
-    BatteryVoltage_get                       0x08000bd1   Thumb Code    98  ad.o(i.BatteryVoltage_get)
-    Battery_Init                             0x08000c51   Thumb Code    64  battery.o(i.Battery_Init)
-    Battery_lockFail                         0x08000c95   Thumb Code    10  bluetooth.o(i.Battery_lockFail)
-    Battery_offNotify                        0x08000cad   Thumb Code    10  bluetooth.o(i.Battery_offNotify)
-    Battery_openFail                         0x08000cc5   Thumb Code    10  bluetooth.o(i.Battery_openFail)
-    Battery_openNotify                       0x08000cdd   Thumb Code    10  bluetooth.o(i.Battery_openNotify)
-    BlueAT_SendData                          0x08000cf5   Thumb Code    28  bluetooth.o(i.BlueAT_SendData)
-    Blue_Init                                0x08000d15   Thumb Code   234  bluetooth.o(i.Blue_Init)
-    Blue_check                               0x08000e11   Thumb Code    30  bluetooth.o(i.Blue_check)
-    BusFault_Handler                         0x08000e39   Thumb Code     4  stm32f10x_it.o(i.BusFault_Handler)
-    Check_move                               0x08000e3d   Thumb Code    36  ad.o(i.Check_move)
-    Controller_Init                          0x08000e6d   Thumb Code    38  controller.o(i.Controller_Init)
-    Controller_off                           0x08000e99   Thumb Code    12  controller.o(i.Controller_off)
-    Controller_on                            0x08000ea9   Thumb Code    12  controller.o(i.Controller_on)
-    DebugMon_Handler                         0x08000eb9   Thumb Code     2  stm32f10x_it.o(i.DebugMon_Handler)
-    Delay_ms                                 0x08000ebb   Thumb Code    24  delay.o(i.Delay_ms)
-    Delay_us                                 0x08000ed3   Thumb Code    46  delay.o(i.Delay_us)
-    GPIO_Init                                0x08000f01   Thumb Code   278  stm32f10x_gpio.o(i.GPIO_Init)
-    GPIO_ReadInputDataBit                    0x08001017   Thumb Code    18  stm32f10x_gpio.o(i.GPIO_ReadInputDataBit)
-    GPIO_ResetBits                           0x08001029   Thumb Code     4  stm32f10x_gpio.o(i.GPIO_ResetBits)
-    GPIO_SetBits                             0x0800102d   Thumb Code     4  stm32f10x_gpio.o(i.GPIO_SetBits)
-    GPIO_WriteBit                            0x08001031   Thumb Code    10  stm32f10x_gpio.o(i.GPIO_WriteBit)
-    GetStateWhenopen                         0x0800103d   Thumb Code    40  battery.o(i.GetStateWhenopen)
-    Get_BatteryLockState                     0x0800106d   Thumb Code    42  battery.o(i.Get_BatteryLockState)
-    HardFault_Handler                        0x080010a5   Thumb Code     4  stm32f10x_it.o(i.HardFault_Handler)
-    MemManage_Handler                        0x080010a9   Thumb Code     4  stm32f10x_it.o(i.MemManage_Handler)
-    NMI_Handler                              0x080010ad   Thumb Code     2  stm32f10x_it.o(i.NMI_Handler)
-    NVIC_Init                                0x080010b1   Thumb Code   100  misc.o(i.NVIC_Init)
-    NVIC_PriorityGroupConfig                 0x08001121   Thumb Code    10  misc.o(i.NVIC_PriorityGroupConfig)
-    NormalOperationFlag                      0x08001135   Thumb Code    10  bluetooth.o(i.NormalOperationFlag)
-    OLED_Clear                               0x08001149   Thumb Code    42  oled.o(i.OLED_Clear)
-    OLED_I2C_Init                            0x08001175   Thumb Code    76  oled.o(i.OLED_I2C_Init)
-    OLED_I2C_SendByte                        0x080011c5   Thumb Code    80  oled.o(i.OLED_I2C_SendByte)
-    OLED_I2C_Start                           0x08001219   Thumb Code    48  oled.o(i.OLED_I2C_Start)
-    OLED_I2C_Stop                            0x0800124d   Thumb Code    36  oled.o(i.OLED_I2C_Stop)
-    OLED_Init                                0x08001275   Thumb Code   174  oled.o(i.OLED_Init)
-    OLED_Pow                                 0x08001323   Thumb Code    20  oled.o(i.OLED_Pow)
-    OLED_SetCursor                           0x08001337   Thumb Code    34  oled.o(i.OLED_SetCursor)
-    OLED_ShowChar                            0x08001359   Thumb Code   110  oled.o(i.OLED_ShowChar)
-    OLED_ShowNum                             0x080013cd   Thumb Code    68  oled.o(i.OLED_ShowNum)
-    OLED_WriteCommand                        0x08001411   Thumb Code    32  oled.o(i.OLED_WriteCommand)
-    OLED_WriteData                           0x08001431   Thumb Code    32  oled.o(i.OLED_WriteData)
-    PendSV_Handler                           0x08001451   Thumb Code     2  stm32f10x_it.o(i.PendSV_Handler)
-    RCC_ADCCLKConfig                         0x08001455   Thumb Code    18  stm32f10x_rcc.o(i.RCC_ADCCLKConfig)
-    RCC_APB1PeriphClockCmd                   0x0800146d   Thumb Code    26  stm32f10x_rcc.o(i.RCC_APB1PeriphClockCmd)
-    RCC_APB2PeriphClockCmd                   0x0800148d   Thumb Code    26  stm32f10x_rcc.o(i.RCC_APB2PeriphClockCmd)
-    RCC_GetClocksFreq                        0x080014ad   Thumb Code   192  stm32f10x_rcc.o(i.RCC_GetClocksFreq)
-    SVC_Handler                              0x08001581   Thumb Code     2  stm32f10x_it.o(i.SVC_Handler)
-    Send_AT_Command                          0x08001583   Thumb Code    34  bluetooth.o(i.Send_AT_Command)
-    Send_CurrentRotate                       0x080015a5   Thumb Code    44  ad.o(i.Send_CurrentRotate)
-    Serial_Init                              0x080015dd   Thumb Code   174  serial.o(i.Serial_Init)
-    Serial_SendArray                         0x08001695   Thumb Code    26  serial.o(i.Serial_SendArray)
-    Serial_SendByte                          0x080016b1   Thumb Code    28  serial.o(i.Serial_SendByte)
-    SysTick_Handler                          0x080017b9   Thumb Code     2  stm32f10x_it.o(i.SysTick_Handler)
-    SystemInit                               0x080017bd   Thumb Code    78  system_stm32f10x.o(i.SystemInit)
-    USART1_IRQHandler                        0x0800181d   Thumb Code   140  serial.o(i.USART1_IRQHandler)
-    USART3_IRQHandler                        0x080018bd   Thumb Code   182  bluetooth.o(i.USART3_IRQHandler)
-    USART_ClearITPendingBit                  0x080019c5   Thumb Code    30  stm32f10x_usart.o(i.USART_ClearITPendingBit)
-    USART_Cmd                                0x080019e3   Thumb Code    24  stm32f10x_usart.o(i.USART_Cmd)
-    USART_GetFlagStatus                      0x080019fb   Thumb Code    26  stm32f10x_usart.o(i.USART_GetFlagStatus)
-    USART_GetITStatus                        0x08001a15   Thumb Code    84  stm32f10x_usart.o(i.USART_GetITStatus)
-    USART_ITConfig                           0x08001a69   Thumb Code    74  stm32f10x_usart.o(i.USART_ITConfig)
-    USART_Init                               0x08001ab5   Thumb Code   210  stm32f10x_usart.o(i.USART_Init)
-    USART_ReceiveData                        0x08001b8d   Thumb Code    10  stm32f10x_usart.o(i.USART_ReceiveData)
-    USART_SendData                           0x08001b97   Thumb Code     8  stm32f10x_usart.o(i.USART_SendData)
-    UsageFault_Handler                       0x08001b9f   Thumb Code     4  stm32f10x_it.o(i.UsageFault_Handler)
-    __0sprintf                               0x08001ba5   Thumb Code    34  printfa.o(i.__0sprintf)
-    __1sprintf                               0x08001ba5   Thumb Code     0  printfa.o(i.__0sprintf)
-    __2sprintf                               0x08001ba5   Thumb Code     0  printfa.o(i.__0sprintf)
-    __c89sprintf                             0x08001ba5   Thumb Code     0  printfa.o(i.__0sprintf)
-    sprintf                                  0x08001ba5   Thumb Code     0  printfa.o(i.__0sprintf)
-    __scatterload_copy                       0x08001bcd   Thumb Code    14  handlers.o(i.__scatterload_copy)
-    __scatterload_null                       0x08001bdb   Thumb Code     2  handlers.o(i.__scatterload_null)
-    __scatterload_zeroinit                   0x08001bdd   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
-    beep                                     0x080024a9   Thumb Code    46  beep.o(i.beep)
-    beep_Init                                0x080024d9   Thumb Code    38  beep.o(i.beep_Init)
-    beep_lock                                0x08002505   Thumb Code    64  beep.o(i.beep_lock)
-    beep_off                                 0x08002545   Thumb Code    12  beep.o(i.beep_off)
-    beep_on                                  0x08002555   Thumb Code    12  beep.o(i.beep_on)
-    beep_unlock                              0x08002565   Thumb Code    64  beep.o(i.beep_unlock)
-    checkBatteryCommand                      0x080025a5   Thumb Code    56  battery.o(i.checkBatteryCommand)
-    main                                     0x080025e5   Thumb Code   640  main.o(i.main)
-    unLockBikeCommand1                       0x0800287d   Thumb Code    48  controller.o(i.unLockBikeCommand1)
-    unLockBikeCommand2                       0x080028ad   Thumb Code    54  controller.o(i.unLockBikeCommand2)
-    unLockBikeCommand3                       0x080028e3   Thumb Code    54  controller.o(i.unLockBikeCommand3)
-    OLED_F8x16                               0x08002918   Data        1520  oled.o(.constdata)
-    Region$$Table$$Base                      0x08002f28   Number         0  anon$$obj.o(Region$$Table)
-    Region$$Table$$Limit                     0x08002f48   Number         0  anon$$obj.o(Region$$Table)
+    ___aeabi_memcpy$move                     0x08000125   Thumb Code    64  memmovea.o(.text)
+    ___aeabi_memcpy8$move                    0x08000125   Thumb Code     0  memmovea.o(.text)
+    __aeabi_memcpy4                          0x08000125   Thumb Code     0  memmovea.o(.text)
+    __aeabi_memmove                          0x08000125   Thumb Code     0  memmovea.o(.text)
+    __aeabi_memmove4                         0x08000125   Thumb Code     0  memmovea.o(.text)
+    __aeabi_memmove8                         0x08000125   Thumb Code     0  memmovea.o(.text)
+    __aeabi_memset                           0x08000165   Thumb Code    14  memseta.o(.text)
+    __aeabi_memset4                          0x08000165   Thumb Code     0  memseta.o(.text)
+    __aeabi_memset8                          0x08000165   Thumb Code     0  memseta.o(.text)
+    __aeabi_memclr                           0x08000173   Thumb Code     4  memseta.o(.text)
+    __aeabi_memclr4                          0x08000173   Thumb Code     0  memseta.o(.text)
+    __aeabi_memclr8                          0x08000173   Thumb Code     0  memseta.o(.text)
+    _memset$wrapper                          0x08000177   Thumb Code    18  memseta.o(.text)
+    strcat                                   0x08000189   Thumb Code    24  strcat.o(.text)
+    strstr                                   0x080001a1   Thumb Code    36  strstr.o(.text)
+    strncpy                                  0x080001c5   Thumb Code    24  strncpy.o(.text)
+    strlen                                   0x080001dd   Thumb Code    14  strlen.o(.text)
+    strcmp                                   0x080001eb   Thumb Code    28  strcmp.o(.text)
+    __0sscanf                                0x08000209   Thumb Code    48  __0sscanf.o(.text)
+    _scanf_string                            0x08000241   Thumb Code   224  _scanf_str.o(.text)
+    __aeabi_dmul                             0x08000321   Thumb Code   228  dmul.o(.text)
+    __aeabi_ddiv                             0x08000405   Thumb Code   222  ddiv.o(.text)
+    __aeabi_ui2d                             0x080004e3   Thumb Code    26  dfltui.o(.text)
+    __aeabi_f2d                              0x080004fd   Thumb Code    38  f2d.o(.text)
+    __aeabi_d2f                              0x08000523   Thumb Code    56  d2f.o(.text)
+    __aeabi_uidiv                            0x0800055b   Thumb Code     0  uidiv.o(.text)
+    __aeabi_uidivmod                         0x0800055b   Thumb Code    44  uidiv.o(.text)
+    __aeabi_uldivmod                         0x08000587   Thumb Code    98  uldiv.o(.text)
+    __vfscanf_char                           0x080005f5   Thumb Code    20  scanf_char.o(.text)
+    _sgetc                                   0x08000611   Thumb Code    30  _sgetc.o(.text)
+    _sbackspace                              0x0800062f   Thumb Code    34  _sgetc.o(.text)
+    __I$use$fp                               0x08000651   Thumb Code     0  iusefp.o(.text)
+    _float_round                             0x08000651   Thumb Code    18  fepilogue.o(.text)
+    _float_epilogue                          0x08000663   Thumb Code    92  fepilogue.o(.text)
+    _double_round                            0x080006bf   Thumb Code    30  depilogue.o(.text)
+    _double_epilogue                         0x080006dd   Thumb Code   156  depilogue.o(.text)
+    __aeabi_dadd                             0x08000779   Thumb Code   322  dadd.o(.text)
+    __aeabi_dsub                             0x080008bb   Thumb Code     6  dadd.o(.text)
+    __aeabi_drsub                            0x080008c1   Thumb Code     6  dadd.o(.text)
+    __aeabi_d2ulz                            0x080008c7   Thumb Code    48  dfixul.o(.text)
+    __aeabi_cdrcmple                         0x080008f9   Thumb Code    48  cdrcmple.o(.text)
+    __scatterload                            0x08000929   Thumb Code    28  init.o(.text)
+    __scatterload_rt2                        0x08000929   Thumb Code     0  init.o(.text)
+    __aeabi_llsl                             0x0800094d   Thumb Code    30  llshl.o(.text)
+    _ll_shift_l                              0x0800094d   Thumb Code     0  llshl.o(.text)
+    __aeabi_llsr                             0x0800096b   Thumb Code    32  llushr.o(.text)
+    _ll_ushift_r                             0x0800096b   Thumb Code     0  llushr.o(.text)
+    __aeabi_lasr                             0x0800098b   Thumb Code    36  llsshr.o(.text)
+    _ll_sshift_r                             0x0800098b   Thumb Code     0  llsshr.o(.text)
+    isspace                                  0x080009af   Thumb Code    10  isspace_c.o(.text)
+    __vfscanf                                0x080009b9   Thumb Code   808  _scanf.o(.text)
+    __ctype_lookup                           0x08000ce5   Thumb Code    34  ctype_c.o(.text)
+    AD1_GetValue                             0x08000d0d   Thumb Code    32  ad.o(i.AD1_GetValue)
+    AD2_GetValue                             0x08000d31   Thumb Code    32  ad.o(i.AD2_GetValue)
+    ADC1_2_IRQHandler                        0x08000d55   Thumb Code    70  ad.o(i.ADC1_2_IRQHandler)
+    ADC_AnalogWatchdogCmd                    0x08000da9   Thumb Code    16  stm32f10x_adc.o(i.ADC_AnalogWatchdogCmd)
+    ADC_AnalogWatchdogSingleChannelConfig    0x08000dbd   Thumb Code    16  stm32f10x_adc.o(i.ADC_AnalogWatchdogSingleChannelConfig)
+    ADC_AnalogWatchdogThresholdsConfig       0x08000dcd   Thumb Code     6  stm32f10x_adc.o(i.ADC_AnalogWatchdogThresholdsConfig)
+    ADC_ClearFlag                            0x08000dd3   Thumb Code     6  stm32f10x_adc.o(i.ADC_ClearFlag)
+    ADC_Cmd                                  0x08000dd9   Thumb Code    22  stm32f10x_adc.o(i.ADC_Cmd)
+    ADC_GetCalibrationStatus                 0x08000def   Thumb Code    20  stm32f10x_adc.o(i.ADC_GetCalibrationStatus)
+    ADC_GetConversionValue                   0x08000e03   Thumb Code     8  stm32f10x_adc.o(i.ADC_GetConversionValue)
+    ADC_GetFlagStatus                        0x08000e0b   Thumb Code    18  stm32f10x_adc.o(i.ADC_GetFlagStatus)
+    ADC_GetResetCalibrationStatus            0x08000e1d   Thumb Code    20  stm32f10x_adc.o(i.ADC_GetResetCalibrationStatus)
+    ADC_ITConfig                             0x08000e31   Thumb Code    24  stm32f10x_adc.o(i.ADC_ITConfig)
+    ADC_Init                                 0x08000e49   Thumb Code    70  stm32f10x_adc.o(i.ADC_Init)
+    ADC_RegularChannelConfig                 0x08000e99   Thumb Code   184  stm32f10x_adc.o(i.ADC_RegularChannelConfig)
+    ADC_ResetCalibration                     0x08000f51   Thumb Code    10  stm32f10x_adc.o(i.ADC_ResetCalibration)
+    ADC_SoftwareStartConvCmd                 0x08000f5b   Thumb Code    22  stm32f10x_adc.o(i.ADC_SoftwareStartConvCmd)
+    ADC_StartCalibration                     0x08000f71   Thumb Code    10  stm32f10x_adc.o(i.ADC_StartCalibration)
+    AD_Init                                  0x08000f7d   Thumb Code   324  ad.o(i.AD_Init)
+    BatteryLock_Reset                        0x080010d5   Thumb Code    20  battery.o(i.BatteryLock_Reset)
+    BatteryLock_off                          0x080010ed   Thumb Code    12  battery.o(i.BatteryLock_off)
+    BatteryLock_on                           0x080010fd   Thumb Code    12  battery.o(i.BatteryLock_on)
+    BatteryVoltage_get                       0x0800110d   Thumb Code    98  ad.o(i.BatteryVoltage_get)
+    Battery_Init                             0x0800118d   Thumb Code    64  battery.o(i.Battery_Init)
+    Battery_lockFail                         0x080011d1   Thumb Code    10  bluetooth.o(i.Battery_lockFail)
+    Battery_offNotify                        0x080011e9   Thumb Code    10  bluetooth.o(i.Battery_offNotify)
+    Battery_openFail                         0x08001201   Thumb Code    10  bluetooth.o(i.Battery_openFail)
+    Battery_openNotify                       0x08001219   Thumb Code    10  bluetooth.o(i.Battery_openNotify)
+    BlueAT_SendData                          0x08001231   Thumb Code    28  bluetooth.o(i.BlueAT_SendData)
+    Blue_Init                                0x08001251   Thumb Code   234  bluetooth.o(i.Blue_Init)
+    Blue_check                               0x0800134d   Thumb Code    30  bluetooth.o(i.Blue_check)
+    BusFault_Handler                         0x08001375   Thumb Code     4  stm32f10x_it.o(i.BusFault_Handler)
+    Check_move                               0x08001379   Thumb Code    36  ad.o(i.Check_move)
+    Command_verify                           0x080013a9   Thumb Code     8  bluetooth.o(i.Command_verify)
+    Controller_Init                          0x080013b1   Thumb Code    38  controller.o(i.Controller_Init)
+    Controller_off                           0x080013dd   Thumb Code    12  controller.o(i.Controller_off)
+    Controller_on                            0x080013ed   Thumb Code    12  controller.o(i.Controller_on)
+    DebugMon_Handler                         0x080013fd   Thumb Code     2  stm32f10x_it.o(i.DebugMon_Handler)
+    Delay_ms                                 0x080013ff   Thumb Code    24  delay.o(i.Delay_ms)
+    Delay_us                                 0x08001417   Thumb Code    46  delay.o(i.Delay_us)
+    DoToCommand                              0x08001445   Thumb Code    72  bluetooth.o(i.DoToCommand)
+    DoToTheseJson                            0x08001491   Thumb Code   104  bluetooth.o(i.DoToTheseJson)
+    GPIO_Init                                0x08001539   Thumb Code   278  stm32f10x_gpio.o(i.GPIO_Init)
+    GPIO_ReadInputDataBit                    0x0800164f   Thumb Code    18  stm32f10x_gpio.o(i.GPIO_ReadInputDataBit)
+    GPIO_ResetBits                           0x08001661   Thumb Code     4  stm32f10x_gpio.o(i.GPIO_ResetBits)
+    GPIO_SetBits                             0x08001665   Thumb Code     4  stm32f10x_gpio.o(i.GPIO_SetBits)
+    GPIO_WriteBit                            0x08001669   Thumb Code    10  stm32f10x_gpio.o(i.GPIO_WriteBit)
+    GetStateWhenopen                         0x08001675   Thumb Code    40  battery.o(i.GetStateWhenopen)
+    Get_BatteryLockState                     0x080016a5   Thumb Code    42  battery.o(i.Get_BatteryLockState)
+    HardFault_Handler                        0x080016dd   Thumb Code     4  stm32f10x_it.o(i.HardFault_Handler)
+    MemManage_Handler                        0x080016e1   Thumb Code     4  stm32f10x_it.o(i.MemManage_Handler)
+    NMI_Handler                              0x080016e5   Thumb Code     2  stm32f10x_it.o(i.NMI_Handler)
+    NVIC_Init                                0x080016e9   Thumb Code   100  misc.o(i.NVIC_Init)
+    NVIC_PriorityGroupConfig                 0x08001759   Thumb Code    10  misc.o(i.NVIC_PriorityGroupConfig)
+    NormalOperationFlag                      0x0800176d   Thumb Code    10  bluetooth.o(i.NormalOperationFlag)
+    OLED_Clear                               0x08001781   Thumb Code    42  oled.o(i.OLED_Clear)
+    OLED_I2C_Init                            0x080017ad   Thumb Code    76  oled.o(i.OLED_I2C_Init)
+    OLED_I2C_SendByte                        0x080017fd   Thumb Code    80  oled.o(i.OLED_I2C_SendByte)
+    OLED_I2C_Start                           0x08001851   Thumb Code    48  oled.o(i.OLED_I2C_Start)
+    OLED_I2C_Stop                            0x08001885   Thumb Code    36  oled.o(i.OLED_I2C_Stop)
+    OLED_Init                                0x080018ad   Thumb Code   174  oled.o(i.OLED_Init)
+    OLED_Pow                                 0x0800195b   Thumb Code    20  oled.o(i.OLED_Pow)
+    OLED_SetCursor                           0x0800196f   Thumb Code    34  oled.o(i.OLED_SetCursor)
+    OLED_ShowChar                            0x08001991   Thumb Code   110  oled.o(i.OLED_ShowChar)
+    OLED_ShowNum                             0x08001a05   Thumb Code    68  oled.o(i.OLED_ShowNum)
+    OLED_WriteCommand                        0x08001a49   Thumb Code    32  oled.o(i.OLED_WriteCommand)
+    OLED_WriteData                           0x08001a69   Thumb Code    32  oled.o(i.OLED_WriteData)
+    PendSV_Handler                           0x08001a89   Thumb Code     2  stm32f10x_it.o(i.PendSV_Handler)
+    RCC_ADCCLKConfig                         0x08001a8d   Thumb Code    18  stm32f10x_rcc.o(i.RCC_ADCCLKConfig)
+    RCC_APB1PeriphClockCmd                   0x08001aa5   Thumb Code    26  stm32f10x_rcc.o(i.RCC_APB1PeriphClockCmd)
+    RCC_APB2PeriphClockCmd                   0x08001ac5   Thumb Code    26  stm32f10x_rcc.o(i.RCC_APB2PeriphClockCmd)
+    RCC_GetClocksFreq                        0x08001ae5   Thumb Code   192  stm32f10x_rcc.o(i.RCC_GetClocksFreq)
+    SVC_Handler                              0x08001bb9   Thumb Code     2  stm32f10x_it.o(i.SVC_Handler)
+    Send_AT_Command                          0x08001bbb   Thumb Code    34  bluetooth.o(i.Send_AT_Command)
+    Send_CurrentRotate                       0x08001bdd   Thumb Code    44  ad.o(i.Send_CurrentRotate)
+    Serial_Init                              0x08001c15   Thumb Code   174  serial.o(i.Serial_Init)
+    Serial_SendArray                         0x08001ccd   Thumb Code    26  serial.o(i.Serial_SendArray)
+    Serial_SendByte                          0x08001ce9   Thumb Code    28  serial.o(i.Serial_SendByte)
+    SysTick_Handler                          0x08001df1   Thumb Code     2  stm32f10x_it.o(i.SysTick_Handler)
+    SystemInit                               0x08001df5   Thumb Code    78  system_stm32f10x.o(i.SystemInit)
+    USART1_IRQHandler                        0x08001e55   Thumb Code   140  serial.o(i.USART1_IRQHandler)
+    USART3_IRQHandler                        0x08001ef5   Thumb Code   118  bluetooth.o(i.USART3_IRQHandler)
+    USART_ClearITPendingBit                  0x08001f81   Thumb Code    30  stm32f10x_usart.o(i.USART_ClearITPendingBit)
+    USART_Cmd                                0x08001f9f   Thumb Code    24  stm32f10x_usart.o(i.USART_Cmd)
+    USART_GetFlagStatus                      0x08001fb7   Thumb Code    26  stm32f10x_usart.o(i.USART_GetFlagStatus)
+    USART_GetITStatus                        0x08001fd1   Thumb Code    84  stm32f10x_usart.o(i.USART_GetITStatus)
+    USART_ITConfig                           0x08002025   Thumb Code    74  stm32f10x_usart.o(i.USART_ITConfig)
+    USART_Init                               0x08002071   Thumb Code   210  stm32f10x_usart.o(i.USART_Init)
+    USART_ReceiveData                        0x08002149   Thumb Code    10  stm32f10x_usart.o(i.USART_ReceiveData)
+    USART_SendData                           0x08002153   Thumb Code     8  stm32f10x_usart.o(i.USART_SendData)
+    UsageFault_Handler                       0x0800215b   Thumb Code     4  stm32f10x_it.o(i.UsageFault_Handler)
+    Verify_Time                              0x0800215f   Thumb Code     6  bluetooth.o(i.Verify_Time)
+    __0sprintf                               0x08002165   Thumb Code    34  printfa.o(i.__0sprintf)
+    __1sprintf                               0x08002165   Thumb Code     0  printfa.o(i.__0sprintf)
+    __2sprintf                               0x08002165   Thumb Code     0  printfa.o(i.__0sprintf)
+    __c89sprintf                             0x08002165   Thumb Code     0  printfa.o(i.__0sprintf)
+    sprintf                                  0x08002165   Thumb Code     0  printfa.o(i.__0sprintf)
+    __scatterload_copy                       0x0800218d   Thumb Code    14  handlers.o(i.__scatterload_copy)
+    __scatterload_null                       0x0800219b   Thumb Code     2  handlers.o(i.__scatterload_null)
+    __scatterload_zeroinit                   0x0800219d   Thumb Code    14  handlers.o(i.__scatterload_zeroinit)
+    beep                                     0x08002a69   Thumb Code    46  beep.o(i.beep)
+    beep_Init                                0x08002a99   Thumb Code    38  beep.o(i.beep_Init)
+    beep_lock                                0x08002ac5   Thumb Code    64  beep.o(i.beep_lock)
+    beep_off                                 0x08002b05   Thumb Code    12  beep.o(i.beep_off)
+    beep_on                                  0x08002b15   Thumb Code    12  beep.o(i.beep_on)
+    beep_unlock                              0x08002b25   Thumb Code    64  beep.o(i.beep_unlock)
+    checkBatteryCommand                      0x08002b65   Thumb Code    56  battery.o(i.checkBatteryCommand)
+    main                                     0x08002ba5   Thumb Code   658  main.o(i.main)
+    parseData                                0x08002e55   Thumb Code   202  bluetooth.o(i.parseData)
+    restoreCommand                           0x08002fa1   Thumb Code    70  bluetooth.o(i.restoreCommand)
+    unLockBikeCommand1                       0x08002ff1   Thumb Code    48  controller.o(i.unLockBikeCommand1)
+    unLockBikeCommand2                       0x08003021   Thumb Code    54  controller.o(i.unLockBikeCommand2)
+    unLockBikeCommand3                       0x08003057   Thumb Code    54  controller.o(i.unLockBikeCommand3)
+    OLED_F8x16                               0x0800308c   Data        1520  oled.o(.constdata)
+    __ctype_categories                       0x0800369c   Data          64  ctype_c.o(.constdata)
+    Region$$Table$$Base                      0x080036dc   Number         0  anon$$obj.o(Region$$Table)
+    Region$$Table$$Limit                     0x080036fc   Number         0  anon$$obj.o(Region$$Table)
     Serial_RxFlag                            0x20000014   Data           1  serial.o(.data)
     ADValue                                  0x20000018   Data           2  ad.o(.data)
     Rotate_Counter                           0x2000001c   Data           4  ad.o(.data)
@@ -1523,21 +1601,23 @@ Image Symbol Table
     BatteryVoltage                           0x20000028   Data           4  ad.o(.data)
     if_up                                    0x2000002c   Data           4  ad.o(.data)
     Tooth_Flag                               0x20000030   Data           4  bluetooth.o(.data)
-    bufferIndex1                             0x20000034   Data           2  bluetooth.o(.data)
-    index1                                   0x20000036   Data           2  bluetooth.o(.data)
-    LastlyPinState                           0x20000038   Data           1  battery.o(.data)
-    check_tooth                              0x2000003c   Data           4  main.o(.data)
-    BikeLock_number                          0x20000040   Data           4  main.o(.data)
-    BatteryLock_number                       0x20000044   Data           4  main.o(.data)
-    once_load                                0x20000048   Data           4  main.o(.data)
-    NoMoveFlag                               0x2000004c   Data           4  main.o(.data)
-    Serial_RxPacket                          0x20000050   Data        1000  serial.o(.bss)
-    Address                                  0x20000438   Data          50  bluetooth.o(.bss)
-    Message                                  0x2000046a   Data          20  bluetooth.o(.bss)
-    SignatureHash                            0x2000047e   Data         129  bluetooth.o(.bss)
-    time                                     0x200004ff   Data          20  bluetooth.o(.bss)
-    receivedata1                             0x20000513   Data        1024  bluetooth.o(.bss)
-    __initial_sp                             0x20000d18   Data           0  startup_stm32f10x_md.o(STACK)
+    canDOACommand                            0x20000034   Data           4  bluetooth.o(.data)
+    bufferIndex1                             0x20000038   Data           2  bluetooth.o(.data)
+    index1                                   0x2000003a   Data           2  bluetooth.o(.data)
+    LastlyPinState                           0x2000003c   Data           1  battery.o(.data)
+    check_tooth                              0x20000040   Data           4  main.o(.data)
+    BikeLock_number                          0x20000044   Data           4  main.o(.data)
+    BatteryLock_number                       0x20000048   Data           4  main.o(.data)
+    once_load                                0x2000004c   Data           4  main.o(.data)
+    NoMoveFlag                               0x20000050   Data           4  main.o(.data)
+    Serial_RxPacket                          0x20000054   Data        1000  serial.o(.bss)
+    Command                                  0x2000043c   Data         100  bluetooth.o(.bss)
+    PubKey                                   0x200004a0   Data         100  bluetooth.o(.bss)
+    Signature                                0x20000504   Data         100  bluetooth.o(.bss)
+    Address                                  0x20000568   Data         100  bluetooth.o(.bss)
+    Command_verify1                          0x200005cc   Data         100  bluetooth.o(.bss)
+    receivedata1                             0x20000630   Data        1024  bluetooth.o(.bss)
+    __initial_sp                             0x20000e30   Data           0  startup_stm32f10x_md.o(STACK)
 
 
 
@@ -1547,188 +1627,203 @@ Memory Map of the image
 
   Image Entry point : 0x080000ed
 
-  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00002f98, Max: 0x00010000, ABSOLUTE)
+  Load Region LR_IROM1 (Base: 0x08000000, Size: 0x00003750, Max: 0x00010000, ABSOLUTE)
 
-    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x00002f48, Max: 0x00010000, ABSOLUTE)
+    Execution Region ER_IROM1 (Exec base: 0x08000000, Load base: 0x08000000, Size: 0x000036fc, Max: 0x00010000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
     0x08000000   0x08000000   0x000000ec   Data   RO            3    RESET               startup_stm32f10x_md.o
-    0x080000ec   0x080000ec   0x00000000   Code   RO         3799  * .ARM.Collect$$$$00000000  mc_w.l(entry.o)
-    0x080000ec   0x080000ec   0x00000004   Code   RO         4083    .ARM.Collect$$$$00000001  mc_w.l(entry2.o)
-    0x080000f0   0x080000f0   0x00000004   Code   RO         4086    .ARM.Collect$$$$00000004  mc_w.l(entry5.o)
-    0x080000f4   0x080000f4   0x00000000   Code   RO         4088    .ARM.Collect$$$$00000008  mc_w.l(entry7b.o)
-    0x080000f4   0x080000f4   0x00000000   Code   RO         4090    .ARM.Collect$$$$0000000A  mc_w.l(entry8b.o)
-    0x080000f4   0x080000f4   0x00000008   Code   RO         4091    .ARM.Collect$$$$0000000B  mc_w.l(entry9a.o)
-    0x080000fc   0x080000fc   0x00000000   Code   RO         4093    .ARM.Collect$$$$0000000D  mc_w.l(entry10a.o)
-    0x080000fc   0x080000fc   0x00000000   Code   RO         4095    .ARM.Collect$$$$0000000F  mc_w.l(entry11a.o)
-    0x080000fc   0x080000fc   0x00000004   Code   RO         4084    .ARM.Collect$$$$00002712  mc_w.l(entry2.o)
+    0x080000ec   0x080000ec   0x00000000   Code   RO         3841  * .ARM.Collect$$$$00000000  mc_w.l(entry.o)
+    0x080000ec   0x080000ec   0x00000004   Code   RO         4139    .ARM.Collect$$$$00000001  mc_w.l(entry2.o)
+    0x080000f0   0x080000f0   0x00000004   Code   RO         4142    .ARM.Collect$$$$00000004  mc_w.l(entry5.o)
+    0x080000f4   0x080000f4   0x00000000   Code   RO         4144    .ARM.Collect$$$$00000008  mc_w.l(entry7b.o)
+    0x080000f4   0x080000f4   0x00000000   Code   RO         4146    .ARM.Collect$$$$0000000A  mc_w.l(entry8b.o)
+    0x080000f4   0x080000f4   0x00000008   Code   RO         4147    .ARM.Collect$$$$0000000B  mc_w.l(entry9a.o)
+    0x080000fc   0x080000fc   0x00000000   Code   RO         4149    .ARM.Collect$$$$0000000D  mc_w.l(entry10a.o)
+    0x080000fc   0x080000fc   0x00000000   Code   RO         4151    .ARM.Collect$$$$0000000F  mc_w.l(entry11a.o)
+    0x080000fc   0x080000fc   0x00000004   Code   RO         4140    .ARM.Collect$$$$00002712  mc_w.l(entry2.o)
     0x08000100   0x08000100   0x00000024   Code   RO            4    .text               startup_stm32f10x_md.o
-    0x08000124   0x08000124   0x00000024   Code   RO         3802    .text               mc_w.l(memcpya.o)
-    0x08000148   0x08000148   0x00000024   Code   RO         3804    .text               mc_w.l(memseta.o)
-    0x0800016c   0x0800016c   0x00000018   Code   RO         3806    .text               mc_w.l(strcat.o)
-    0x08000184   0x08000184   0x00000024   Code   RO         3808    .text               mc_w.l(strstr.o)
-    0x080001a8   0x080001a8   0x000000e4   Code   RO         4073    .text               mf_w.l(dmul.o)
-    0x0800028c   0x0800028c   0x000000de   Code   RO         4075    .text               mf_w.l(ddiv.o)
-    0x0800036a   0x0800036a   0x0000001a   Code   RO         4077    .text               mf_w.l(dfltui.o)
-    0x08000384   0x08000384   0x00000026   Code   RO         4079    .text               mf_w.l(f2d.o)
-    0x080003aa   0x080003aa   0x00000038   Code   RO         4081    .text               mf_w.l(d2f.o)
-    0x080003e2   0x080003e2   0x0000002c   Code   RO         4098    .text               mc_w.l(uidiv.o)
-    0x0800040e   0x0800040e   0x00000062   Code   RO         4100    .text               mc_w.l(uldiv.o)
-    0x08000470   0x08000470   0x00000000   Code   RO         4102    .text               mc_w.l(iusefp.o)
-    0x08000470   0x08000470   0x0000006e   Code   RO         4103    .text               mf_w.l(fepilogue.o)
-    0x080004de   0x080004de   0x000000ba   Code   RO         4105    .text               mf_w.l(depilogue.o)
-    0x08000598   0x08000598   0x0000014e   Code   RO         4107    .text               mf_w.l(dadd.o)
-    0x080006e6   0x080006e6   0x00000030   Code   RO         4109    .text               mf_w.l(dfixul.o)
-    0x08000716   0x08000716   0x00000002   PAD
-    0x08000718   0x08000718   0x00000030   Code   RO         4111    .text               mf_w.l(cdrcmple.o)
-    0x08000748   0x08000748   0x00000024   Code   RO         4113    .text               mc_w.l(init.o)
-    0x0800076c   0x0800076c   0x0000001e   Code   RO         4115    .text               mc_w.l(llshl.o)
-    0x0800078a   0x0800078a   0x00000020   Code   RO         4117    .text               mc_w.l(llushr.o)
-    0x080007aa   0x080007aa   0x00000024   Code   RO         4119    .text               mc_w.l(llsshr.o)
-    0x080007ce   0x080007ce   0x00000002   PAD
-    0x080007d0   0x080007d0   0x00000024   Code   RO         3399    i.AD1_GetValue      ad.o
-    0x080007f4   0x080007f4   0x00000024   Code   RO         3400    i.AD2_GetValue      ad.o
-    0x08000818   0x08000818   0x00000054   Code   RO         3401    i.ADC1_2_IRQHandler  ad.o
-    0x0800086c   0x0800086c   0x00000014   Code   RO          196    i.ADC_AnalogWatchdogCmd  stm32f10x_adc.o
-    0x08000880   0x08000880   0x00000010   Code   RO          197    i.ADC_AnalogWatchdogSingleChannelConfig  stm32f10x_adc.o
-    0x08000890   0x08000890   0x00000006   Code   RO          198    i.ADC_AnalogWatchdogThresholdsConfig  stm32f10x_adc.o
-    0x08000896   0x08000896   0x00000006   Code   RO          200    i.ADC_ClearFlag     stm32f10x_adc.o
-    0x0800089c   0x0800089c   0x00000016   Code   RO          202    i.ADC_Cmd           stm32f10x_adc.o
-    0x080008b2   0x080008b2   0x00000014   Code   RO          210    i.ADC_GetCalibrationStatus  stm32f10x_adc.o
-    0x080008c6   0x080008c6   0x00000008   Code   RO          211    i.ADC_GetConversionValue  stm32f10x_adc.o
-    0x080008ce   0x080008ce   0x00000012   Code   RO          213    i.ADC_GetFlagStatus  stm32f10x_adc.o
-    0x080008e0   0x080008e0   0x00000014   Code   RO          216    i.ADC_GetResetCalibrationStatus  stm32f10x_adc.o
-    0x080008f4   0x080008f4   0x00000018   Code   RO          219    i.ADC_ITConfig      stm32f10x_adc.o
-    0x0800090c   0x0800090c   0x00000050   Code   RO          220    i.ADC_Init          stm32f10x_adc.o
-    0x0800095c   0x0800095c   0x000000b8   Code   RO          224    i.ADC_RegularChannelConfig  stm32f10x_adc.o
-    0x08000a14   0x08000a14   0x0000000a   Code   RO          225    i.ADC_ResetCalibration  stm32f10x_adc.o
-    0x08000a1e   0x08000a1e   0x00000016   Code   RO          227    i.ADC_SoftwareStartConvCmd  stm32f10x_adc.o
-    0x08000a34   0x08000a34   0x0000000a   Code   RO          229    i.ADC_StartCalibration  stm32f10x_adc.o
-    0x08000a3e   0x08000a3e   0x00000002   PAD
-    0x08000a40   0x08000a40   0x00000158   Code   RO         3402    i.AD_Init           ad.o
-    0x08000b98   0x08000b98   0x00000018   Code   RO         3549    i.BatteryLock_Reset  battery.o
-    0x08000bb0   0x08000bb0   0x00000010   Code   RO         3550    i.BatteryLock_off   battery.o
-    0x08000bc0   0x08000bc0   0x00000010   Code   RO         3551    i.BatteryLock_on    battery.o
-    0x08000bd0   0x08000bd0   0x00000080   Code   RO         3403    i.BatteryVoltage_get  ad.o
-    0x08000c50   0x08000c50   0x00000044   Code   RO         3552    i.Battery_Init      battery.o
-    0x08000c94   0x08000c94   0x00000018   Code   RO         3465    i.Battery_lockFail  bluetooth.o
-    0x08000cac   0x08000cac   0x00000018   Code   RO         3466    i.Battery_offNotify  bluetooth.o
-    0x08000cc4   0x08000cc4   0x00000018   Code   RO         3467    i.Battery_openFail  bluetooth.o
-    0x08000cdc   0x08000cdc   0x00000018   Code   RO         3468    i.Battery_openNotify  bluetooth.o
-    0x08000cf4   0x08000cf4   0x00000020   Code   RO         3469    i.BlueAT_SendData   bluetooth.o
-    0x08000d14   0x08000d14   0x000000fc   Code   RO         3470    i.Blue_Init         bluetooth.o
-    0x08000e10   0x08000e10   0x00000028   Code   RO         3471    i.Blue_check        bluetooth.o
-    0x08000e38   0x08000e38   0x00000004   Code   RO         3736    i.BusFault_Handler  stm32f10x_it.o
-    0x08000e3c   0x08000e3c   0x00000030   Code   RO         3404    i.Check_move        ad.o
-    0x08000e6c   0x08000e6c   0x0000002c   Code   RO         3601    i.Controller_Init   controller.o
-    0x08000e98   0x08000e98   0x00000010   Code   RO         3602    i.Controller_off    controller.o
-    0x08000ea8   0x08000ea8   0x00000010   Code   RO         3603    i.Controller_on     controller.o
-    0x08000eb8   0x08000eb8   0x00000002   Code   RO         3737    i.DebugMon_Handler  stm32f10x_it.o
-    0x08000eba   0x08000eba   0x00000018   Code   RO         3196    i.Delay_ms          delay.o
-    0x08000ed2   0x08000ed2   0x0000002e   Code   RO         3198    i.Delay_us          delay.o
-    0x08000f00   0x08000f00   0x00000116   Code   RO         1347    i.GPIO_Init         stm32f10x_gpio.o
-    0x08001016   0x08001016   0x00000012   Code   RO         1351    i.GPIO_ReadInputDataBit  stm32f10x_gpio.o
-    0x08001028   0x08001028   0x00000004   Code   RO         1354    i.GPIO_ResetBits    stm32f10x_gpio.o
-    0x0800102c   0x0800102c   0x00000004   Code   RO         1355    i.GPIO_SetBits      stm32f10x_gpio.o
-    0x08001030   0x08001030   0x0000000a   Code   RO         1358    i.GPIO_WriteBit     stm32f10x_gpio.o
-    0x0800103a   0x0800103a   0x00000002   PAD
-    0x0800103c   0x0800103c   0x00000030   Code   RO         3553    i.GetStateWhenopen  battery.o
-    0x0800106c   0x0800106c   0x00000038   Code   RO         3554    i.Get_BatteryLockState  battery.o
-    0x080010a4   0x080010a4   0x00000004   Code   RO         3738    i.HardFault_Handler  stm32f10x_it.o
-    0x080010a8   0x080010a8   0x00000004   Code   RO         3739    i.MemManage_Handler  stm32f10x_it.o
-    0x080010ac   0x080010ac   0x00000002   Code   RO         3740    i.NMI_Handler       stm32f10x_it.o
-    0x080010ae   0x080010ae   0x00000002   PAD
-    0x080010b0   0x080010b0   0x00000070   Code   RO          137    i.NVIC_Init         misc.o
-    0x08001120   0x08001120   0x00000014   Code   RO          138    i.NVIC_PriorityGroupConfig  misc.o
-    0x08001134   0x08001134   0x00000014   Code   RO         3472    i.NormalOperationFlag  bluetooth.o
-    0x08001148   0x08001148   0x0000002a   Code   RO         3220    i.OLED_Clear        oled.o
-    0x08001172   0x08001172   0x00000002   PAD
-    0x08001174   0x08001174   0x00000050   Code   RO         3221    i.OLED_I2C_Init     oled.o
-    0x080011c4   0x080011c4   0x00000054   Code   RO         3222    i.OLED_I2C_SendByte  oled.o
-    0x08001218   0x08001218   0x00000034   Code   RO         3223    i.OLED_I2C_Start    oled.o
-    0x0800124c   0x0800124c   0x00000028   Code   RO         3224    i.OLED_I2C_Stop     oled.o
-    0x08001274   0x08001274   0x000000ae   Code   RO         3225    i.OLED_Init         oled.o
-    0x08001322   0x08001322   0x00000014   Code   RO         3226    i.OLED_Pow          oled.o
-    0x08001336   0x08001336   0x00000022   Code   RO         3227    i.OLED_SetCursor    oled.o
-    0x08001358   0x08001358   0x00000074   Code   RO         3229    i.OLED_ShowChar     oled.o
-    0x080013cc   0x080013cc   0x00000044   Code   RO         3231    i.OLED_ShowNum      oled.o
-    0x08001410   0x08001410   0x00000020   Code   RO         3234    i.OLED_WriteCommand  oled.o
-    0x08001430   0x08001430   0x00000020   Code   RO         3235    i.OLED_WriteData    oled.o
-    0x08001450   0x08001450   0x00000002   Code   RO         3741    i.PendSV_Handler    stm32f10x_it.o
-    0x08001452   0x08001452   0x00000002   PAD
-    0x08001454   0x08001454   0x00000018   Code   RO         1773    i.RCC_ADCCLKConfig  stm32f10x_rcc.o
-    0x0800146c   0x0800146c   0x00000020   Code   RO         1775    i.RCC_APB1PeriphClockCmd  stm32f10x_rcc.o
-    0x0800148c   0x0800148c   0x00000020   Code   RO         1777    i.RCC_APB2PeriphClockCmd  stm32f10x_rcc.o
-    0x080014ac   0x080014ac   0x000000d4   Code   RO         1785    i.RCC_GetClocksFreq  stm32f10x_rcc.o
-    0x08001580   0x08001580   0x00000002   Code   RO         3742    i.SVC_Handler       stm32f10x_it.o
-    0x08001582   0x08001582   0x00000022   Code   RO         3473    i.Send_AT_Command   bluetooth.o
-    0x080015a4   0x080015a4   0x00000038   Code   RO         3405    i.Send_CurrentRotate  ad.o
-    0x080015dc   0x080015dc   0x000000b8   Code   RO         3328    i.Serial_Init       serial.o
-    0x08001694   0x08001694   0x0000001a   Code   RO         3331    i.Serial_SendArray  serial.o
-    0x080016ae   0x080016ae   0x00000002   PAD
-    0x080016b0   0x080016b0   0x00000020   Code   RO         3332    i.Serial_SendByte   serial.o
-    0x080016d0   0x080016d0   0x00000008   Code   RO           24    i.SetSysClock       system_stm32f10x.o
-    0x080016d8   0x080016d8   0x000000e0   Code   RO           25    i.SetSysClockTo72   system_stm32f10x.o
-    0x080017b8   0x080017b8   0x00000002   Code   RO         3743    i.SysTick_Handler   stm32f10x_it.o
-    0x080017ba   0x080017ba   0x00000002   PAD
-    0x080017bc   0x080017bc   0x00000060   Code   RO           27    i.SystemInit        system_stm32f10x.o
-    0x0800181c   0x0800181c   0x000000a0   Code   RO         3335    i.USART1_IRQHandler  serial.o
-    0x080018bc   0x080018bc   0x00000108   Code   RO         3474    i.USART3_IRQHandler  bluetooth.o
-    0x080019c4   0x080019c4   0x0000001e   Code   RO         2957    i.USART_ClearITPendingBit  stm32f10x_usart.o
-    0x080019e2   0x080019e2   0x00000018   Code   RO         2960    i.USART_Cmd         stm32f10x_usart.o
-    0x080019fa   0x080019fa   0x0000001a   Code   RO         2963    i.USART_GetFlagStatus  stm32f10x_usart.o
-    0x08001a14   0x08001a14   0x00000054   Code   RO         2964    i.USART_GetITStatus  stm32f10x_usart.o
-    0x08001a68   0x08001a68   0x0000004a   Code   RO         2966    i.USART_ITConfig    stm32f10x_usart.o
-    0x08001ab2   0x08001ab2   0x00000002   PAD
-    0x08001ab4   0x08001ab4   0x000000d8   Code   RO         2967    i.USART_Init        stm32f10x_usart.o
-    0x08001b8c   0x08001b8c   0x0000000a   Code   RO         2974    i.USART_ReceiveData  stm32f10x_usart.o
-    0x08001b96   0x08001b96   0x00000008   Code   RO         2977    i.USART_SendData    stm32f10x_usart.o
-    0x08001b9e   0x08001b9e   0x00000004   Code   RO         3744    i.UsageFault_Handler  stm32f10x_it.o
-    0x08001ba2   0x08001ba2   0x00000002   PAD
-    0x08001ba4   0x08001ba4   0x00000028   Code   RO         4047    i.__0sprintf        mc_w.l(printfa.o)
-    0x08001bcc   0x08001bcc   0x0000000e   Code   RO         4123    i.__scatterload_copy  mc_w.l(handlers.o)
-    0x08001bda   0x08001bda   0x00000002   Code   RO         4124    i.__scatterload_null  mc_w.l(handlers.o)
-    0x08001bdc   0x08001bdc   0x0000000e   Code   RO         4125    i.__scatterload_zeroinit  mc_w.l(handlers.o)
-    0x08001bea   0x08001bea   0x00000002   PAD
-    0x08001bec   0x08001bec   0x00000184   Code   RO         4052    i._fp_digits        mc_w.l(printfa.o)
-    0x08001d70   0x08001d70   0x000006dc   Code   RO         4053    i._printf_core      mc_w.l(printfa.o)
-    0x0800244c   0x0800244c   0x00000024   Code   RO         4054    i._printf_post_padding  mc_w.l(printfa.o)
-    0x08002470   0x08002470   0x0000002e   Code   RO         4055    i._printf_pre_padding  mc_w.l(printfa.o)
-    0x0800249e   0x0800249e   0x0000000a   Code   RO         4057    i._sputc            mc_w.l(printfa.o)
-    0x080024a8   0x080024a8   0x0000002e   Code   RO         3653    i.beep              beep.o
-    0x080024d6   0x080024d6   0x00000002   PAD
-    0x080024d8   0x080024d8   0x0000002c   Code   RO         3654    i.beep_Init         beep.o
-    0x08002504   0x08002504   0x00000040   Code   RO         3655    i.beep_lock         beep.o
-    0x08002544   0x08002544   0x00000010   Code   RO         3656    i.beep_off          beep.o
-    0x08002554   0x08002554   0x00000010   Code   RO         3657    i.beep_on           beep.o
-    0x08002564   0x08002564   0x00000040   Code   RO         3658    i.beep_unlock       beep.o
-    0x080025a4   0x080025a4   0x00000040   Code   RO         3555    i.checkBatteryCommand  battery.o
-    0x080025e4   0x080025e4   0x00000298   Code   RO         3695    i.main              main.o
-    0x0800287c   0x0800287c   0x00000030   Code   RO         3604    i.unLockBikeCommand1  controller.o
-    0x080028ac   0x080028ac   0x00000036   Code   RO         3605    i.unLockBikeCommand2  controller.o
-    0x080028e2   0x080028e2   0x00000036   Code   RO         3606    i.unLockBikeCommand3  controller.o
-    0x08002918   0x08002918   0x000005f0   Data   RO         3236    .constdata          oled.o
-    0x08002f08   0x08002f08   0x00000020   Data   RO         3406    .constdata          ad.o
-    0x08002f28   0x08002f28   0x00000020   Data   RO         4121    Region$$Table       anon$$obj.o
+    0x08000124   0x08000124   0x00000040   Code   RO         3846    .text               mc_w.l(memmovea.o)
+    0x08000164   0x08000164   0x00000024   Code   RO         3848    .text               mc_w.l(memseta.o)
+    0x08000188   0x08000188   0x00000018   Code   RO         3850    .text               mc_w.l(strcat.o)
+    0x080001a0   0x080001a0   0x00000024   Code   RO         3852    .text               mc_w.l(strstr.o)
+    0x080001c4   0x080001c4   0x00000018   Code   RO         3854    .text               mc_w.l(strncpy.o)
+    0x080001dc   0x080001dc   0x0000000e   Code   RO         3856    .text               mc_w.l(strlen.o)
+    0x080001ea   0x080001ea   0x0000001c   Code   RO         3858    .text               mc_w.l(strcmp.o)
+    0x08000206   0x08000206   0x00000002   PAD
+    0x08000208   0x08000208   0x00000038   Code   RO         4125    .text               mc_w.l(__0sscanf.o)
+    0x08000240   0x08000240   0x000000e0   Code   RO         4127    .text               mc_w.l(_scanf_str.o)
+    0x08000320   0x08000320   0x000000e4   Code   RO         4129    .text               mf_w.l(dmul.o)
+    0x08000404   0x08000404   0x000000de   Code   RO         4131    .text               mf_w.l(ddiv.o)
+    0x080004e2   0x080004e2   0x0000001a   Code   RO         4133    .text               mf_w.l(dfltui.o)
+    0x080004fc   0x080004fc   0x00000026   Code   RO         4135    .text               mf_w.l(f2d.o)
+    0x08000522   0x08000522   0x00000038   Code   RO         4137    .text               mf_w.l(d2f.o)
+    0x0800055a   0x0800055a   0x0000002c   Code   RO         4154    .text               mc_w.l(uidiv.o)
+    0x08000586   0x08000586   0x00000062   Code   RO         4156    .text               mc_w.l(uldiv.o)
+    0x080005e8   0x080005e8   0x00000028   Code   RO         4158    .text               mc_w.l(scanf_char.o)
+    0x08000610   0x08000610   0x00000040   Code   RO         4160    .text               mc_w.l(_sgetc.o)
+    0x08000650   0x08000650   0x00000000   Code   RO         4162    .text               mc_w.l(iusefp.o)
+    0x08000650   0x08000650   0x0000006e   Code   RO         4163    .text               mf_w.l(fepilogue.o)
+    0x080006be   0x080006be   0x000000ba   Code   RO         4165    .text               mf_w.l(depilogue.o)
+    0x08000778   0x08000778   0x0000014e   Code   RO         4167    .text               mf_w.l(dadd.o)
+    0x080008c6   0x080008c6   0x00000030   Code   RO         4169    .text               mf_w.l(dfixul.o)
+    0x080008f6   0x080008f6   0x00000002   PAD
+    0x080008f8   0x080008f8   0x00000030   Code   RO         4171    .text               mf_w.l(cdrcmple.o)
+    0x08000928   0x08000928   0x00000024   Code   RO         4173    .text               mc_w.l(init.o)
+    0x0800094c   0x0800094c   0x0000001e   Code   RO         4175    .text               mc_w.l(llshl.o)
+    0x0800096a   0x0800096a   0x00000020   Code   RO         4177    .text               mc_w.l(llushr.o)
+    0x0800098a   0x0800098a   0x00000024   Code   RO         4179    .text               mc_w.l(llsshr.o)
+    0x080009ae   0x080009ae   0x0000000a   Code   RO         4181    .text               mc_w.l(isspace_c.o)
+    0x080009b8   0x080009b8   0x0000032c   Code   RO         4183    .text               mc_w.l(_scanf.o)
+    0x08000ce4   0x08000ce4   0x00000028   Code   RO         4185    .text               mc_w.l(ctype_c.o)
+    0x08000d0c   0x08000d0c   0x00000024   Code   RO         3399    i.AD1_GetValue      ad.o
+    0x08000d30   0x08000d30   0x00000024   Code   RO         3400    i.AD2_GetValue      ad.o
+    0x08000d54   0x08000d54   0x00000054   Code   RO         3401    i.ADC1_2_IRQHandler  ad.o
+    0x08000da8   0x08000da8   0x00000014   Code   RO          196    i.ADC_AnalogWatchdogCmd  stm32f10x_adc.o
+    0x08000dbc   0x08000dbc   0x00000010   Code   RO          197    i.ADC_AnalogWatchdogSingleChannelConfig  stm32f10x_adc.o
+    0x08000dcc   0x08000dcc   0x00000006   Code   RO          198    i.ADC_AnalogWatchdogThresholdsConfig  stm32f10x_adc.o
+    0x08000dd2   0x08000dd2   0x00000006   Code   RO          200    i.ADC_ClearFlag     stm32f10x_adc.o
+    0x08000dd8   0x08000dd8   0x00000016   Code   RO          202    i.ADC_Cmd           stm32f10x_adc.o
+    0x08000dee   0x08000dee   0x00000014   Code   RO          210    i.ADC_GetCalibrationStatus  stm32f10x_adc.o
+    0x08000e02   0x08000e02   0x00000008   Code   RO          211    i.ADC_GetConversionValue  stm32f10x_adc.o
+    0x08000e0a   0x08000e0a   0x00000012   Code   RO          213    i.ADC_GetFlagStatus  stm32f10x_adc.o
+    0x08000e1c   0x08000e1c   0x00000014   Code   RO          216    i.ADC_GetResetCalibrationStatus  stm32f10x_adc.o
+    0x08000e30   0x08000e30   0x00000018   Code   RO          219    i.ADC_ITConfig      stm32f10x_adc.o
+    0x08000e48   0x08000e48   0x00000050   Code   RO          220    i.ADC_Init          stm32f10x_adc.o
+    0x08000e98   0x08000e98   0x000000b8   Code   RO          224    i.ADC_RegularChannelConfig  stm32f10x_adc.o
+    0x08000f50   0x08000f50   0x0000000a   Code   RO          225    i.ADC_ResetCalibration  stm32f10x_adc.o
+    0x08000f5a   0x08000f5a   0x00000016   Code   RO          227    i.ADC_SoftwareStartConvCmd  stm32f10x_adc.o
+    0x08000f70   0x08000f70   0x0000000a   Code   RO          229    i.ADC_StartCalibration  stm32f10x_adc.o
+    0x08000f7a   0x08000f7a   0x00000002   PAD
+    0x08000f7c   0x08000f7c   0x00000158   Code   RO         3402    i.AD_Init           ad.o
+    0x080010d4   0x080010d4   0x00000018   Code   RO         3591    i.BatteryLock_Reset  battery.o
+    0x080010ec   0x080010ec   0x00000010   Code   RO         3592    i.BatteryLock_off   battery.o
+    0x080010fc   0x080010fc   0x00000010   Code   RO         3593    i.BatteryLock_on    battery.o
+    0x0800110c   0x0800110c   0x00000080   Code   RO         3403    i.BatteryVoltage_get  ad.o
+    0x0800118c   0x0800118c   0x00000044   Code   RO         3594    i.Battery_Init      battery.o
+    0x080011d0   0x080011d0   0x00000018   Code   RO         3465    i.Battery_lockFail  bluetooth.o
+    0x080011e8   0x080011e8   0x00000018   Code   RO         3466    i.Battery_offNotify  bluetooth.o
+    0x08001200   0x08001200   0x00000018   Code   RO         3467    i.Battery_openFail  bluetooth.o
+    0x08001218   0x08001218   0x00000018   Code   RO         3468    i.Battery_openNotify  bluetooth.o
+    0x08001230   0x08001230   0x00000020   Code   RO         3469    i.BlueAT_SendData   bluetooth.o
+    0x08001250   0x08001250   0x000000fc   Code   RO         3470    i.Blue_Init         bluetooth.o
+    0x0800134c   0x0800134c   0x00000028   Code   RO         3471    i.Blue_check        bluetooth.o
+    0x08001374   0x08001374   0x00000004   Code   RO         3778    i.BusFault_Handler  stm32f10x_it.o
+    0x08001378   0x08001378   0x00000030   Code   RO         3404    i.Check_move        ad.o
+    0x080013a8   0x080013a8   0x00000008   Code   RO         3472    i.Command_verify    bluetooth.o
+    0x080013b0   0x080013b0   0x0000002c   Code   RO         3643    i.Controller_Init   controller.o
+    0x080013dc   0x080013dc   0x00000010   Code   RO         3644    i.Controller_off    controller.o
+    0x080013ec   0x080013ec   0x00000010   Code   RO         3645    i.Controller_on     controller.o
+    0x080013fc   0x080013fc   0x00000002   Code   RO         3779    i.DebugMon_Handler  stm32f10x_it.o
+    0x080013fe   0x080013fe   0x00000018   Code   RO         3196    i.Delay_ms          delay.o
+    0x08001416   0x08001416   0x0000002e   Code   RO         3198    i.Delay_us          delay.o
+    0x08001444   0x08001444   0x0000004c   Code   RO         3473    i.DoToCommand       bluetooth.o
+    0x08001490   0x08001490   0x000000a8   Code   RO         3474    i.DoToTheseJson     bluetooth.o
+    0x08001538   0x08001538   0x00000116   Code   RO         1347    i.GPIO_Init         stm32f10x_gpio.o
+    0x0800164e   0x0800164e   0x00000012   Code   RO         1351    i.GPIO_ReadInputDataBit  stm32f10x_gpio.o
+    0x08001660   0x08001660   0x00000004   Code   RO         1354    i.GPIO_ResetBits    stm32f10x_gpio.o
+    0x08001664   0x08001664   0x00000004   Code   RO         1355    i.GPIO_SetBits      stm32f10x_gpio.o
+    0x08001668   0x08001668   0x0000000a   Code   RO         1358    i.GPIO_WriteBit     stm32f10x_gpio.o
+    0x08001672   0x08001672   0x00000002   PAD
+    0x08001674   0x08001674   0x00000030   Code   RO         3595    i.GetStateWhenopen  battery.o
+    0x080016a4   0x080016a4   0x00000038   Code   RO         3596    i.Get_BatteryLockState  battery.o
+    0x080016dc   0x080016dc   0x00000004   Code   RO         3780    i.HardFault_Handler  stm32f10x_it.o
+    0x080016e0   0x080016e0   0x00000004   Code   RO         3781    i.MemManage_Handler  stm32f10x_it.o
+    0x080016e4   0x080016e4   0x00000002   Code   RO         3782    i.NMI_Handler       stm32f10x_it.o
+    0x080016e6   0x080016e6   0x00000002   PAD
+    0x080016e8   0x080016e8   0x00000070   Code   RO          137    i.NVIC_Init         misc.o
+    0x08001758   0x08001758   0x00000014   Code   RO          138    i.NVIC_PriorityGroupConfig  misc.o
+    0x0800176c   0x0800176c   0x00000014   Code   RO         3475    i.NormalOperationFlag  bluetooth.o
+    0x08001780   0x08001780   0x0000002a   Code   RO         3220    i.OLED_Clear        oled.o
+    0x080017aa   0x080017aa   0x00000002   PAD
+    0x080017ac   0x080017ac   0x00000050   Code   RO         3221    i.OLED_I2C_Init     oled.o
+    0x080017fc   0x080017fc   0x00000054   Code   RO         3222    i.OLED_I2C_SendByte  oled.o
+    0x08001850   0x08001850   0x00000034   Code   RO         3223    i.OLED_I2C_Start    oled.o
+    0x08001884   0x08001884   0x00000028   Code   RO         3224    i.OLED_I2C_Stop     oled.o
+    0x080018ac   0x080018ac   0x000000ae   Code   RO         3225    i.OLED_Init         oled.o
+    0x0800195a   0x0800195a   0x00000014   Code   RO         3226    i.OLED_Pow          oled.o
+    0x0800196e   0x0800196e   0x00000022   Code   RO         3227    i.OLED_SetCursor    oled.o
+    0x08001990   0x08001990   0x00000074   Code   RO         3229    i.OLED_ShowChar     oled.o
+    0x08001a04   0x08001a04   0x00000044   Code   RO         3231    i.OLED_ShowNum      oled.o
+    0x08001a48   0x08001a48   0x00000020   Code   RO         3234    i.OLED_WriteCommand  oled.o
+    0x08001a68   0x08001a68   0x00000020   Code   RO         3235    i.OLED_WriteData    oled.o
+    0x08001a88   0x08001a88   0x00000002   Code   RO         3783    i.PendSV_Handler    stm32f10x_it.o
+    0x08001a8a   0x08001a8a   0x00000002   PAD
+    0x08001a8c   0x08001a8c   0x00000018   Code   RO         1773    i.RCC_ADCCLKConfig  stm32f10x_rcc.o
+    0x08001aa4   0x08001aa4   0x00000020   Code   RO         1775    i.RCC_APB1PeriphClockCmd  stm32f10x_rcc.o
+    0x08001ac4   0x08001ac4   0x00000020   Code   RO         1777    i.RCC_APB2PeriphClockCmd  stm32f10x_rcc.o
+    0x08001ae4   0x08001ae4   0x000000d4   Code   RO         1785    i.RCC_GetClocksFreq  stm32f10x_rcc.o
+    0x08001bb8   0x08001bb8   0x00000002   Code   RO         3784    i.SVC_Handler       stm32f10x_it.o
+    0x08001bba   0x08001bba   0x00000022   Code   RO         3476    i.Send_AT_Command   bluetooth.o
+    0x08001bdc   0x08001bdc   0x00000038   Code   RO         3405    i.Send_CurrentRotate  ad.o
+    0x08001c14   0x08001c14   0x000000b8   Code   RO         3328    i.Serial_Init       serial.o
+    0x08001ccc   0x08001ccc   0x0000001a   Code   RO         3331    i.Serial_SendArray  serial.o
+    0x08001ce6   0x08001ce6   0x00000002   PAD
+    0x08001ce8   0x08001ce8   0x00000020   Code   RO         3332    i.Serial_SendByte   serial.o
+    0x08001d08   0x08001d08   0x00000008   Code   RO           24    i.SetSysClock       system_stm32f10x.o
+    0x08001d10   0x08001d10   0x000000e0   Code   RO           25    i.SetSysClockTo72   system_stm32f10x.o
+    0x08001df0   0x08001df0   0x00000002   Code   RO         3785    i.SysTick_Handler   stm32f10x_it.o
+    0x08001df2   0x08001df2   0x00000002   PAD
+    0x08001df4   0x08001df4   0x00000060   Code   RO           27    i.SystemInit        system_stm32f10x.o
+    0x08001e54   0x08001e54   0x000000a0   Code   RO         3335    i.USART1_IRQHandler  serial.o
+    0x08001ef4   0x08001ef4   0x0000008c   Code   RO         3477    i.USART3_IRQHandler  bluetooth.o
+    0x08001f80   0x08001f80   0x0000001e   Code   RO         2957    i.USART_ClearITPendingBit  stm32f10x_usart.o
+    0x08001f9e   0x08001f9e   0x00000018   Code   RO         2960    i.USART_Cmd         stm32f10x_usart.o
+    0x08001fb6   0x08001fb6   0x0000001a   Code   RO         2963    i.USART_GetFlagStatus  stm32f10x_usart.o
+    0x08001fd0   0x08001fd0   0x00000054   Code   RO         2964    i.USART_GetITStatus  stm32f10x_usart.o
+    0x08002024   0x08002024   0x0000004a   Code   RO         2966    i.USART_ITConfig    stm32f10x_usart.o
+    0x0800206e   0x0800206e   0x00000002   PAD
+    0x08002070   0x08002070   0x000000d8   Code   RO         2967    i.USART_Init        stm32f10x_usart.o
+    0x08002148   0x08002148   0x0000000a   Code   RO         2974    i.USART_ReceiveData  stm32f10x_usart.o
+    0x08002152   0x08002152   0x00000008   Code   RO         2977    i.USART_SendData    stm32f10x_usart.o
+    0x0800215a   0x0800215a   0x00000004   Code   RO         3786    i.UsageFault_Handler  stm32f10x_it.o
+    0x0800215e   0x0800215e   0x00000006   Code   RO         3478    i.Verify_Time       bluetooth.o
+    0x08002164   0x08002164   0x00000028   Code   RO         4099    i.__0sprintf        mc_w.l(printfa.o)
+    0x0800218c   0x0800218c   0x0000000e   Code   RO         4190    i.__scatterload_copy  mc_w.l(handlers.o)
+    0x0800219a   0x0800219a   0x00000002   Code   RO         4191    i.__scatterload_null  mc_w.l(handlers.o)
+    0x0800219c   0x0800219c   0x0000000e   Code   RO         4192    i.__scatterload_zeroinit  mc_w.l(handlers.o)
+    0x080021aa   0x080021aa   0x00000002   PAD
+    0x080021ac   0x080021ac   0x00000184   Code   RO         4104    i._fp_digits        mc_w.l(printfa.o)
+    0x08002330   0x08002330   0x000006dc   Code   RO         4105    i._printf_core      mc_w.l(printfa.o)
+    0x08002a0c   0x08002a0c   0x00000024   Code   RO         4106    i._printf_post_padding  mc_w.l(printfa.o)
+    0x08002a30   0x08002a30   0x0000002e   Code   RO         4107    i._printf_pre_padding  mc_w.l(printfa.o)
+    0x08002a5e   0x08002a5e   0x0000000a   Code   RO         4109    i._sputc            mc_w.l(printfa.o)
+    0x08002a68   0x08002a68   0x0000002e   Code   RO         3695    i.beep              beep.o
+    0x08002a96   0x08002a96   0x00000002   PAD
+    0x08002a98   0x08002a98   0x0000002c   Code   RO         3696    i.beep_Init         beep.o
+    0x08002ac4   0x08002ac4   0x00000040   Code   RO         3697    i.beep_lock         beep.o
+    0x08002b04   0x08002b04   0x00000010   Code   RO         3698    i.beep_off          beep.o
+    0x08002b14   0x08002b14   0x00000010   Code   RO         3699    i.beep_on           beep.o
+    0x08002b24   0x08002b24   0x00000040   Code   RO         3700    i.beep_unlock       beep.o
+    0x08002b64   0x08002b64   0x00000040   Code   RO         3597    i.checkBatteryCommand  battery.o
+    0x08002ba4   0x08002ba4   0x000002b0   Code   RO         3737    i.main              main.o
+    0x08002e54   0x08002e54   0x0000014c   Code   RO         3480    i.parseData         bluetooth.o
+    0x08002fa0   0x08002fa0   0x00000050   Code   RO         3481    i.restoreCommand    bluetooth.o
+    0x08002ff0   0x08002ff0   0x00000030   Code   RO         3646    i.unLockBikeCommand1  controller.o
+    0x08003020   0x08003020   0x00000036   Code   RO         3647    i.unLockBikeCommand2  controller.o
+    0x08003056   0x08003056   0x00000036   Code   RO         3648    i.unLockBikeCommand3  controller.o
+    0x0800308c   0x0800308c   0x000005f0   Data   RO         3236    .constdata          oled.o
+    0x0800367c   0x0800367c   0x00000020   Data   RO         3406    .constdata          ad.o
+    0x0800369c   0x0800369c   0x00000040   Data   RO         4186    .constdata          mc_w.l(ctype_c.o)
+    0x080036dc   0x080036dc   0x00000020   Data   RO         4188    Region$$Table       anon$$obj.o
 
 
-    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x08002f48, Size: 0x00000d18, Max: 0x00005000, ABSOLUTE)
+    Execution Region RW_IRAM1 (Exec base: 0x20000000, Load base: 0x080036fc, Size: 0x00000e30, Max: 0x00005000, ABSOLUTE)
 
     Exec Addr    Load Addr    Size         Type   Attr      Idx    E Section Name        Object
 
-    0x20000000   0x08002f48   0x00000014   Data   RW         1805    .data               stm32f10x_rcc.o
-    0x20000014   0x08002f5c   0x00000003   Data   RW         3338    .data               serial.o
-    0x20000017   0x08002f5f   0x00000001   PAD
-    0x20000018   0x08002f60   0x00000018   Data   RW         3407    .data               ad.o
-    0x20000030   0x08002f78   0x00000008   Data   RW         3476    .data               bluetooth.o
-    0x20000038   0x08002f80   0x00000001   Data   RW         3556    .data               battery.o
-    0x20000039   0x08002f81   0x00000003   PAD
-    0x2000003c   0x08002f84   0x00000014   Data   RW         3696    .data               main.o
-    0x20000050        -       0x000003e8   Zero   RW         3337    .bss                serial.o
-    0x20000438        -       0x000004db   Zero   RW         3475    .bss                bluetooth.o
-    0x20000913   0x08002f98   0x00000005   PAD
-    0x20000918        -       0x00000400   Zero   RW            1    STACK               startup_stm32f10x_md.o
+    0x20000000   0x080036fc   0x00000014   Data   RW         1805    .data               stm32f10x_rcc.o
+    0x20000014   0x08003710   0x00000003   Data   RW         3338    .data               serial.o
+    0x20000017   0x08003713   0x00000001   PAD
+    0x20000018   0x08003714   0x00000018   Data   RW         3407    .data               ad.o
+    0x20000030   0x0800372c   0x0000000c   Data   RW         3483    .data               bluetooth.o
+    0x2000003c   0x08003738   0x00000001   Data   RW         3598    .data               battery.o
+    0x2000003d   0x08003739   0x00000003   PAD
+    0x20000040   0x0800373c   0x00000014   Data   RW         3738    .data               main.o
+    0x20000054        -       0x000003e8   Zero   RW         3337    .bss                serial.o
+    0x2000043c        -       0x000005f4   Zero   RW         3482    .bss                bluetooth.o
+    0x20000a30        -       0x00000400   Zero   RW            1    STACK               startup_stm32f10x_md.o
 
 
 ==============================================================================
@@ -1741,11 +1836,11 @@ Image component sizes
        732         96         32         24          0       4221   ad.o
        292         46          0          1          0       3335   battery.o
        250         14          0          0          0       3066   beep.o
-       738        180          0          8       1243       5862   bluetooth.o
+      1284        328          0         12       1524      10028   bluetooth.o
        232         14          0          0          0       2710   controller.o
          0          0          0          0          0       4508   core_cm3.o
         70          0          0          0          0        874   delay.o
-       664         24          0         20          0       1309   main.o
+       688         30          0         20          0       1325   main.o
        132         22          0          0          0     213603   misc.o
        774         22       1520          0          0       6547   oled.o
        402         34          0          3       1000       2819   serial.o
@@ -1758,14 +1853,19 @@ Image component sizes
        328         28          0          0          0      24705   system_stm32f10x.o
 
     ----------------------------------------------------------------------
-      6248        546       1820         80       3272     336142   Object Totals
+      6816        700       1820         84       3548     340324   Object Totals
          0          0         32          0          0          0   (incl. Generated)
-        20          0          0          4          5          0   (incl. Padding)
+        18          0          0          4          0          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Library Member Name
 
+        56          8          0          0          0         84   __0sscanf.o
+       812          4          0          0          0        112   _scanf.o
+       224          0          0          0          0         96   _scanf_str.o
+        64          0          0          0          0         84   _sgetc.o
+        40          6         64          0          0         68   ctype_c.o
          0          0          0          0          0          0   entry.o
          0          0          0          0          0          0   entry10a.o
          0          0          0          0          0          0   entry11a.o
@@ -1776,14 +1876,19 @@ Image component sizes
          8          4          0          0          0          0   entry9a.o
         30          0          0          0          0          0   handlers.o
         36          8          0          0          0         68   init.o
+        10          0          0          0          0         68   isspace_c.o
          0          0          0          0          0          0   iusefp.o
         30          0          0          0          0         68   llshl.o
         36          0          0          0          0         68   llsshr.o
         32          0          0          0          0         68   llushr.o
-        36          0          0          0          0         68   memcpya.o
+        64          0          0          0          0         76   memmovea.o
         36          0          0          0          0        108   memseta.o
       2276         86          0          0          0        520   printfa.o
+        40          8          0          0          0         84   scanf_char.o
         24          0          0          0          0         68   strcat.o
+        28          0          0          0          0         76   strcmp.o
+        14          0          0          0          0         68   strlen.o
+        24          0          0          0          0         76   strncpy.o
         36          0          0          0          0         80   strstr.o
         44          0          0          0          0         80   uidiv.o
         98          0          0          0          0         92   uldiv.o
@@ -1799,18 +1904,18 @@ Image component sizes
        110          0          0          0          0        168   fepilogue.o
 
     ----------------------------------------------------------------------
-      4036        102          0          0          0       2344   Library Totals
+      5376        128         64          0          0       3168   Library Totals
          6          0          0          0          0          0   (incl. Padding)
 
     ----------------------------------------------------------------------
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   Library Name
 
-      2734        102          0          0          0       1288   mc_w.l
+      4074        128         64          0          0       2112   mc_w.l
       1296          0          0          0          0       1056   mf_w.l
 
     ----------------------------------------------------------------------
-      4036        102          0          0          0       2344   Library Totals
+      5376        128         64          0          0       3168   Library Totals
 
     ----------------------------------------------------------------------
 
@@ -1819,15 +1924,15 @@ Image component sizes
 
       Code (inc. data)   RO Data    RW Data    ZI Data      Debug   
 
-     10284        648       1820         80       3272     332346   Grand Totals
-     10284        648       1820         80       3272     332346   ELF Image Totals
-     10284        648       1820         80          0          0   ROM Totals
+     12192        828       1884         84       3548     336520   Grand Totals
+     12192        828       1884         84       3548     336520   ELF Image Totals
+     12192        828       1884         84          0          0   ROM Totals
 
 ==============================================================================
 
-    Total RO  Size (Code + RO Data)                12104 (  11.82kB)
-    Total RW  Size (RW Data + ZI Data)              3352 (   3.27kB)
-    Total ROM Size (Code + RO Data + RW Data)      12184 (  11.90kB)
+    Total RO  Size (Code + RO Data)                14076 (  13.75kB)
+    Total RW  Size (RW Data + ZI Data)              3632 (   3.55kB)
+    Total ROM Size (Code + RO Data + RW Data)      14160 (  13.83kB)
 
 ==============================================================================
 

@@ -198,37 +198,37 @@
         <Ww>
           <count>0</count>
           <WinNumber>2</WinNumber>
-          <ItemText>BatteryV</ItemText>
+          <ItemText>Command</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>2</WinNumber>
-          <ItemText>a</ItemText>
+          <ItemText>Signature</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>2</WinNumber>
-          <ItemText>Noblue_dirve</ItemText>
+          <ItemText>PubKey</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
           <WinNumber>2</WinNumber>
-          <ItemText>ad</ItemText>
+          <ItemText>Address</ItemText>
         </Ww>
         <Ww>
           <count>4</count>
           <WinNumber>2</WinNumber>
-          <ItemText>num</ItemText>
+          <ItemText>BikeCommand</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>2</WinNumber>
-          <ItemText>a</ItemText>
+          <ItemText>time</ItemText>
         </Ww>
         <Ww>
           <count>6</count>
           <WinNumber>2</WinNumber>
-          <ItemText>NoMoveFlag</ItemText>
+          <ItemText>Command_verify1</ItemText>
         </Ww>
         <Ww>
           <count>7</count>
