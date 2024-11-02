@@ -1,9 +1,11 @@
 #include "stm32f10x.h"                  // Device header
+#include <stdio.h>
 #include <string.h>
 #include "BLUETOOTH.h"
 
 extern int BatteryLock_number;
 uint8_t LastlyPinState ; 
+char UUID[30];
 
 void Battery_Init(void)
 {
@@ -37,11 +39,18 @@ void BatteryLock_Reset(void)        //need wait for unlocking at intervals of 1s
 	GPIO_ResetBits(GPIOA,GPIO_Pin_4);
 	GPIO_ResetBits(GPIOA,GPIO_Pin_6);
 }
-
+void  GetUniqueID(void)
+{
+	uint32_t UID[3];
+	UID[0] = *(__IO uint32_t*)(0x1FFFF7E8); // UID[0]
+    UID[1] = *(__IO uint32_t*)(0x1FFFF7EC); // UID[1]
+    UID[2] = *(__IO uint32_t*)(0x1FFFF7F0); // UID[2]
+	
+	sprintf(UUID, "%08X%08X%08X", UID[0], UID[1], UID[2]);
+}
 void GetStateWhenopen(void)         //used to tell device the lock state when start driving and give LastlyPinState a state
 {
-	LastlyPinState = GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_5);
-	
+	LastlyPinState = GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_5); //batteryLockState	
 	if(LastlyPinState == 1)  //means lock has been opened
 	{
 		Battery_openNotify();
@@ -50,6 +59,10 @@ void GetStateWhenopen(void)         //used to tell device the lock state when st
 	{
 		Battery_offNotify();
 	}
+	GetUniqueID();
+	char SendUUID[35];
+	snprintf(SendUUID, sizeof(SendUUID), "U:%s", UUID);
+	Send_AT_Command(SendUUID);
 }
 
 void Get_BatteryLockState(void)

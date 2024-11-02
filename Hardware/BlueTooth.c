@@ -9,12 +9,13 @@ volatile int Tooth_Flag = 1;
 extern int BikeLock_number;
 extern int BatteryLock_number;
 extern int once_load;
+extern char UUID;
 char Command[100];
 char PubKey[100];
 char Signature[100];
 char Address[100];
 int canDOACommand = 0;
-char Command_verify1[100];
+
 
 //----------------------------------------Init-----------------
 void Blue_Init(void)//USART3
@@ -122,7 +123,7 @@ void Blue_check(void)
 	}
 }
 //------------------------------verify-------------------------------------------------
-int Verify_Time(time)
+int Verify_Time(char *time)
 {
 	return 1;
 }
@@ -130,61 +131,63 @@ int Command_verify(char * command, char * signature ,char * pubkey,char * addres
 {
 	return 1;
 }
-void parseCommand(void) {
-    //Command[] = "{\\"TimeStamp\\":1730363149,\\"command\\":\\"bikelock\\"}"
-	//
-}
-void restoreCommand(void) {   
-    int j = 0;
-    for (int i = 0; Command[i] != '\0'; i++) {
-        if (Command[i] == '\\' && Command[i + 1] == '"') {
-            Command_verify1[j++] = '"';  
-            i++; 
-        } else {
-            Command_verify1[j++] = Command[i];  
-        }
-    }
-    Command_verify1[j] = '\0'; 
-}
-void DoToCommand(char time[20],char BikeCommand[50])
+int Verify_UUID(const char *id)
 {
-	//{\"TimeStamp\":1730364354,\"command\":\"unlock\"}
-	//12345678901234567890123456789012345678901234567
-	for (int i = 15; i < 25; i++) {
-        time[i - 15] = Command_verify1[i];
-    }
-    time[10] = '\0'; 
-	int j =0;
-	for (int i = 40; Command_verify1[i] != '\0'; i++) {
-        if (Command_verify1[i] == '\\') {
-            break; 
-        }
-        BikeCommand[j++] = Command_verify1[i];
-    }
-    BikeCommand[j] = '\0';
+	if(strcmp(id, &UUID) == 0)
+	{
+		return 1;
+	}
+	return 0;
+}
+
+void DoToCommand(char time[20],char BikeCommand[20],char UUid[30])
+{
+	//{\"TimeStamp\":1730548906,\"command\":\"batterylock\",\"UUID\":\"066EFF505657874887184322\"}
+	//0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
+	//0         1         2         3         4         5         6         7         8         9
+	for(int i=15;i<25;i++){
+		time[i-15]=Command[i];
+	}
+	time[10]='\0';
+	int k=0;
+	for(int i=40;Command[i] != '\0';i++,k++){
+		if(Command[i] == '\\'){
+			break;
+		}
+		BikeCommand[k]=Command[i];
+	}
+	BikeCommand[k] = '\0';
+	for(int i= 54;Command[i] != '\0';i++){
+		if(Command[i+k] == '\\'){
+			break;
+		}
+		UUid[i-54]=Command[i+k];
+	}
+	UUid[24]='\0';
 }
 void DoToTheseJson(void)
 {	
 	char time[20];
-    char BikeCommand[50];
-	restoreCommand();
-	DoToCommand(time,BikeCommand);
-	if(Verify_Time(time) == 1)
-	{
-		if(Command_verify(Command_verify1,Signature,PubKey,Address) == 1 )
-		{
-			if(strcmp(BikeCommand, "batterylock") == 0)
+    char BikeCommand[20];
+	char uuid[30];
+	DoToCommand(time,BikeCommand,uuid);
+	if(Verify_UUID(uuid) == 1){
+		if(Verify_Time(time) == 1){
+			if(Command_verify(Command,Signature,PubKey,Address) == 1 )
 			{
-				BatteryLock_number = 1;
-			}
-			else if(strcmp(BikeCommand, "bikelock") == 0)
-			{
-				BikeLock_number = 1; 
-			}
-			else if(strcmp(BikeCommand, "unbikelock") == 0)
-			{
-				BikeLock_number = 0;
-				once_load = 1;
+				if(strcmp(BikeCommand, "batterylock") == 0)
+				{
+					BatteryLock_number = 1;
+				}
+				else if(strcmp(BikeCommand, "bikelock") == 0)
+				{
+					BikeLock_number = 1; 
+				}
+				else if(strcmp(BikeCommand, "unbikelock") == 0)
+				{
+					BikeLock_number = 0;
+					once_load = 1;
+				}
 			}
 		}
 	}
@@ -197,18 +200,11 @@ void parseData(char *data) {
     char *addressStart = strstr(data, "\"address\":\"");
 
     if (cmdStart) {
-        char *cmdEnd = strstr(cmdStart, "\",");
+        char *cmdEnd = strstr(cmdStart, "\"}");
         if (cmdEnd) {
-            size_t length = cmdEnd - cmdStart + 1; 
-            strncpy(Command, cmdStart + 7, length - 8); 
-            Command[length - 8] = '\0'; 
-            for (int i = 0; i < strlen(Command); i++) {
-                if (Command[i] == '"') {
-                    memmove(&Command[i + 1], &Command[i], strlen(Command) - i + 1);
-                    Command[i] = '\\';
-                    i++;  
-                }
-            }
+            size_t length = cmdEnd - cmdStart - 7; 
+            strncpy(Command, cmdStart + 7, length); 
+            Command[length] = '\0'; 
         }
     }
 

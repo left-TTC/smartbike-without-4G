@@ -28,5 +28,6 @@
 .\objects\battery.o: .\Library\stm32f10x_usart.h
 .\objects\battery.o: .\Library\stm32f10x_wwdg.h
 .\objects\battery.o: .\Library\misc.h
+.\objects\battery.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 .\objects\battery.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 .\objects\battery.o: Hardware\BLUETOOTH.h

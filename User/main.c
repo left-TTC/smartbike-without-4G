@@ -102,7 +102,7 @@ int main(void)
 			{
 				Send_CurrentRotate();
 			}
-			if(whilecount %100 == 20)             //every 1s get battery and batterylock state
+			if(whilecount %2000 == 20)             //every 20s get battery and batterylock state
 			{
 				Get_BatteryLockState();
 				BatteryVoltage_get();
@@ -122,7 +122,7 @@ int main(void)
 				Bikelockcount = 0;
 				beep_lock();
 			}
-			if(whilecount %100 == 0)      //every 1s get batterysource
+			if(whilecount %2000 == 0)      //every 20s get batterysource
 			{
 				BatteryVoltage_get();
 				Get_BatteryLockState();
@@ -131,6 +131,18 @@ int main(void)
 //------------------------forget lock the car-------------------------
 		if(BikeLock_number == 1 && Tooth_Flag == 1)   //user is far away from the device or bluetooth disconnected
 		{
+			if(whilecount%100==0)         
+			{
+				unLockBikeCommand1();
+			}			
+			if(whilecount%100==20)
+			{
+				unLockBikeCommand2();
+			}	
+			if(whilecount%100==40)
+			{
+				unLockBikeCommand3();
+			}
 			if(whilecount %1000 == 0)
 			{
 				Check_move();
