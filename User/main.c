@@ -8,6 +8,7 @@
 #include "CONTROLLER.h"
 #include "BATTERY.h"
 #include "beep.h"
+int command_verify(const char *cmdstr,char * signaturestr,char * address,char * publicKeystr);
 
 volatile int check_tooth = 0;
 int BikeLock_number = 0;
@@ -37,6 +38,10 @@ int main(void)
 	
 	while (1)
 	{
+		int result =command_verify("{\"TimeStamp\":1730545122,\"command\":\"batterylock\",\"UUID\":\"066EFF505657874887184322\"}",
+	"0xf34fe2052cfc3003f7f96c55234034b0d9dfcb5732f5374b5236f1ec7b4d7e33543f6e8470bc5d4335308811bd0ccd5429ba5a48222751fd8e5fed4763fdb86a1b",
+	"0xF12460f0b55A17eD18963F6815cE588237a80619",	 "0x04fa779c35c85ac4cb7868995428ee65a374ea203c07feb29d0afd64341685600ae04ca21ba23e39e09b1bc03e1c2526d7f2c05edff2977c44e354a7f1253efb13"
+	);
 //--------------------------while ++-----------------------
 		if(once_load == 1 && Tooth_Flag ==0)           //when frist started using this car           
 		{

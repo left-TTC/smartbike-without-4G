@@ -3,6 +3,7 @@
 #include <stdlib.h> 
 #include <stdio.h>
 #include "Battery.h"
+int command_verify(const char *cmdstr,char * signaturestr,char * address,char * publicKeystr);
 #define BUFFER_SIZE3 1024
      
 volatile int Tooth_Flag = 1;
@@ -127,10 +128,6 @@ int Verify_Time(char *time)
 {
 	return 1;
 }
-int Command_verify(char * command, char * signature ,char * pubkey,char * address)
-{
-	return 1;
-}
 int Verify_UUID(const char *id)
 {
 	if(strcmp(id, &UUID) == 0)
@@ -173,7 +170,7 @@ void DoToTheseJson(void)
 	DoToCommand(time,BikeCommand,uuid);
 	if(Verify_UUID(uuid) == 1){
 		if(Verify_Time(time) == 1){
-			if(Command_verify(Command,Signature,PubKey,Address) == 1 )
+			if(command_verify(Command,Signature,Address,PubKey) == 1 )
 			{
 				if(strcmp(BikeCommand, "batterylock") == 0)
 				{

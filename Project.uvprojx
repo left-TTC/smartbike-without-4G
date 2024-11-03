@@ -645,6 +645,11 @@
               <FileType>5</FileType>
               <FilePath>.\Library\stm32f10x_wwdg.h</FilePath>
             </File>
+            <File>
+              <FileName>libecc.a</FileName>
+              <FileType>4</FileType>
+              <FilePath>.\Library\libecc.a</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -749,6 +754,16 @@
               <FileName>beep.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Hardware\beep.h</FilePath>
+            </File>
+            <File>
+              <FileName>Flash.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\Flash.c</FilePath>
+            </File>
+            <File>
+              <FileName>Flash.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\Flash.h</FilePath>
             </File>
           </Files>
         </Group>
