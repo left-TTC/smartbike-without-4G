@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "BLUETOOTH.h"
+#include "Flash.h"
 
 extern int BatteryLock_number;
 uint8_t LastlyPinState ; 
@@ -63,6 +64,7 @@ void GetStateWhenopen(void)         //used to tell device the lock state when st
 	char SendUUID[35];
 	snprintf(SendUUID, sizeof(SendUUID), "U:%s", UUID);
 	Send_AT_Command(SendUUID);
+	Store_Init();           //update the user information or get the register state
 }
 
 void Get_BatteryLockState(void)

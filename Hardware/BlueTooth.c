@@ -3,7 +3,10 @@
 #include <stdlib.h> 
 #include <stdio.h>
 #include "Battery.h"
-int command_verify(const char *cmdstr,char * signaturestr,char * address,char * publicKeystr);
+#include "Flash.h"
+#include <time.h>
+#include "cJSON.h"
+int command_verify(const char *cmdstr,char * signaturestr,char * address,char * publicKeystr); //verify signature
 #define BUFFER_SIZE3 1024
      
 volatile int Tooth_Flag = 1;
@@ -11,12 +14,15 @@ extern int BikeLock_number;
 extern int BatteryLock_number;
 extern int once_load;
 extern char UUID;
-char Command[100];
-char PubKey[100];
-char Signature[100];
-char Address[100];
+extern char Flash_Address;
+char Command[200];
+char PubKey[512];
+char Signature[512];
+char Address[50];
+char recievedJson[1024];
 int canDOACommand = 0;
-
+extern int ifHaveSuperUser;        //Check whether a superuser exists
+time_t usingStamp;   //currently using timestamp
 
 //----------------------------------------Init-----------------
 void Blue_Init(void)//USART3
@@ -85,137 +91,131 @@ void Send_AT_Command(const char* command)
     BlueAT_SendData('\n');
 }
 //----------------------------------------Send information----------------------
-void Battery_openNotify(void)            //tell bluetooth that my lock'state is open
-{
+void Battery_openNotify(void){            //tell bluetooth that my lock'state is open
 	Send_AT_Command("battery1");
 }
 
-void Battery_offNotify(void)
-{
+void Battery_offNotify(void){
 	Send_AT_Command("battery2");
 }
 
-void Battery_openFail(void)
-{
+void Battery_openFail(void){
 	Send_AT_Command("battery3");
 }
 
-void Battery_lockFail(void)
-{
+void Battery_lockFail(void){
 	Send_AT_Command("battery4");
 }
 
-void NormalOperationFlag(void)
-{
+void NormalOperationFlag(void){
 	Send_AT_Command("ready");
 }
 //-----------------------------------check related to BlueTooth-------------------
 void Blue_check(void)
 {
-	uint8_t PIN_State = GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_1);          //BIT_SET.high 1         BIT_RESET.low 0
-	
-	if(PIN_State == 1)
-	{
+	uint8_t PIN_State = GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_1);          //BIT_SET.high 1         BIT_RESET.low 0	
+	if(PIN_State == 1){
 		Tooth_Flag = 1;
-	}
-	else 
-	{
+	}else {
 		Tooth_Flag = 0;
 	}
 }
 //------------------------------verify-------------------------------------------------
-int Verify_Time(char *time)
-{
-	return 1;
-}
-int Verify_UUID(const char *id)
-{
-	if(strcmp(id, &UUID) == 0)
-	{
+int Verify_Time(const char *time){
+	time_t recievedTime = ConvertUint_time(time);
+	if(recievedTime > usingStamp){
+		usingStamp = recievedTime; //update a new time
+		Store_JSON();//save the new timeStamp
 		return 1;
 	}
 	return 0;
 }
-
-void DoToCommand(char time[20],char BikeCommand[20],char UUid[30])
-{
-	//{\"TimeStamp\":1730548906,\"command\":\"batterylock\",\"UUID\":\"066EFF505657874887184322\"}
-	//0123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890
-	//0         1         2         3         4         5         6         7         8         9
-	for(int i=15;i<25;i++){
-		time[i-15]=Command[i];
+int Verify_UUID(const char *id){
+	if(strcmp(id, &UUID) == 0){
+		return 1;
+	}
+	return 0;
+} 
+void DoToCommand(char time[20],char BikeCommand[20],char UUid[30]){
+	cJSON *root = cJSON_Parse(Command);   //parse the json string by CJSON
+	if (root == NULL) {
+		const char* error = cJSON_GetErrorPtr();
+        return;  
+    }
+	for(int i=13;i<23;i++){
+		time[i-13] = Command[i];
 	}
 	time[10]='\0';
-	int k=0;
-	for(int i=40;Command[i] != '\0';i++,k++){
-		if(Command[i] == '\\'){
-			break;
-		}
-		BikeCommand[k]=Command[i];
+    cJSON *command_item = cJSON_GetObjectItem(root, "command");
+    if (cJSON_IsString(command_item) && command_item->valuestring != NULL) {
+        strncpy(BikeCommand, command_item->valuestring, strlen(command_item->valuestring));
+        BikeCommand[strlen(command_item->valuestring)] = '\0'; 
+    }
+    cJSON *UUID_item = cJSON_GetObjectItem(root, "UUID");
+    if (cJSON_IsString(UUID_item) && UUID_item->valuestring != NULL) {
+        strncpy(UUid, UUID_item->valuestring, strlen(UUID_item->valuestring));
+        UUid[strlen(UUID_item->valuestring)] = '\0'; 
 	}
-	BikeCommand[k] = '\0';
-	for(int i= 54;Command[i] != '\0';i++){
-		if(Command[i+k] == '\\'){
-			break;
-		}
-		UUid[i-54]=Command[i+k];
-	}
-	UUid[24]='\0';
+	cJSON_Delete(root);
 }
-void DoToTheseJson(void)
-{	
+void DoToTheseJson(void){	
 	char time[20];
     char BikeCommand[20];
 	char uuid[30];
 	DoToCommand(time,BikeCommand,uuid);
-	if(Verify_UUID(uuid) == 1){
-		if(Verify_Time(time) == 1){
-			if(command_verify(Command,Signature,Address,PubKey) == 1 )
-			{
-				if(strcmp(BikeCommand, "batterylock") == 0)
-				{
-					BatteryLock_number = 1;
-				}
-				else if(strcmp(BikeCommand, "bikelock") == 0)
-				{
-					BikeLock_number = 1; 
-				}
-				else if(strcmp(BikeCommand, "unbikelock") == 0)
-				{
-					BikeLock_number = 0;
-					once_load = 1;
+	if(ifHaveSuperUser == 1){     //Run only after receiving data =>superUser init
+		JSON_UpstateWallet(Address,time);
+		ifHaveSuperUser = 0;
+	}
+	if(strcmp(&Flash_Address, Address) == 0){ //if the user is the superuser
+		if(Verify_UUID(uuid) == 1){
+			if(command_verify(Command,Signature,Address,PubKey) == 1 ){
+				if(Verify_Time(time) == 1){
+					if(strcmp(BikeCommand, "batterylock") == 0){
+						BatteryLock_number = 1;
+					}
+					else if(strcmp(BikeCommand, "bikelock") == 0){
+						BikeLock_number = 1; 
+					}
+					else if(strcmp(BikeCommand, "unbikelock") == 0){
+						BikeLock_number = 0;
+						once_load = 1;
+					}
 				}
 			}
 		}
 	}
 }
 //------------------------------------IQ------------------------------------------------ 
-void parseData(char *data) {
-    char *cmdStart = strstr(data, "\"cmd\":\"");
-    char *pubKeyStart = strstr(data, "\"PubKey\":\"");
-    char *signatureStart = strstr(data, "\"signature\":\"");
-    char *addressStart = strstr(data, "\"address\":\"");
-
-    if (cmdStart) {
-        char *cmdEnd = strstr(cmdStart, "\"}");
-        if (cmdEnd) {
-            size_t length = cmdEnd - cmdStart - 7; 
-            strncpy(Command, cmdStart + 7, length); 
-            Command[length] = '\0'; 
-        }
+void parse_ALLJSON(const char *JsonString){
+	cJSON *root = cJSON_Parse(JsonString);   //parse the json string by CJSON
+	if (root == NULL) {
+		const char* error = cJSON_GetErrorPtr();
+		int a = 1+1;
+        return;  
     }
-
-    if (pubKeyStart) {
-        sscanf(pubKeyStart, "\"PubKey\":\"%[^\"]\"", PubKey);
+	cJSON *cmd_item = cJSON_GetObjectItem(root, "cmd");
+    if (cJSON_IsString(cmd_item) && cmd_item->valuestring != NULL) {
+        strncpy(Command, cmd_item->valuestring, strlen(cmd_item->valuestring));
+        Command[strlen(cmd_item->valuestring)] = '\0'; 
     }
-    if (signatureStart) {
-        sscanf(signatureStart, "\"signature\":\"%[^\"]\"", Signature);
+    cJSON *PubKey_item = cJSON_GetObjectItem(root, "PubKey");
+    if (cJSON_IsString(PubKey_item) && PubKey_item->valuestring != NULL) {
+        strncpy(PubKey, PubKey_item->valuestring, strlen(PubKey_item->valuestring));
+        PubKey[strlen(PubKey_item->valuestring)] = '\0'; 
     }
-    if (addressStart) {
-        sscanf(addressStart, "\"address\":\"%[^\"]\"", Address);
+    cJSON *signature_item = cJSON_GetObjectItem(root, "signature");
+    if (cJSON_IsString(signature_item) && signature_item->valuestring != NULL) {
+        strncpy(Signature, signature_item->valuestring, strlen(signature_item->valuestring));
+        Signature[strlen(signature_item->valuestring)] = '\0'; 
     }
+    cJSON *address_item = cJSON_GetObjectItem(root, "address");
+    if (cJSON_IsString(address_item) && address_item->valuestring != NULL) {
+        strncpy(Address, address_item->valuestring, strlen(address_item->valuestring));
+        Address[strlen(address_item->valuestring)] = '\0'; 
+    }
+    cJSON_Delete(root);
 }
-
 volatile uint16_t bufferIndex1 = 0;
 uint16_t index1 = 0;
 char receivedata1[BUFFER_SIZE3];
@@ -230,9 +230,7 @@ void USART3_IRQHandler(void)
         if (byte == '\n' || index1 >= BUFFER_SIZE3 - 1)
         {
             receivedata1[index1] = '\0'; 
-            
-            parseData(receivedata1);
-            
+			parse_ALLJSON(receivedata1);
             memset(receivedata1, 0, BUFFER_SIZE3); 
             index1 = 0; 
             canDOACommand = 1; 

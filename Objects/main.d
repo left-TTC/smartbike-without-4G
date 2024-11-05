@@ -38,3 +38,5 @@
 .\objects\main.o: .\Hardware\CONTROLLER.h
 .\objects\main.o: .\Hardware\BATTERY.h
 .\objects\main.o: .\Hardware\beep.h
+.\objects\main.o: .\Hardware\Flash.h
+.\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\time.h

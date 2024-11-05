@@ -28,3 +28,7 @@
 .\objects\flash.o: .\Library\stm32f10x_usart.h
 .\objects\flash.o: .\Library\stm32f10x_wwdg.h
 .\objects\flash.o: .\Library\misc.h
+.\objects\flash.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
+.\objects\flash.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdlib.h
+.\objects\flash.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
+.\objects\flash.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\time.h

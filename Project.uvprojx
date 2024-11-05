@@ -336,7 +336,7 @@
               <MiscControls>--no-multibyte-chars</MiscControls>
               <Define>USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>.\Start;.\Library;.\User;.\System;.\Hardware</IncludePath>
+              <IncludePath>.\Start;.\Library;.\User;.\System;.\Hardware;.\JSON</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -736,16 +736,6 @@
               <FilePath>.\Hardware\Controller.h</FilePath>
             </File>
             <File>
-              <FileName>SignatureVerify.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Hardware\SignatureVerify.c</FilePath>
-            </File>
-            <File>
-              <FileName>SignatureVerify.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Hardware\SignatureVerify.h</FilePath>
-            </File>
-            <File>
               <FileName>beep.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Hardware\beep.c</FilePath>
@@ -793,7 +783,19 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>MbedTLS</GroupName>
+          <GroupName>Json</GroupName>
+          <Files>
+            <File>
+              <FileName>cJSON.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\JSON\cJSON.h</FilePath>
+            </File>
+            <File>
+              <FileName>cJSON.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\JSON\cJSON.c</FilePath>
+            </File>
+          </Files>
         </Group>
       </Groups>
     </Target>
