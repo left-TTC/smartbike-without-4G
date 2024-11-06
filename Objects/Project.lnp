@@ -27,7 +27,6 @@
 ".\objects\stm32f10x_wwdg.o"
 ".\Library\libecc.a"
 ".\objects\delay.o"
-".\objects\oled.o"
 ".\objects\serial.o"
 ".\objects\ad.o"
 ".\objects\bluetooth.o"

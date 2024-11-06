@@ -12,5 +12,6 @@ void Battery_lockFail(void);
 void NormalOperationFlag(void);
 void Send_AT_Command(const char* command);
 void DoToTheseJson(void);
+void Date_DeviceToPhone(void);
 
 #endif

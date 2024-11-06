@@ -69,64 +69,42 @@ void AD_Init(void)
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; 
     NVIC_Init(&NVIC_InitStructure);
 	
-	ADC_SoftwareStartConvCmd(ADC1, ENABLE);
- 
+	ADC_SoftwareStartConvCmd(ADC1, ENABLE); 
 }
-
 //------------------------------------------------------------
-
-uint16_t AD1_GetValue(void)
-{
+uint16_t AD1_GetValue(void){
 	ADC_SoftwareStartConvCmd(ADC1, ENABLE);
 	while (ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC) == RESET);
 	return ADC_GetConversionValue(ADC1);
 }
 
-uint16_t AD2_GetValue(void)
-{
+uint16_t AD2_GetValue(void){
 	ADC_SoftwareStartConvCmd(ADC2, ENABLE);
 	while (ADC_GetFlagStatus(ADC2, ADC_FLAG_EOC) == RESET);
 	return ADC_GetConversionValue(ADC2);
 }
-
-void BatteryVoltage_get(void)
-{	
+void BatteryVoltage_get(char *BatteryPower){	
 	uint16_t PB1_ADCValue = AD2_GetValue();
-	BatteryVoltage = (PB1_ADCValue * 3.3 / 4096) * 32;
-	
-	char BatteryV[10] = "BV:";
-	sprintf(BatteryV, "BV:%.1f", BatteryVoltage);
-	
-	Send_AT_Command(BatteryV);
-}
-
+	BatteryVoltage = (PB1_ADCValue * 3.3 / 4096) * 32;	
+	sprintf(BatteryPower, "%.1f", BatteryVoltage);
+} 
 //-----------------------mileage calculation------------------
-void Send_CurrentRotate(void)
-{
-	char buffer[15];
-	char a[20] = "R:";
-	sprintf(buffer, "%u", Rotate_Counter);
-	strcat(a,buffer);
-	
-	Send_AT_Command(a);
+void Send_CurrentRotate(char *Rotate){
+	sprintf(Rotate, "%u", Rotate_Counter);
 }
 
-void Check_move(void)
-{
-	if(CheckHelp == Rotate_Counter)
-	{
+void Check_move(void){
+	if(CheckHelp == Rotate_Counter){
 		Site_move = 1;             //means no move
 	}
-	else 
-	{
+	else{
 		Site_move = 0;
 	}
 	CheckHelp = Rotate_Counter;
 }
 
 //------------------------------------------------------------
-void ADC1_2_IRQHandler(void)
-{
+void ADC1_2_IRQHandler(void){
 	if (ADC_GetFlagStatus(ADC1, ADC_FLAG_AWD) == 1) {
 		uint16_t AD_value = AD1_GetValue();
 		

@@ -6,6 +6,7 @@
 #include "Flash.h"
 #include <time.h>
 #include "cJSON.h"
+#include "AD.h"
 int command_verify(const char *cmdstr,char * signaturestr,char * address,char * publicKeystr); //verify signature
 #define BUFFER_SIZE3 1024
      
@@ -13,8 +14,9 @@ volatile int Tooth_Flag = 1;
 extern int BikeLock_number;
 extern int BatteryLock_number;
 extern int once_load;
-extern char UUID;
+extern char UUiD;
 extern char Flash_Address;
+extern char Flash_store;
 char Command[200];
 char PubKey[512];
 char Signature[512];
@@ -81,12 +83,10 @@ void BlueAT_SendData(uint8_t data)
     USART_SendData(USART3, data);
 }
 
-void Send_AT_Command(const char* command)    
-{
+void Send_AT_Command(const char* command)    {
     while (*command) {
         BlueAT_SendData(*command++);
-    }
-  
+    }  
     BlueAT_SendData('\r');
     BlueAT_SendData('\n');
 }
@@ -111,8 +111,7 @@ void NormalOperationFlag(void){
 	Send_AT_Command("ready");
 }
 //-----------------------------------check related to BlueTooth-------------------
-void Blue_check(void)
-{
+void Blue_check(void){
 	uint8_t PIN_State = GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_1);          //BIT_SET.high 1         BIT_RESET.low 0	
 	if(PIN_State == 1){
 		Tooth_Flag = 1;
@@ -125,13 +124,13 @@ int Verify_Time(const char *time){
 	time_t recievedTime = ConvertUint_time(time);
 	if(recievedTime > usingStamp){
 		usingStamp = recievedTime; //update a new time
-		Store_JSON();//save the new timeStamp
+		Update_Store_TimeStamp(time);
 		return 1;
 	}
 	return 0;
 }
 int Verify_UUID(const char *id){
-	if(strcmp(id, &UUID) == 0){
+	if(strcmp(id, &UUiD) == 0){
 		return 1;
 	}
 	return 0;
@@ -142,7 +141,7 @@ void DoToCommand(char time[20],char BikeCommand[20],char UUid[30]){
 		const char* error = cJSON_GetErrorPtr();
         return;  
     }
-	for(int i=13;i<23;i++){
+	for(int i=13;i<23;i++){               //get now timeStamp
 		time[i-13] = Command[i];
 	}
 	time[10]='\0';
@@ -163,14 +162,13 @@ void DoToTheseJson(void){
     char BikeCommand[20];
 	char uuid[30];
 	DoToCommand(time,BikeCommand,uuid);
-	if(ifHaveSuperUser == 1){     //Run only after receiving data =>superUser init
-		JSON_UpstateWallet(Address,time);
-		ifHaveSuperUser = 0;
+	if(ifHaveSuperUser == 1){                 //Run only after receiving data =>superUser init
+		Flash_Register(Address,time,NULL,NULL);
 	}
-	//if(strcmp(&Flash_Address, Address) == 0){ //if the user is the superuser
+	if(strcmp(&Flash_Address, Address) == 0){ //if the user is the superuser
 		if(Verify_UUID(uuid) == 1){
 			if(command_verify(Command,Signature,Address,PubKey) == 1 ){
-				if(Verify_Time(time) == 1){
+				if(Verify_Time(time)==1){
 					if(strcmp(BikeCommand, "batterylock") == 0){
 						BatteryLock_number = 1;
 					}
@@ -179,19 +177,17 @@ void DoToTheseJson(void){
 					}
 					else if(strcmp(BikeCommand, "unbikelock") == 0){
 						BikeLock_number = 0;
-						once_load = 1;
 					}
 				}
 			}
 		}
-	//}
+	}
 }
 //------------------------------------IQ------------------------------------------------ 
 void parse_ALLJSON(const char *JsonString){
 	cJSON *root = cJSON_Parse(JsonString);   //parse the json string by CJSON
 	if (root == NULL) {
 		const char* error = cJSON_GetErrorPtr();
-		int a = 1+1;
         return;  
     }
 	cJSON *cmd_item = cJSON_GetObjectItem(root, "cmd");
@@ -219,28 +215,44 @@ void parse_ALLJSON(const char *JsonString){
 volatile uint16_t bufferIndex1 = 0;
 uint16_t index1 = 0;
 char receivedata1[BUFFER_SIZE3];
-//         0xFFE1: Write Without Response APP --> UART?           0xFFE2: Notify  UART --> APP?
-//   0x01 LockBike    0x02 Unlockbike  0x03 batterylock  0x04  batteryUnlock
-void USART3_IRQHandler(void)
-{
-    if (USART_GetITStatus(USART3, USART_IT_RXNE) != RESET)  
-    {
+void USART3_IRQHandler(void){
+    if (USART_GetITStatus(USART3, USART_IT_RXNE) != RESET){
         char byte = USART_ReceiveData(USART3); 
-
-        if (byte == '\n' || index1 >= BUFFER_SIZE3 - 1)
-        {
+        if (byte == '\n' || index1 >= BUFFER_SIZE3 - 1){
             receivedata1[index1] = '\0'; 
 			parse_ALLJSON(receivedata1);
             memset(receivedata1, 0, BUFFER_SIZE3); 
             index1 = 0; 
             canDOACommand = 1; 
-        }
-        else
-        {
+        }else{
             receivedata1[index1++] = byte; 
         }
         GPIO_SetBits(GPIOC, GPIO_Pin_13);  
         USART_ClearITPendingBit(USART3, USART_IT_RXNE);  
     }
+}
+void CreateSendToPhoneJson(char*SendJSON,const char*BatteyVoltage,const char*BatteryState,const char*rotata){
+	cJSON *root = cJSON_CreateObject();
+	cJSON_AddStringToObject(root, "BatteryVoltage", BatteyVoltage);
+    cJSON_AddStringToObject(root, "BatteryState", BatteryState);
+	cJSON_AddStringToObject(root, "Rotate", rotata);
+    cJSON_AddStringToObject(root, "UserInfo", &Flash_store);
+	char *json_str = cJSON_Print(root);
+	if (json_str != NULL){
+		snprintf(SendJSON, strlen(json_str), "%s", json_str);
+	}
+	cJSON_Delete(root);
+    free(json_str);
+}
+void Date_DeviceToPhone(void){
+	char BatteyVoltage[20];
+	char BatteryState[10];
+	char rotata[10];
+	char SendJSON[800];
+	BatteryVoltage_get(BatteyVoltage);     //get BatteryPower
+	sendBatteryLockState(BatteryState);    //BatteryState
+	Send_CurrentRotate(rotata);
+	CreateSendToPhoneJson(SendJSON,BatteyVoltage,BatteryState,rotata);
+	Send_AT_Command(SendJSON);	
 }
 

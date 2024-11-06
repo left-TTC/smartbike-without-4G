@@ -36,3 +36,4 @@
 .\objects\bluetooth.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\time.h
 .\objects\bluetooth.o: .\JSON\cJSON.h
 .\objects\bluetooth.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stddef.h
+.\objects\bluetooth.o: Hardware\AD.h

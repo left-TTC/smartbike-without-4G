@@ -33,3 +33,4 @@
 .\objects\battery.o: Hardware\BLUETOOTH.h
 .\objects\battery.o: Hardware\Flash.h
 .\objects\battery.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\time.h
+.\objects\battery.o: .\System\Delay.h

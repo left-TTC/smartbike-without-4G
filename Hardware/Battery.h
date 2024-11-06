@@ -8,6 +8,8 @@ void Battery_Init(void);
 void Get_BatteryLockState(void);
 void checkBatteryCommand(void);
 void GetStateWhenopen(void) ;
-
+void GetUniqueID(void);
+void sendBatteryLockState(char *BatteryState);
+void changeDeviceName(void);
 
 #endif
