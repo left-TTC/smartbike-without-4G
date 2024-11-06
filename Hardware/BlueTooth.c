@@ -167,7 +167,7 @@ void DoToTheseJson(void){
 		JSON_UpstateWallet(Address,time);
 		ifHaveSuperUser = 0;
 	}
-	if(strcmp(&Flash_Address, Address) == 0){ //if the user is the superuser
+	//if(strcmp(&Flash_Address, Address) == 0){ //if the user is the superuser
 		if(Verify_UUID(uuid) == 1){
 			if(command_verify(Command,Signature,Address,PubKey) == 1 ){
 				if(Verify_Time(time) == 1){
@@ -184,7 +184,7 @@ void DoToTheseJson(void){
 				}
 			}
 		}
-	}
+	//}
 }
 //------------------------------------IQ------------------------------------------------ 
 void parse_ALLJSON(const char *JsonString){

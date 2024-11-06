@@ -166,22 +166,6 @@
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>44</LineNumber>
-          <EnabledFlag>1</EnabledFlag>
-          <Address>134244900</Address>
-          <ByteObject>0</ByteObject>
-          <HtxType>0</HtxType>
-          <ManyObjects>0</ManyObjects>
-          <SizeOfObject>0</SizeOfObject>
-          <BreakByAccess>0</BreakByAccess>
-          <BreakIfRCount>1</BreakIfRCount>
-          <Filename>.\User\main.c</Filename>
-          <ExecCommand></ExecCommand>
-          <Expression>\\Project\User/main.c\44</Expression>
-        </Bp>
-        <Bp>
-          <Number>2</Number>
-          <Type>0</Type>
           <LineNumber>170</LineNumber>
           <EnabledFlag>1</EnabledFlag>
           <Address>134236880</Address>
@@ -194,6 +178,38 @@
           <Filename>.\Hardware\BlueTooth.c</Filename>
           <ExecCommand></ExecCommand>
           <Expression>\\Project\Hardware/BlueTooth.c\170</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>92</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134239988</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\Hardware\Flash.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Project\Hardware/Flash.c\92</Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>167</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134236866</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\Hardware\BlueTooth.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Project\Hardware/BlueTooth.c\167</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
