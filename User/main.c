@@ -21,6 +21,13 @@ extern int ifHaveSuperUser;        //Check whether a superuser exists
 extern char Flash_store;
 extern char UUiD;
 int NoMoveFlag = 0;
+extern int Flash_clean;
+
+void Clean_Flash(void){
+	Flash_Erase(0x0800F800);
+	Flash_Erase(0x0800FC00);
+	ifHaveSuperUser = 1;           //next command will create a new Flash
+}
 
 int main(void){	
 	AD_Init();     
@@ -35,20 +42,27 @@ int main(void){
 	int Bikelockcount = 0;
 	uint32_t whilecount = 0;
 	uint32_t Batterylockcount = 0;	
-	while (1){			
+	while (1){	
+		if(Flash_clean == 1){
+			Clean_Flash();
+		}
 		if(canDOACommand == 1){ //from bluetoothIQ,means need to processe the received data 
 			DoToTheseJson();
 			canDOACommand = 0;
 		}
 		whilecount++;                          //100 =1s
 		Delay_ms(10);		
-		if (whilecount%100==0){      //a whilecount == 0.01s   1s
+		if (whilecount%101==0){      //a whilecount == 0.01s   1s
 			Blue_check();            //Determine whether Bluetooth is connected -> parameter:Tooth_Flag
 			if(Tooth_Flag ==0){
 				Date_DeviceToPhone();   //
 			}
 			Get_BatteryLockState();  //every 1s check need to close the lock
-		}		
+		}if(whilecount%307==0){
+			if(Tooth_Flag ==0){
+				Send_AT_Command(&Flash_store);
+			}
+		}			
 //----------------------BikeLock on And Bluetooth connected----------------------
 //BikeLock_number£º1-on 0-off;Tooth_Flag: 1-disconnect 0-connect;
 		if(BikeLock_number == 1){

@@ -6,16 +6,20 @@
 #include <stdio.h>
 #include "time.h"
 #include "CJSON.h"
+#include "BlueTooth.h"
 
 char Flash_store[1024];   //as the buffer
 char SuperUserAddress[50];
-int ifHaveSuperUser = 1;     //0 means haven't superuser,state that can be writtern
+int ifHaveSuperUser = 0;     //0 means haven't superuser,state that can be writtern
 char Flash_Address[50];    //from bluetooth.c 
 char Flash_TimeStamp[30];
 char Flash_UserChat[30];
 char Flash_UserPhone[20];
+extern char UUID;
 extern time_t usingStamp;
-//:0x0800F400 save the userFlag 0x0800F404 save how many pages the data use
+extern int SureDeviceName;
+extern char Name;
+//:0x08char DeviceName2[12]00F400 save the userFlag 0x0800F404 save how many pages the data use
 //:0x0800F400:0xAAAA--have superuser,can't change wallet address;0x0800F404 0x01means 1 pages 0x02 means 2 
 uint32_t read_Flash(uint32_t address){
 	return *((__IO uint32_t *)(address));          //data was saved by string,accurately in place
@@ -88,11 +92,26 @@ void Update_Store_PhoneNumber(const char* NewNum){
 	free(json_str);
     cJSON_Delete(root);
 }
+void Update_Store_DeviceName(const char* NewName){
+	cJSON *root = cJSON_Parse(Flash_store);
+    if (root == NULL) {
+        return;
+    }
+	cJSON *Name_item = cJSON_GetObjectItem(root, "DeviceName");
+    if (cJSON_IsString(Name_item) && Name_item->valuestring != NULL) {
+        cJSON_ReplaceItemInObject(root, "DeviceName", cJSON_CreateString(NewName));
+    }
+	char *json_str = cJSON_Print(root);           //change it to string
+	if (json_str != NULL){
+		snprintf(Flash_store, sizeof(Flash_store), "%s", json_str);
+	}
+	free(json_str);
+    cJSON_Delete(root);
+}
 void parse_FLASHJSON(void){
 	cJSON *root = cJSON_Parse(Flash_store);
 	if (root == NULL) {
 		const char* error = cJSON_GetErrorPtr();
-		int a = 1+1;
         return;  
     }
 	cJSON *WalletAddress_item = cJSON_GetObjectItem(root, "WalletAddress");
@@ -118,28 +137,38 @@ void parse_FLASHJSON(void){
 	cJSON_Delete(root);
 }
 void Save_NowFlash(void){        //used to save json ---the json is a string
-	uint32_t HowManyPages = read_Flash(0x0800F404);      //0x01 0x02 
+	uint32_t HowManyPages = read_Flash(0x0800F804);      //0x01 0x02   
 	if(HowManyPages == 0x01 || HowManyPages == 0x02){
 		for (int i=0;i<HowManyPages;i++){
 			Flash_Erase(0x0800F800 + 0x0400*i);          //Erase all pages
 		}
 	}else{
 		Flash_Erase(0x0800F800);
+		Flash_Erase(0x0800FC00);
 	}
-	if(strlen(Flash_store)>510){
-		Flash_Write(0x0800F804,0x02);
+	uint32_t Flash_Size = strlen(Flash_store);
+	if(Flash_Size > 509){
+		Flash_Write(0x0800F804,0x02);                  //page Flag
+		Flash_Write(0x0800F808,Flash_Size);              //Strlen Flag
 	}else{
-		Flash_Write(0x0800F804,0x01);
+		Flash_Write(0x0800F804,0x01);                  //page Flag
+		Flash_Write(0x0800F808,Flash_Size);              //Strlen Flag
+	}
+	if(SureDeviceName==2){                               //means have already changed the deviceName
+		Flash_Write(0x0800F80C,0x01);
+		if(strstr(Flash_store,"BIKE_")==NULL){
+			Update_Store_DeviceName(&Name);
+		}
 	}
 	Flash_Write(0x0800F800,0xAAAA);
-	uint32_t startAddress = StorePage + 4 * 2;
+	uint32_t startAddress = StorePage + 4 * 4;
 	Flash_WriteString(startAddress, Flash_store);         //skip the flag and pageSave,start from 0x0800F408
-	Flash_WriteString(startAddress + (strlen(Flash_store) + 1) * 4, "\0");
+	Flash_WriteString(startAddress + (Flash_Size + 1) * 4, "\0");
 }
 void Read_FLASH(void) {                        //remove Flash data to the Flash_Store
-	uint32_t HowManyPages = read_Flash(0x0800F804);//0x01 0x02 
-    uint32_t addr = StorePage+8;               //skip the flag and pageSave
-    for (int i = 0; i < PAGE_SIZE*HowManyPages/4; i++) {
+	uint32_t FlashStrlen = read_Flash(0x0800F808);//0x01 0x02 
+    uint32_t addr = StorePage+16;               //skip the flag and pageSave
+    for (int i = 0; i < FlashStrlen; i++) {
         Flash_store[i] = (char)read_Flash(addr); 
         if (Flash_store[i] == '\0') break; 
         addr += 4; 
@@ -163,6 +192,9 @@ void Store_Init(void){
 }
 void Create_FlashStoreJson(void){                    //when the device is fristly used,we create a FlashStore
 	cJSON *root = cJSON_CreateObject();
+	char Flash_Name[12];
+	strcpy(Flash_Name,&Name);
+	cJSON_AddStringToObject(root, "Name", Flash_Name);
 	cJSON_AddStringToObject(root, "WalletAddress", Flash_Address);
     cJSON_AddStringToObject(root, "TimeStamp", Flash_TimeStamp);
     cJSON_AddStringToObject(root, "UserWechat", Flash_UserChat);

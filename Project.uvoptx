@@ -150,9 +150,9 @@
         <Bp>
           <Number>0</Number>
           <Type>0</Type>
-          <LineNumber>174</LineNumber>
+          <LineNumber>207</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134236564</Address>
+          <Address>134236660</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -161,14 +161,14 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\Hardware\Flash.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\Project\Hardware/Flash.c\174</Expression>
+          <Expression>\\Project\Hardware/Flash.c\207</Expression>
         </Bp>
         <Bp>
           <Number>1</Number>
           <Type>0</Type>
-          <LineNumber>171</LineNumber>
+          <LineNumber>204</LineNumber>
           <EnabledFlag>1</EnabledFlag>
-          <Address>134236548</Address>
+          <Address>134236640</Address>
           <ByteObject>0</ByteObject>
           <HtxType>0</HtxType>
           <ManyObjects>0</ManyObjects>
@@ -177,7 +177,39 @@
           <BreakIfRCount>1</BreakIfRCount>
           <Filename>.\Hardware\Flash.c</Filename>
           <ExecCommand></ExecCommand>
-          <Expression>\\Project\Hardware/Flash.c\171</Expression>
+          <Expression>\\Project\Hardware/Flash.c\204</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>52</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134244982</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\Hardware\Battery.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Project\Hardware/Battery.c\52</Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>228</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134240030</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\Hardware\BlueTooth.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Project\Hardware/BlueTooth.c\228</Expression>
         </Bp>
       </Breakpoint>
       <WatchWindow1>
@@ -231,7 +263,7 @@
         <Ww>
           <count>0</count>
           <WinNumber>2</WinNumber>
-          <ItemText>DEVICENAME</ItemText>
+          <ItemText>json_str</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
@@ -426,7 +458,7 @@
         <Ww>
           <count>39</count>
           <WinNumber>2</WinNumber>
-          <ItemText>json_str</ItemText>
+          <ItemText>Address</ItemText>
         </Ww>
         <Ww>
           <count>40</count>
@@ -446,7 +478,37 @@
         <Ww>
           <count>43</count>
           <WinNumber>2</WinNumber>
-          <ItemText>Flash</ItemText>
+          <ItemText>FlashStrlen</ItemText>
+        </Ww>
+        <Ww>
+          <count>44</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>Flash_Size</ItemText>
+        </Ww>
+        <Ww>
+          <count>45</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>ifNeedChangeName</ItemText>
+        </Ww>
+        <Ww>
+          <count>46</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>receivedata1</ItemText>
+        </Ww>
+        <Ww>
+          <count>47</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>SureDeviceName</ItemText>
+        </Ww>
+        <Ww>
+          <count>48</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>Name</ItemText>
+        </Ww>
+        <Ww>
+          <count>49</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>Flash_clean</ItemText>
         </Ww>
       </WatchWindow2>
       <MemoryWindow1>
@@ -461,7 +523,7 @@
         <Mm>
           <WinNumber>2</WinNumber>
           <SubType>8</SubType>
-          <ItemText>0x200017E0 </ItemText>
+          <ItemText>0x200015A6 </ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow2>

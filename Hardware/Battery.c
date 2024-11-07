@@ -8,7 +8,8 @@ extern int BatteryLock_number;
 uint8_t LastlyPinState ; 
 char UUID[30];
 char UUiD[30];
-
+char Name[12];
+extern int SureDeviceName;
 void Battery_Init(void){
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);	
 	GPIO_InitTypeDef GPIO_InitStructure;
@@ -25,27 +26,30 @@ void Battery_Init(void){
 void BatteryLock_on(void){
 	GPIO_SetBits(GPIOA,GPIO_Pin_4);
 }
-
 void BatteryLock_off(void){
 	GPIO_SetBits(GPIOA,GPIO_Pin_6);
 }
-
-void BatteryLock_Reset(void)        //need wait for unlocking at intervals of 1s before reseting(main)
-{
+void BatteryLock_Reset(void){        //need wait for unlocking at intervals of 1s before reseting(main)
 	GPIO_ResetBits(GPIOA,GPIO_Pin_4);
 	GPIO_ResetBits(GPIOA,GPIO_Pin_6);
 }
 void changeDeviceName(void){
-	char DEVICEid[7];
-	strncpy(DEVICEid, UUID + strlen(UUID) - 6, 6);
-	DEVICEid[6]='\0';
-	char DEVICENAME[30];
-	sprintf(DEVICENAME,"AT+LENABIKE_%s",DEVICEid);
-	Send_AT_Command("AT+ENAT");
-	Delay_ms(100);
-	Send_AT_Command(DEVICEid);
-	Delay_ms(100);
-	Send_AT_Command("AT+REST");         //used to change name
+	uint32_t ifNeedChangeName = read_Flash(0x0800F80C);
+	if(ifNeedChangeName != 0x01){
+		char DEVICEid[7];
+		strncpy(DEVICEid, UUID + strlen(UUID) - 6, 6);
+		DEVICEid[6]='\0';
+		char DEVICENAME[30];
+		sprintf(DEVICENAME,"AT+LENABIKE_%s",DEVICEid);;
+		Send_AT_Command("AT+ENAT");
+		Delay_ms(100);
+		Send_AT_Command(DEVICENAME);
+		Delay_ms(100);
+		Send_AT_Command("AT+REST");         //used to change name
+		if(SureDeviceName == 2){
+			sprintf(Name,"BIKE_%s", DEVICEid);
+		}
+	}
 }
 void GetUniqueID(void){
 	uint32_t UID[3];
@@ -73,8 +77,7 @@ void Get_BatteryLockState(void){
 	}
 	else if (LastlyPinState == 1&& PIN_State == 0){ //automatically lock when find the physical lock status
 		BatteryLock_number = 0;                     //lock
-	}
-	
+	}	
 	LastlyPinState = PIN_State;
 }
 void checkBatteryCommand(void){

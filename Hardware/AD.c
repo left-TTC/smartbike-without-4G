@@ -106,8 +106,7 @@ void Check_move(void){
 //------------------------------------------------------------
 void ADC1_2_IRQHandler(void){
 	if (ADC_GetFlagStatus(ADC1, ADC_FLAG_AWD) == 1) {
-		uint16_t AD_value = AD1_GetValue();
-		
+		uint16_t AD_value = AD1_GetValue();		
 		if (AD_value > 1395)               //judge whether the ad > 1395
 		{
 			if(if_up == 0)                 //means it's fristly count
