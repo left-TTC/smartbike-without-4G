@@ -225,8 +225,6 @@ void USART3_IRQHandler(void){
 				GPIO_SetBits(GPIOC, GPIO_Pin_13);
 			}if(strstr(receivedata1,"OK")!=NULL){
 				SureDeviceName ++;
-			}if(strstr(receivedata1,"lean")!=NULL){
-				Flash_clean =1;
 			}
             memset(receivedata1, 0, BUFFER_SIZE3); 
             index1 = 0;             

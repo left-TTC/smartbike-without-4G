@@ -21,13 +21,6 @@ extern int ifHaveSuperUser;        //Check whether a superuser exists
 extern char Flash_store;
 extern char UUiD;
 int NoMoveFlag = 0;
-extern int Flash_clean;
-
-void Clean_Flash(void){
-	Flash_Erase(0x0800F800);
-	Flash_Erase(0x0800FC00);
-	ifHaveSuperUser = 1;           //next command will create a new Flash
-}
 
 int main(void){	
 	AD_Init();     
@@ -38,14 +31,11 @@ int main(void){
 	Serial_Init();
 	Battery_Init();
 	Controller_Init();
-	changeDeviceName();  //change devicename
+	//changeDeviceName();  //change devicename
 	int Bikelockcount = 0;
 	uint32_t whilecount = 0;
 	uint32_t Batterylockcount = 0;	
 	while (1){	
-		if(Flash_clean == 1){
-			Clean_Flash();
-		}
 		if(canDOACommand == 1){ //from bluetoothIQ,means need to processe the received data 
 			DoToTheseJson();
 			canDOACommand = 0;

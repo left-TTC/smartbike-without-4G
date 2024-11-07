@@ -69,7 +69,7 @@ void AD_Init(void)
     NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; 
     NVIC_Init(&NVIC_InitStructure);
 	
-	ADC_SoftwareStartConvCmd(ADC1, ENABLE); 
+	//ADC_SoftwareStartConvCmd(ADC1, ENABLE); 
 }
 //------------------------------------------------------------
 uint16_t AD1_GetValue(void){
@@ -104,22 +104,22 @@ void Check_move(void){
 }
 
 //------------------------------------------------------------
-void ADC1_2_IRQHandler(void){
-	if (ADC_GetFlagStatus(ADC1, ADC_FLAG_AWD) == 1) {
-		uint16_t AD_value = AD1_GetValue();		
-		if (AD_value > 1395)               //judge whether the ad > 1395
-		{
-			if(if_up == 0)                 //means it's fristly count
-			{
-				Rotate_Counter ++;
-				if_up = 1;
-			}
-		}
-		else
-		{
-			if_up = 0;
-		}
-        ADC_ClearFlag(ADC1, ADC_FLAG_AWD); 
-    }
-}
+//void ADC1_2_IRQHandler(void){
+	//if (ADC_GetFlagStatus(ADC1, ADC_FLAG_AWD) == 1) {
+		//uint16_t AD_value = AD1_GetValue();		
+		//if (AD_value > 1395)               //judge whether the ad > 1395
+		//{
+			//if(if_up == 0)                 //means it's fristly count
+			//{
+			//	Rotate_Counter ++;
+			//	if_up = 1;
+			//}
+		//}
+	//	else
+	//	{
+	//		if_up = 0;
+	//	}
+     //   ADC_ClearFlag(ADC1, ADC_FLAG_AWD); 
+//}
+//}
 

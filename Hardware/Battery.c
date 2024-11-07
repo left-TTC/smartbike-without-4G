@@ -60,22 +60,17 @@ void GetUniqueID(void){
 	sprintf(UUiD, "U:%08X%08X%08X", UID[0], UID[1], UID[2]);
 }
 void sendBatteryLockState(char *BatteryState){    //used to tell device the lock state when start driving and give LastlyPinState a state
-	LastlyPinState = GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_5); //batteryLockState	
-	if(LastlyPinState == 1){  //means lock has been opened
+	uint8_t PinState = GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_5); //batteryLockState	
+	if(PinState == 1){  //means lock has been opened
 		sprintf(BatteryState,"battery1");
 	}
-	else if(LastlyPinState == 0){
+	else if(PinState == 0){
 		sprintf(BatteryState,"battery2");
 	}
 }
 void Get_BatteryLockState(void){
 	uint8_t PIN_State = GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_5);
-	
-	if (PIN_State == LastlyPinState){              // BatteryLock_number == 2
-		LastlyPinState = PIN_State;
-		return;
-	}
-	else if (LastlyPinState == 1&& PIN_State == 0){ //automatically lock when find the physical lock status
+	if (LastlyPinState == 1 && PIN_State == 0){//automatically lock when find the physical lock status
 		BatteryLock_number = 0;                     //lock
 	}	
 	LastlyPinState = PIN_State;
