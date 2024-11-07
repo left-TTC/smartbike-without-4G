@@ -125,7 +125,7 @@ int Verify_Time(const char *time){
 	return 0;
 }
 int Verify_UUID(const char *id){
-	if(strcmp(id, &UUiD) == 0){
+	if(strcmp(id, &UUID) == 0){
 		return 1;
 	}
 	return 0;

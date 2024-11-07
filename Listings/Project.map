@@ -206,7 +206,7 @@ Section Cross References
     bluetooth.o(i.Verify_Time) refers to flash.o(i.Update_Store_TimeStamp) for Update_Store_TimeStamp
     bluetooth.o(i.Verify_Time) refers to bluetooth.o(.data) for usingStamp
     bluetooth.o(i.Verify_UUID) refers to strcmp.o(.text) for strcmp
-    bluetooth.o(i.Verify_UUID) refers to battery.o(.bss) for UUiD
+    bluetooth.o(i.Verify_UUID) refers to battery.o(.bss) for UUID
     bluetooth.o(i.parse_ALLJSON) refers to cjson.o(i.cJSON_Parse) for cJSON_Parse
     bluetooth.o(i.parse_ALLJSON) refers to cjson.o(i.cJSON_GetErrorPtr) for cJSON_GetErrorPtr
     bluetooth.o(i.parse_ALLJSON) refers to cjson.o(i.cJSON_GetObjectItem) for cJSON_GetObjectItem
