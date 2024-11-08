@@ -59,11 +59,7 @@ int main(void){
 				Date_DeviceToPhone();   //
 			}
 			Get_BatteryLockState();  //every 1s check need to close the lock
-		}if(whilecount%307==0){
-			if(Tooth_Flag ==0){
-				Send_AT_Command(&Flash_store);
-			}
-		}			
+		}
 //----------------------BikeLock on And Bluetooth connected----------------------
 //BikeLock_number£º1-on 0-off;Tooth_Flag: 1-disconnect 0-connect;
 		if(BikeLock_number == 1){

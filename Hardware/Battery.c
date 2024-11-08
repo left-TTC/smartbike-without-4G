@@ -40,12 +40,12 @@ void changeDeviceName(void){
 		strncpy(DEVICEid, UUID + strlen(UUID) - 6, 6);
 		DEVICEid[6]='\0';
 		char DEVICENAME[30];
-		sprintf(DEVICENAME,"AT+LENABIKE_AAA%s",DEVICEid);;
-		Send_AT_Command("AT+ENAT");
+		sprintf(DEVICENAME,"AT+LENABIKE_%s\r\n",DEVICEid);;
+		Send_AT_Command("AT+ENAT\r\n");
 		Delay_ms(300);
 		Send_AT_Command(DEVICENAME);
 		Delay_ms(300);
-		Send_AT_Command("AT+REST");         //used to change name
+		Send_AT_Command("AT+REST\r\n");         //used to change name
 		if(SureDeviceName == 2){
 			sprintf(Name,"BIKE_%s", DEVICEid);
 		}

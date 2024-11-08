@@ -82,28 +82,37 @@ void BlueAT_SendData(uint8_t data)
     USART_SendData(USART3, data);
 }
 
-void Send_AT_Command(const char* command)    {
+void Send_AT_Command(const char* command){
     while (*command) {
         BlueAT_SendData(*command++);
     }  
-    BlueAT_SendData('\r');
-    BlueAT_SendData('\n');
+    //BlueAT_SendData('\r');
+    //BlueAT_SendData('\n');
+}
+void Send_CommandStart(void){       //means command start
+	Send_AT_Command("<BN");
+}
+void Send_CommandOver(void){        //command over
+	Send_AT_Command("OR>");
+}
+void Send_CommandFlashCarve(void){
+	Send_AT_Command("+++");
 }
 //----------------------------------------Send information----------------------
 void Battery_openNotify(void){            //tell bluetooth that my lock'state is open
-	Send_AT_Command("battery1");
+	Send_AT_Command("battery1\r\n");
 }
 void Battery_offNotify(void){
-	Send_AT_Command("battery2");
+	Send_AT_Command("battery2\r\n");
 }
 void Battery_openFail(void){
-	Send_AT_Command("battery3");
+	Send_AT_Command("battery3\r\n");
 }
 void Battery_lockFail(void){
-	Send_AT_Command("battery4");
+	Send_AT_Command("battery4\r\n");
 }
 void NormalOperationFlag(void){
-	Send_AT_Command("ready");
+	Send_AT_Command("ready\r\n");
 }
 //-----------------------------------check related to BlueTooth-------------------
 void Blue_check(void){
@@ -258,6 +267,10 @@ void Date_DeviceToPhone(void){
 	sendBatteryLockState(BatteryState);    //BatteryState
 	Send_CurrentRotate(rotata);
 	CreateSendToPhoneJson(SendJSON,BatteyVoltage,BatteryState,rotata);
+	Send_CommandStart();
 	Send_AT_Command(SendJSON);	
+	Send_CommandFlashCarve();
+	Send_AT_Command(&Flash_store);
+	Send_CommandOver();
 }
 
