@@ -31,7 +31,7 @@ int main(void){
 	Serial_Init();
 	Battery_Init();
 	Controller_Init();
-	//changeDeviceName();  //change devicename
+	changeDeviceName();  //change devicename
 	int Bikelockcount = 0;
 	uint32_t whilecount = 0;
 	uint32_t Batterylockcount = 0;	
