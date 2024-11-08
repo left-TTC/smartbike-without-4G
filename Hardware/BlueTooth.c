@@ -213,7 +213,7 @@ volatile uint16_t bufferIndex1 = 0;
 uint16_t index1 = 0;
 char receivedata1[BUFFER_SIZE3];
 int SureDeviceName = 0;
-int Flash_clean = 0;
+extern int NeedClean;
 void USART3_IRQHandler(void){
     if (USART_GetITStatus(USART3, USART_IT_RXNE) != RESET){
         char byte = USART_ReceiveData(USART3); 
@@ -225,6 +225,8 @@ void USART3_IRQHandler(void){
 				GPIO_SetBits(GPIOC, GPIO_Pin_13);
 			}if(strstr(receivedata1,"OK")!=NULL){
 				SureDeviceName ++;
+			}if(strstr(receivedata1,"lean")!= NULL){
+				NeedClean = 1;
 			}
             memset(receivedata1, 0, BUFFER_SIZE3); 
             index1 = 0;             

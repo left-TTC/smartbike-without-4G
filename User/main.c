@@ -21,7 +21,15 @@ extern int ifHaveSuperUser;        //Check whether a superuser exists
 extern char Flash_store;
 extern char UUiD;
 int NoMoveFlag = 0;
+int NeedClean = 0;
 
+void Flash_Clean(void){
+	Flash_Erase(0x0800F800);
+	Flash_Erase(0x0800FC00);
+	for (uint32_t i = 0; i < 2048 * 2; i += 4) {
+        Flash_Write(0x0800F800 + i, 0x00000000);  
+    }
+}
 int main(void){	
 	AD_Init();     
 	Blue_Init();
@@ -39,6 +47,9 @@ int main(void){
 		if(canDOACommand == 1){ //from bluetoothIQ,means need to processe the received data 
 			DoToTheseJson();
 			canDOACommand = 0;
+		}
+		if(NeedClean == 1){
+			Flash_Clean();
 		}
 		whilecount++;                          //100 =1s
 		Delay_ms(10);		

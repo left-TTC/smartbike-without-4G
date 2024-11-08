@@ -97,9 +97,9 @@ void Update_Store_DeviceName(const char* NewName){
     if (root == NULL) {
         return;
     }
-	cJSON *Name_item = cJSON_GetObjectItem(root, "DeviceName");
+	cJSON *Name_item = cJSON_GetObjectItem(root, "Name");
     if (cJSON_IsString(Name_item) && Name_item->valuestring != NULL) {
-        cJSON_ReplaceItemInObject(root, "DeviceName", cJSON_CreateString(NewName));
+        cJSON_ReplaceItemInObject(root, "Name", cJSON_CreateString(NewName));
     }
 	char *json_str = cJSON_Print(root);           //change it to string
 	if (json_str != NULL){
@@ -166,7 +166,7 @@ void Save_NowFlash(void){        //used to save json ---the json is a string
 	Flash_WriteString(startAddress + (Flash_Size + 1) * 4, "\0");
 }
 void Read_FLASH(void) {                        //remove Flash data to the Flash_Store
-	uint32_t FlashStrlen = read_Flash(0x0800F808);//0x01 0x02 
+	uint32_t FlashStrlen = read_Flash(0x0800F808); 
     uint32_t addr = StorePage+16;               //skip the flag and pageSave
     for (int i = 0; i < FlashStrlen; i++) {
         Flash_store[i] = (char)read_Flash(addr); 

@@ -35,16 +35,16 @@ void BatteryLock_Reset(void){        //need wait for unlocking at intervals of 1
 }
 void changeDeviceName(void){
 	uint32_t ifNeedChangeName = read_Flash(0x0800F80C);
-	if(ifNeedChangeName != 0x02){
+	if(ifNeedChangeName != 0x01){
 		char DEVICEid[7];
 		strncpy(DEVICEid, UUID + strlen(UUID) - 6, 6);
 		DEVICEid[6]='\0';
 		char DEVICENAME[30];
 		sprintf(DEVICENAME,"AT+LENABIKE_AAA%s",DEVICEid);;
 		Send_AT_Command("AT+ENAT");
-		Delay_ms(100);
+		Delay_ms(300);
 		Send_AT_Command(DEVICENAME);
-		Delay_ms(100);
+		Delay_ms(300);
 		Send_AT_Command("AT+REST");         //used to change name
 		if(SureDeviceName == 2){
 			sprintf(Name,"BIKE_%s", DEVICEid);
