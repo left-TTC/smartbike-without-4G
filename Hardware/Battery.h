@@ -11,5 +11,6 @@ void GetStateWhenopen(void) ;
 void GetUniqueID(void);
 void sendBatteryLockState(char *BatteryState);
 void changeDeviceName(void);
+void BatteryLock_off(void);
 
 #endif

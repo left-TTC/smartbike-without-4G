@@ -226,16 +226,27 @@ extern int NeedClean;
 void USART3_IRQHandler(void){
     if (USART_GetITStatus(USART3, USART_IT_RXNE) != RESET){
         char byte = USART_ReceiveData(USART3); 
-        if (byte == '\n' || index1 >= BUFFER_SIZE3 - 1){
-            receivedata1[index1] = '\0'; 
-			if(strstr(receivedata1,"cmd")!=NULL){
-				strcpy(Get_Recieved, receivedata1);      
-				canDOACommand = 1; 
-				GPIO_SetBits(GPIOC, GPIO_Pin_13);
-			}if(strstr(receivedata1,"OK")!=NULL){
+        if (byte == '\n' || index1 >= BUFFER_SIZE3 - 1 || byte == '>'){
+			if(byte == '>'){
+				receivedata1[index1]=byte;
+				receivedata1[index1+1] = '\0';
+			}else{
+				receivedata1[index1] = '\0'; 
+			}
+			if(strstr(receivedata1,"OK")!=NULL){
 				SureDeviceName ++;
-			}if(strstr(receivedata1,"lean")!= NULL){
+			}else if(strstr(receivedata1,"lean")!= NULL){
 				NeedClean = 1;
+			}else if(strstr(receivedata1, "<{") != NULL && strstr(receivedata1, "}>") != NULL){
+				char *start = strchr(receivedata1, '<');   //find the start
+				char *end = strchr(receivedata1, '>');     //find the end
+				if (start != NULL && end != NULL && end > start) {
+					int length = end - start - 1;          //get json string lenth      
+					strncpy(Get_Recieved, start + 1, length);  //move it into the char 
+					Get_Recieved[length] = '\0';
+					canDOACommand = 1;                     //flag =>1
+					GPIO_SetBits(GPIOC, GPIO_Pin_13);
+				}
 			}
             memset(receivedata1, 0, BUFFER_SIZE3); 
             index1 = 0;             
