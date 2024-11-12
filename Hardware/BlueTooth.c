@@ -19,13 +19,18 @@ extern char UUID;
 extern char Flash_Address;
 extern char Flash_store;
 char Command[200];
-char PubKey[512];
-char Signature[512];
+char PubKey[150];
+char Signature[150];
 char Address[50];
 char recievedJson[1024];
 int canDOACommand = 0;
 extern int ifHaveSuperUser;        //Check whether a superuser exists
 time_t usingStamp;   //currently using timestamp
+char Err[20];
+int needUpUsingTime = 0;           //reset =>0=>need updata time;up=>1=>need't
+int change_Super = 0;
+extern int isRent ;
+extern int isSuper;
 //----------------------------------------Init-----------------
 void Blue_Init(void){//USART3
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
@@ -75,6 +80,24 @@ void Blue_Init(void){//USART3
 	
 	USART_Cmd(USART3, ENABLE);
 }
+void TimeClock_Init(void) {
+    TIM_TimeBaseInitTypeDef TIM_TimeBaseStructure;
+    NVIC_InitTypeDef NVIC_InitStructure;
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+    TIM_TimeBaseStructure.TIM_Period = 9999; 
+    TIM_TimeBaseStructure.TIM_Prescaler = 7199; 
+    TIM_TimeBaseStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+    TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;
+    TIM_TimeBaseInit(TIM2, &TIM_TimeBaseStructure);
+    TIM_ClearITPendingBit(TIM2, TIM_IT_Update);
+    TIM_ITConfig(TIM2, TIM_IT_Update, ENABLE);
+    NVIC_InitStructure.NVIC_IRQChannel = TIM2_IRQn;
+    NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 0;
+    NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+    NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+    NVIC_Init(&NVIC_InitStructure);
+    TIM_Cmd(TIM2, ENABLE);
+}
 //----------------------------------send function-----------------------
 void BlueAT_SendData(uint8_t data)         
 {
@@ -86,8 +109,6 @@ void Send_AT_Command(const char* command){
     while (*command) {
         BlueAT_SendData(*command++);
     }  
-    //BlueAT_SendData('\r');
-    //BlueAT_SendData('\n');
 }
 void Send_CommandStart(void){       //means command start
 	Send_AT_Command("<BN");
@@ -126,8 +147,11 @@ void Blue_check(void){
 //------------------------------verify-------------------------------------------------
 int Verify_Time(const char *time){
 	time_t recievedTime = ConvertUint_time(time);
-	if(recievedTime > usingStamp){
-		usingStamp = recievedTime; //update a new time
+	if(((recievedTime +20) > usingStamp )&& needUpUsingTime == 1){
+		return 1;
+	}if(needUpUsingTime == 0 && isSuper == 1){       //upDateTime
+		needUpUsingTime =1;
+		usingStamp = recievedTime;                   //superUser's time update the user's time
 		Update_Store_TimeStamp(time);
 		return 1;
 	}
@@ -145,10 +169,10 @@ void DoToCommand(char time[20],char BikeCommand[20],char UUid[30]){
 		const char* error = cJSON_GetErrorPtr();
         return;  
     }
-	for(int i=13;i<23;i++){               //get now timeStamp
-		time[i-13] = Command[i];
-	}
-	time[10]='\0';
+	cJSON *timestamp_item = cJSON_GetObjectItem(root, "TimeStamp");
+    if (cJSON_IsNumber(timestamp_item)) {
+        snprintf(time, 20, "%010ld", (long)timestamp_item->valueint);  // ??10????
+    }
     cJSON *command_item = cJSON_GetObjectItem(root, "command");
     if (cJSON_IsString(command_item) && command_item->valuestring != NULL) {
         strncpy(BikeCommand, command_item->valuestring, strlen(command_item->valuestring));
@@ -193,30 +217,54 @@ void parse_ALLJSON(const char *JsonString){
 }
 void DoToTheseJson(void){	
 	char time[20];
-    char BikeCommand[20];
+    char BikeCommand[100];
 	char uuid[30];
 	parse_ALLJSON(Get_Recieved);
 	DoToCommand(time,BikeCommand,uuid);
+	if(isRent == 0 && isSuper == 0){
+		VerifyIf_Superser();
+		VerifyIf_RentUser();
+	}
 	if(ifHaveSuperUser == 1){                 //Run only after receiving data =>superUser init
 		Flash_Register(Address,time,NULL,NULL);
 	}
-	if(strcmp(&Flash_Address, Address) == 0){ //if the user is the superuser
+	if(isSuper == 1){ //if the user is the superuser
 		if(Verify_UUID(uuid) == 1){
 			if(command_verify(Command,Signature,Address,PubKey) == 1 ){
 				if(Verify_Time(time)==1){
 					if(strcmp(BikeCommand, "batterylock") == 0){
 						BatteryLock_number = 1;
-					}
-					else if(strcmp(BikeCommand, "bikelock") == 0){
+					}else if(strcmp(BikeCommand, "bikelock") == 0){
 						BikeLock_number = 1; 
+					}else if(strcmp(BikeCommand, "unbikelock") == 0){
+						BikeLock_number = 0;
+					}else if(strstr(BikeCommand,"RentAdd")!= NULL){
+						Flash_AddRentUser(BikeCommand);
+					}else if(strstr(BikeCommand,"SuChange")!=NULL){ //every time when lock the car
+						ChangeSuperUser(BikeCommand);
+						isSuper = 0;
+					}else if(strstr(BikeCommand,"addPAC")!=NULL){
+						AddPhoneAndChat(BikeCommand);
 					}
-					else if(strcmp(BikeCommand, "unbikelock") == 0){
+				}else{strcpy(Err, "TimeErr");}//illegal ERR
+			}else{strcpy(Err, "SignErr");}//illegal siganature
+		}else{strcpy(Err, "IDErr");}//recieve ERR
+	}else if(isRent == 0){strcpy(Err, "UserErr");}//means user's address err}
+	if(isRent == 1){
+		if(Verify_UUID(uuid) == 1){
+			if(command_verify(Command,Signature,Address,PubKey) == 1 ){
+				if(Verify_Time(time)==1){
+					if(strcmp(BikeCommand, "batterylock") == 0){
+						BatteryLock_number = 1;
+					}else if(strcmp(BikeCommand, "bikelock") == 0){
+						BikeLock_number = 1; 
+					}else if(strcmp(BikeCommand, "unbikelock"  ) == 0){
 						BikeLock_number = 0;
 					}
-				}
-			}
-		}
-	}
+				}else{strcpy(Err, "TimeErr");}//illegal ERR
+			}else{strcpy(Err, "SignErr");}//illegal siganature
+		}else{strcpy(Err, "IDErr");}//recieve ERR
+	}else if(isSuper==0){strcpy(Err, "UserErr");}
 }
 volatile uint16_t bufferIndex1 = 0;
 uint16_t index1 = 0;
@@ -258,10 +306,17 @@ void USART3_IRQHandler(void){
 }
 void CreateSendToPhoneJson(char*SendJSON,const char*BatteyVoltage,const char*BatteryState,const char*rotata){
 	cJSON *root = cJSON_CreateObject();
+	cJSON_AddStringToObject(root, "V", "V1.0");
 	cJSON_AddStringToObject(root, "BatteryVoltage", BatteyVoltage);
     cJSON_AddStringToObject(root, "BatteryState", BatteryState);
 	cJSON_AddStringToObject(root, "Rotate", rotata);
 	cJSON_AddStringToObject(root, "UUID", &UUID);
+	if(strlen(Err)!=0){
+		cJSON_AddStringToObject(root, "ERR", Err);
+		memset(Err, 0, sizeof(Err));
+	}else{
+		cJSON_AddStringToObject(root, "ERR", "NULL");
+	}
 	char *json_str = cJSON_Print(root);
 	if (json_str != NULL){
 		snprintf(SendJSON, strlen(json_str)+2, "%s", json_str);
@@ -281,7 +336,19 @@ void Date_DeviceToPhone(void){
 	Send_CommandStart();
 	Send_AT_Command(SendJSON);	
 	Send_CommandFlashCarve();
-	Send_AT_Command(&Flash_store);
+	if(strlen(&Flash_store) != 0){
+		Send_AT_Command(&Flash_store);
+	}else{
+		Send_AT_Command("{\"user\":\"NULL\"}");   //send command means NO superUser
+	}
 	Send_CommandOver();
 }
+//-------------------clock IQ--------------------
+void TIM2_IRQHandler(void) {
+    if (TIM_GetITStatus(TIM2, TIM_IT_Update) != RESET) {
+        usingStamp++;  
+        TIM_ClearITPendingBit(TIM2, TIM_IT_Update); 
+    }
+}
+
 

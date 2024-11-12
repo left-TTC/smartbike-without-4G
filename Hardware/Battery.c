@@ -34,17 +34,18 @@ void BatteryLock_Reset(void){        //need wait for unlocking at intervals of 1
 	GPIO_ResetBits(GPIOA,GPIO_Pin_6);
 }
 void changeDeviceName(void){
-	uint32_t ifNeedChangeName = read_Flash(0x0800F80C);
-	if(ifNeedChangeName != 0x01){
+	uint32_t ifNeedChangeName = read_Flash(0x0800F00C);
+	if(ifNeedChangeName != 0x01){          
 		char DEVICEid[7];
 		strncpy(DEVICEid, UUID + strlen(UUID) - 6, 6);
 		DEVICEid[6]='\0';
 		char DEVICENAME[30];
 		sprintf(DEVICENAME,"AT+LENABIKE_%s\r\n",DEVICEid);;
+		Delay_ms(1000);
 		Send_AT_Command("AT+ENAT\r\n");
-		Delay_ms(300);
+		Delay_ms(1000);
 		Send_AT_Command(DEVICENAME);
-		Delay_ms(300);
+		Delay_ms(1000);
 		Send_AT_Command("AT+REST\r\n");         //used to change name
 		if(SureDeviceName == 2){
 			sprintf(Name,"BIKE_%s", DEVICEid);
@@ -80,15 +81,13 @@ void checkBatteryCommand(void){
 	if(BatteryLock_number == 1){        //means in open command	
 		if(PIN == 1){                   //means is's on now 
 			Battery_openNotify();
-		}
-		else{
+		}else{
 			Battery_openFail();
 		}
 	}else if (BatteryLock_number == 0){ //means in off command
 		if(PIN == 0){                   //means is's off now 	
 			Battery_offNotify();
-		}
-		else{
+		}else{
 			Battery_lockFail();
 		}
 	}	

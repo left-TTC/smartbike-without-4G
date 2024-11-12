@@ -9,6 +9,7 @@
 #include "BATTERY.h"
 #include "beep.h"
 #include "Flash.h"
+#include "time.h"
 int command_verify(const char *cmdstr,char * signaturestr,char * address,char * publicKeystr);
 
 volatile int check_tooth = 0;
@@ -22,6 +23,9 @@ extern char Flash_store;
 extern char UUiD;
 int NoMoveFlag = 0;
 int NeedClean = 0;
+extern int isRent ;   //means rent user
+extern int isSuper;
+extern time_t usingStamp; 
 
 void Flash_Clean(void){
 	Flash_Erase(0x0800F800);
@@ -39,11 +43,13 @@ int main(void){
 	Serial_Init();
 	Battery_Init();
 	Controller_Init();
-	//changeDeviceName();  //change devicename
+	changeDeviceName();  //change devicename
+	TimeClock_Init();    //open Clock
 	int Bikelockcount = 0;
 	uint32_t whilecount = 0;
 	uint32_t Batterylockcount = 0;	
 	while (1){	
+		//Flash_Erase(0x0800F000);Flash_Erase(0x0800F400);Flash_Erase(0x0800F800);Flash_Erase(0x0800FC00);
 		if(canDOACommand == 1){ //from bluetoothIQ,means need to processe the received data 
 			DoToTheseJson();
 			canDOACommand = 0;
@@ -106,6 +112,9 @@ int main(void){
 				Controller_off();
 				Bikelockcount = 0;
 				beep_lock();
+				char StoreTime[20];
+				snprintf(StoreTime, 11, "%ld", (long int)usingStamp);
+				cleanIllegalUser();
 				Save_NowFlash();            //stop drive ->save the data in Flash_Store now
 			}
 		}

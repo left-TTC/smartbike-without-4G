@@ -146,7 +146,88 @@
           <Name>UL2CM3(-S0 -C0 -P0 -FD20000000 -FC1000 -FN1 -FF0STM32F10x_128 -FS08000000 -FL020000 -FP0($$Device:STM32F103C8$Flash\STM32F10x_128.FLM))</Name>
         </SetRegEntry>
       </TargetDriverDllRegistry>
-      <Breakpoint/>
+      <Breakpoint>
+        <Bp>
+          <Number>0</Number>
+          <Type>0</Type>
+          <LineNumber>374</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134235476</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\Hardware\Flash.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Project\Hardware/Flash.c\374</Expression>
+        </Bp>
+        <Bp>
+          <Number>1</Number>
+          <Type>0</Type>
+          <LineNumber>373</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134235466</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\Hardware\Flash.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Project\Hardware/Flash.c\373</Expression>
+        </Bp>
+        <Bp>
+          <Number>2</Number>
+          <Type>0</Type>
+          <LineNumber>361</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134239158</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\Hardware\Flash.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Project\Hardware/Flash.c\361</Expression>
+        </Bp>
+        <Bp>
+          <Number>3</Number>
+          <Type>0</Type>
+          <LineNumber>231</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134237284</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\Hardware\BlueTooth.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Project\Hardware/BlueTooth.c\231</Expression>
+        </Bp>
+        <Bp>
+          <Number>4</Number>
+          <Type>0</Type>
+          <LineNumber>246</LineNumber>
+          <EnabledFlag>1</EnabledFlag>
+          <Address>134237424</Address>
+          <ByteObject>0</ByteObject>
+          <HtxType>0</HtxType>
+          <ManyObjects>0</ManyObjects>
+          <SizeOfObject>0</SizeOfObject>
+          <BreakByAccess>0</BreakByAccess>
+          <BreakIfRCount>1</BreakIfRCount>
+          <Filename>.\Hardware\BlueTooth.c</Filename>
+          <ExecCommand></ExecCommand>
+          <Expression>\\Project\Hardware/BlueTooth.c\246</Expression>
+        </Bp>
+      </Breakpoint>
       <WatchWindow1>
         <Ww>
           <count>0</count>
@@ -198,17 +279,17 @@
         <Ww>
           <count>0</count>
           <WinNumber>2</WinNumber>
-          <ItemText>LastlyPinState</ItemText>
+          <ItemText>isSuper</ItemText>
         </Ww>
         <Ww>
           <count>1</count>
           <WinNumber>2</WinNumber>
-          <ItemText>PIN_State</ItemText>
+          <ItemText>Flash_RentAddress</ItemText>
         </Ww>
         <Ww>
           <count>2</count>
           <WinNumber>2</WinNumber>
-          <ItemText>PubKey</ItemText>
+          <ItemText>Flash_store</ItemText>
         </Ww>
         <Ww>
           <count>3</count>
@@ -218,127 +299,127 @@
         <Ww>
           <count>4</count>
           <WinNumber>2</WinNumber>
-          <ItemText>BikeCommand</ItemText>
+          <ItemText>ifNeedChangeName</ItemText>
         </Ww>
         <Ww>
           <count>5</count>
           <WinNumber>2</WinNumber>
-          <ItemText>time</ItemText>
+          <ItemText>usingStamp</ItemText>
         </Ww>
         <Ww>
           <count>6</count>
           <WinNumber>2</WinNumber>
-          <ItemText>UUid</ItemText>
+          <ItemText>recievedTime</ItemText>
         </Ww>
         <Ww>
           <count>7</count>
           <WinNumber>2</WinNumber>
-          <ItemText>UUID</ItemText>
+          <ItemText>needUpUsingTime</ItemText>
         </Ww>
         <Ww>
           <count>8</count>
           <WinNumber>2</WinNumber>
-          <ItemText>k</ItemText>
+          <ItemText>INfo</ItemText>
         </Ww>
         <Ww>
           <count>9</count>
           <WinNumber>2</WinNumber>
-          <ItemText>UUid</ItemText>
+          <ItemText>BikeCommand</ItemText>
         </Ww>
         <Ww>
           <count>10</count>
           <WinNumber>2</WinNumber>
-          <ItemText>commandStart</ItemText>
+          <ItemText>ifHaveSuperUser</ItemText>
         </Ww>
         <Ww>
           <count>11</count>
           <WinNumber>2</WinNumber>
-          <ItemText>i</ItemText>
+          <ItemText>Address</ItemText>
         </Ww>
         <Ww>
           <count>12</count>
           <WinNumber>2</WinNumber>
-          <ItemText>j</ItemText>
+          <ItemText>Flash_TimeStamp</ItemText>
         </Ww>
         <Ww>
           <count>13</count>
           <WinNumber>2</WinNumber>
-          <ItemText>uuid</ItemText>
+          <ItemText>Flash_Address</ItemText>
         </Ww>
         <Ww>
           <count>14</count>
           <WinNumber>2</WinNumber>
-          <ItemText>useToVerifyCommand</ItemText>
+          <ItemText>phone</ItemText>
         </Ww>
         <Ww>
           <count>15</count>
           <WinNumber>2</WinNumber>
-          <ItemText>length</ItemText>
+          <ItemText>phone</ItemText>
         </Ww>
         <Ww>
           <count>16</count>
           <WinNumber>2</WinNumber>
-          <ItemText>ifFristFlag</ItemText>
+          <ItemText>usingStamp</ItemText>
         </Ww>
         <Ww>
           <count>17</count>
           <WinNumber>2</WinNumber>
-          <ItemText>ifHaveSuperUser</ItemText>
+          <ItemText>Command,0x10</ItemText>
         </Ww>
         <Ww>
           <count>18</count>
           <WinNumber>2</WinNumber>
-          <ItemText>time</ItemText>
+          <ItemText>Signature</ItemText>
         </Ww>
         <Ww>
           <count>19</count>
           <WinNumber>2</WinNumber>
-          <ItemText>BikeCommand</ItemText>
+          <ItemText>Address</ItemText>
         </Ww>
         <Ww>
           <count>20</count>
           <WinNumber>2</WinNumber>
-          <ItemText>uuid</ItemText>
+          <ItemText>PubKey</ItemText>
         </Ww>
         <Ww>
           <count>21</count>
           <WinNumber>2</WinNumber>
-          <ItemText>Address</ItemText>
+          <ItemText>eccCommand</ItemText>
         </Ww>
         <Ww>
           <count>22</count>
           <WinNumber>2</WinNumber>
-          <ItemText>Flash_TimeStamp</ItemText>
+          <ItemText>receivedata1</ItemText>
         </Ww>
         <Ww>
           <count>23</count>
           <WinNumber>2</WinNumber>
-          <ItemText>Flash_Address</ItemText>
+          <ItemText>aC</ItemText>
         </Ww>
         <Ww>
           <count>24</count>
           <WinNumber>2</WinNumber>
-          <ItemText>HowManyPages</ItemText>
+          <ItemText>Address</ItemText>
         </Ww>
         <Ww>
           <count>25</count>
           <WinNumber>2</WinNumber>
-          <ItemText>Flash_store</ItemText>
+          <ItemText>BatteyVoltage</ItemText>
         </Ww>
         <Ww>
           <count>26</count>
           <WinNumber>2</WinNumber>
-          <ItemText>usingStamp</ItemText>
+          <ItemText>BatteryState</ItemText>
         </Ww>
         <Ww>
           <count>27</count>
           <WinNumber>2</WinNumber>
-          <ItemText>Command,0x10</ItemText>
+          <ItemText>rotata</ItemText>
         </Ww>
         <Ww>
           <count>28</count>
           <WinNumber>2</WinNumber>
-          <ItemText>Signature</ItemText>
+          <ItemText>SendJSON</ItemText>
         </Ww>
         <Ww>
           <count>29</count>
@@ -348,134 +429,144 @@
         <Ww>
           <count>30</count>
           <WinNumber>2</WinNumber>
-          <ItemText>PubKey</ItemText>
+          <ItemText>FLASH_Store</ItemText>
         </Ww>
         <Ww>
           <count>31</count>
           <WinNumber>2</WinNumber>
-          <ItemText>eccCommand</ItemText>
+          <ItemText>strlen(json_str)</ItemText>
         </Ww>
         <Ww>
           <count>32</count>
           <WinNumber>2</WinNumber>
-          <ItemText>receivedata1</ItemText>
+          <ItemText>Flash_store</ItemText>
         </Ww>
         <Ww>
           <count>33</count>
           <WinNumber>2</WinNumber>
-          <ItemText>aC</ItemText>
+          <ItemText>FlashStrlen</ItemText>
         </Ww>
         <Ww>
           <count>34</count>
           <WinNumber>2</WinNumber>
-          <ItemText>Address</ItemText>
+          <ItemText>Flash_Size</ItemText>
         </Ww>
         <Ww>
           <count>35</count>
           <WinNumber>2</WinNumber>
-          <ItemText>BatteyVoltage</ItemText>
+          <ItemText>ifNeedChangeName</ItemText>
         </Ww>
         <Ww>
           <count>36</count>
           <WinNumber>2</WinNumber>
-          <ItemText>BatteryState</ItemText>
+          <ItemText>receivedata1</ItemText>
         </Ww>
         <Ww>
           <count>37</count>
           <WinNumber>2</WinNumber>
-          <ItemText>rotata</ItemText>
+          <ItemText>SureDeviceName</ItemText>
         </Ww>
         <Ww>
           <count>38</count>
           <WinNumber>2</WinNumber>
-          <ItemText>SendJSON</ItemText>
+          <ItemText>Name</ItemText>
         </Ww>
         <Ww>
           <count>39</count>
           <WinNumber>2</WinNumber>
-          <ItemText>Address</ItemText>
+          <ItemText>Flash_clean</ItemText>
         </Ww>
         <Ww>
           <count>40</count>
           <WinNumber>2</WinNumber>
-          <ItemText>FLASH_Store</ItemText>
+          <ItemText>NeedClean</ItemText>
         </Ww>
         <Ww>
           <count>41</count>
           <WinNumber>2</WinNumber>
-          <ItemText>strlen(json_str)</ItemText>
+          <ItemText>SendJSON</ItemText>
         </Ww>
         <Ww>
           <count>42</count>
           <WinNumber>2</WinNumber>
-          <ItemText>Flash_store</ItemText>
+          <ItemText>receivedata1</ItemText>
         </Ww>
         <Ww>
           <count>43</count>
           <WinNumber>2</WinNumber>
-          <ItemText>FlashStrlen</ItemText>
+          <ItemText>Tooth_Flag</ItemText>
         </Ww>
         <Ww>
           <count>44</count>
           <WinNumber>2</WinNumber>
-          <ItemText>Flash_Size</ItemText>
+          <ItemText>receivedata1</ItemText>
         </Ww>
         <Ww>
           <count>45</count>
           <WinNumber>2</WinNumber>
-          <ItemText>ifNeedChangeName</ItemText>
+          <ItemText>needUpUsingTime</ItemText>
         </Ww>
         <Ww>
           <count>46</count>
           <WinNumber>2</WinNumber>
-          <ItemText>receivedata1</ItemText>
+          <ItemText>usingStamp</ItemText>
         </Ww>
         <Ww>
           <count>47</count>
           <WinNumber>2</WinNumber>
-          <ItemText>SureDeviceName</ItemText>
+          <ItemText>recievedTime</ItemText>
         </Ww>
         <Ww>
           <count>48</count>
           <WinNumber>2</WinNumber>
-          <ItemText>Name</ItemText>
+          <ItemText>isRent</ItemText>
         </Ww>
         <Ww>
           <count>49</count>
           <WinNumber>2</WinNumber>
-          <ItemText>Flash_clean</ItemText>
+          <ItemText>Flash_Address</ItemText>
         </Ww>
         <Ww>
           <count>50</count>
           <WinNumber>2</WinNumber>
-          <ItemText>NeedClean</ItemText>
+          <ItemText>Address</ItemText>
         </Ww>
         <Ww>
           <count>51</count>
           <WinNumber>2</WinNumber>
-          <ItemText>SendJSON</ItemText>
+          <ItemText>isSuper</ItemText>
         </Ww>
         <Ww>
           <count>52</count>
           <WinNumber>2</WinNumber>
-          <ItemText>receivedata1</ItemText>
+          <ItemText>Flash_RentAddress</ItemText>
         </Ww>
         <Ww>
           <count>53</count>
           <WinNumber>2</WinNumber>
-          <ItemText>Tooth_Flag</ItemText>
+          <ItemText>startPosition</ItemText>
         </Ww>
         <Ww>
           <count>54</count>
           <WinNumber>2</WinNumber>
-          <ItemText>receivedata1</ItemText>
+          <ItemText>\\Project\Hardware/Flash.c\Flash_Address</ItemText>
+        </Ww>
+        <Ww>
+          <count>55</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>newSuperAdd</ItemText>
+        </Ww>
+        <Ww>
+          <count>56</count>
+          <WinNumber>2</WinNumber>
+          <ItemText>Info</ItemText>
         </Ww>
       </WatchWindow2>
       <MemoryWindow1>
         <Mm>
           <WinNumber>1</WinNumber>
           <SubType>8</SubType>
-          <ItemText>0x200019C0</ItemText>
+          <ItemText>0x20004AA0</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow1>
@@ -483,7 +574,7 @@
         <Mm>
           <WinNumber>2</WinNumber>
           <SubType>8</SubType>
-          <ItemText>0x20001162</ItemText>
+          <ItemText>0x200012FA</ItemText>
           <AccSizeX>0</AccSizeX>
         </Mm>
       </MemoryWindow2>

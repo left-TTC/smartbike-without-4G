@@ -12,5 +12,11 @@ void Save_NowFlash(void);
 uint32_t read_Flash(uint32_t address);
 void Flash_Write(uint32_t PageAddress, uint32_t data);
 void Flash_Erase(uint32_t PageAddress);
+void VerifyIf_Superser(void);
+void VerifyIf_RentUser(void);
+void Flash_AddRentUser(const char*Bikecommand);
+void cleanIllegalUser(void);
+void ChangeSuperUser(const char* BikeCommand);
+void AddPhoneAndChat(const char*BikeCommand);
 
 #endif

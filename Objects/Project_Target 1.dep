@@ -1,5 +1,5 @@
 Dependencies for Project 'Project', Target 'Target 1': (DO NOT MODIFY !)
-F (.\Start\startup_stm32f10x_md.s)(0x672C1EA7)(--cpu Cortex-M3 -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.4.1\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 524" --pd "STM32F10X_MD SETA 1"--list .\listings\startup_stm32f10x_md.lst --xref -o .\objects\startup_stm32f10x_md.o --depend .\objects\startup_stm32f10x_md.d)
+F (.\Start\startup_stm32f10x_md.s)(0x673344AE)(--cpu Cortex-M3 -g --apcs=interwork --pd "__MICROLIB SETA 1"-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.4.1\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include--pd "__UVISION_VERSION SETA 524" --pd "STM32F10X_MD SETA 1"--list .\listings\startup_stm32f10x_md.lst --xref -o .\objects\startup_stm32f10x_md.o --depend .\objects\startup_stm32f10x_md.d)
 F (.\Start\core_cm3.c)(0x67173749)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware -I .\JSON --no-multibyte-chars-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.4.1\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\core_cm3.o --omf_browse .\objects\core_cm3.crf --depend .\objects\core_cm3.d)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588B8344)
 F (.\Start\core_cm3.h)(0x67173749)()
@@ -843,9 +843,9 @@ I (.\Library\misc.h)(0x67173749)
 I (C:\Keil_v5\ARM\ARMCC\include\math.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
-I (Hardware\BLUETOOTH.h)(0x672B5DD2)
+I (Hardware\BLUETOOTH.h)(0x6731E7FA)
 F (.\Hardware\AD.h)(0x672B5D88)()
-F (.\Hardware\BlueTooth.c)(0x6730C07E)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware -I .\JSON --no-multibyte-chars-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.4.1\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\bluetooth.o --omf_browse .\objects\bluetooth.crf --depend .\objects\bluetooth.d)
+F (.\Hardware\BlueTooth.c)(0x67336377)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware -I .\JSON --no-multibyte-chars-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.4.1\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\bluetooth.o --omf_browse .\objects\bluetooth.crf --depend .\objects\bluetooth.d)
 I (.\Start\stm32f10x.h)(0x67173749)
 I (.\Start\core_cm3.h)(0x67173749)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -878,13 +878,13 @@ I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\stdlib.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x588B8344)
 I (Hardware\Battery.h)(0x67309BB1)
-I (Hardware\Flash.h)(0x672C6434)
+I (Hardware\Flash.h)(0x6732E808)
 I (C:\Keil_v5\ARM\ARMCC\include\time.h)(0x588B8344)
 I (.\JSON\cJSON.h)(0x6729D785)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x588B8344)
 I (Hardware\AD.h)(0x672B5D88)
-F (.\Hardware\BlueTooth.h)(0x672B5DD2)()
-F (.\Hardware\Battery.c)(0x672DFBC9)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware -I .\JSON --no-multibyte-chars-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.4.1\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\battery.o --omf_browse .\objects\battery.crf --depend .\objects\battery.d)
+F (.\Hardware\BlueTooth.h)(0x6731E7FA)()
+F (.\Hardware\Battery.c)(0x67335BAC)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware -I .\JSON --no-multibyte-chars-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.4.1\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\battery.o --omf_browse .\objects\battery.crf --depend .\objects\battery.d)
 I (.\Start\stm32f10x.h)(0x67173749)
 I (.\Start\core_cm3.h)(0x67173749)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -915,8 +915,8 @@ I (.\Library\stm32f10x_wwdg.h)(0x67173749)
 I (.\Library\misc.h)(0x67173749)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
-I (Hardware\BLUETOOTH.h)(0x672B5DD2)
-I (Hardware\Flash.h)(0x672C6434)
+I (Hardware\BLUETOOTH.h)(0x6731E7FA)
+I (Hardware\Flash.h)(0x6732E808)
 I (C:\Keil_v5\ARM\ARMCC\include\time.h)(0x588B8344)
 I (.\System\Delay.h)(0x67173749)
 F (.\Hardware\Battery.h)(0x67309BB1)()
@@ -983,7 +983,7 @@ I (.\Library\stm32f10x_wwdg.h)(0x67173749)
 I (.\Library\misc.h)(0x67173749)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
 F (.\Hardware\beep.h)(0x67173BDF)()
-F (.\Hardware\Flash.c)(0x672D797C)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware -I .\JSON --no-multibyte-chars-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.4.1\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\flash.o --omf_browse .\objects\flash.crf --depend .\objects\flash.d)
+F (.\Hardware\Flash.c)(0x6733603A)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware -I .\JSON --no-multibyte-chars-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.4.1\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\flash.o --omf_browse .\objects\flash.crf --depend .\objects\flash.d)
 I (.\Start\stm32f10x.h)(0x67173749)
 I (.\Start\core_cm3.h)(0x67173749)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -1018,9 +1018,9 @@ I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\time.h)(0x588B8344)
 I (.\JSON\CJSON.h)(0x6729D785)
 I (C:\Keil_v5\ARM\ARMCC\include\stddef.h)(0x588B8344)
-I (Hardware\BlueTooth.h)(0x672B5DD2)
-F (.\Hardware\Flash.h)(0x672C6434)()
-F (.\User\main.c)(0x67309BD4)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware -I .\JSON --no-multibyte-chars-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.4.1\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
+I (Hardware\BlueTooth.h)(0x6731E7FA)
+F (.\Hardware\Flash.h)(0x6732E808)()
+F (.\User\main.c)(0x673341BC)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware -I .\JSON --no-multibyte-chars-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.4.1\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\main.o --omf_browse .\objects\main.crf --depend .\objects\main.d)
 I (.\Start\stm32f10x.h)(0x67173749)
 I (.\Start\core_cm3.h)(0x67173749)
 I (C:\Keil_v5\ARM\ARMCC\include\stdint.h)(0x588B8344)
@@ -1055,11 +1055,11 @@ I (.\Hardware\Serial.h)(0x67173749)
 I (C:\Keil_v5\ARM\ARMCC\include\stdio.h)(0x588B8344)
 I (C:\Keil_v5\ARM\ARMCC\include\string.h)(0x588B8344)
 I (.\Hardware\AD.h)(0x672B5D88)
-I (.\Hardware\BLUETOOTH.h)(0x672B5DD2)
+I (.\Hardware\BLUETOOTH.h)(0x6731E7FA)
 I (.\Hardware\CONTROLLER.h)(0x67173749)
 I (.\Hardware\BATTERY.h)(0x67309BB1)
 I (.\Hardware\beep.h)(0x67173BDF)
-I (.\Hardware\Flash.h)(0x672C6434)
+I (.\Hardware\Flash.h)(0x6732E808)
 I (C:\Keil_v5\ARM\ARMCC\include\time.h)(0x588B8344)
 F (.\User\stm32f10x_conf.h)(0x67173749)()
 F (.\User\stm32f10x_it.c)(0x67173749)(--c99 -c --cpu Cortex-M3 -D__MICROLIB -g -O0 --apcs=interwork --split_sections -I .\Start -I .\Library -I .\User -I .\System -I .\Hardware -I .\JSON --no-multibyte-chars-I.\RTE\_Target_1-IC:\Keil_v5\ARM\PACK\Keil\STM32F1xx_DFP\2.4.1\Device\Include-IC:\Keil_v5\ARM\CMSIS\Include-D__UVISION_VERSION="524" -DSTM32F10X_MD -DUSE_STDPERIPH_DRIVER-o .\objects\stm32f10x_it.o --omf_browse .\objects\stm32f10x_it.crf --depend .\objects\stm32f10x_it.d)
