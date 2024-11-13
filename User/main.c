@@ -35,6 +35,7 @@ void Flash_Clean(void){
     }
 }
 int main(void){	
+	//Flash_Erase(0x0800F000);Flash_Erase(0x0800F400);Flash_Erase(0x0800F800);Flash_Erase(0x0800FC00);
 	AD_Init();     
 	Blue_Init();
 	beep_Init();
@@ -49,12 +50,10 @@ int main(void){
 	uint32_t whilecount = 0;
 	uint32_t Batterylockcount = 0;	
 	while (1){	
-		//Flash_Erase(0x0800F000);Flash_Erase(0x0800F400);Flash_Erase(0x0800F800);Flash_Erase(0x0800FC00);
 		if(canDOACommand == 1){ //from bluetoothIQ,means need to processe the received data 
 			DoToTheseJson();
 			canDOACommand = 0;
-		}
-		if(NeedClean == 1){
+		}if(NeedClean == 1){
 			Flash_Clean();
 		}
 		whilecount++;                          //100 =1s
@@ -74,33 +73,26 @@ int main(void){
 				Bikelockcount ++;           //when Bikelockcount = 1£¬don't enter the loop
 				beep_unlock();
 				NormalOperationFlag();
-			}
- 			if(whilecount%100==0){
+			}if(whilecount%100==0){
 				unLockBikeCommand1();
-			}			
-			if(whilecount%100==20){
+			}if(whilecount%100==20){
 				unLockBikeCommand2();
-			}	
-			if(whilecount%100==40){
+			}if(whilecount%100==40){
 				unLockBikeCommand3();
-			}
-			if(Tooth_Flag==0){
+			}if(Tooth_Flag==0){
 				if(NoMoveFlag > 0 ){        //reset the unmoved flag bit
 					NoMoveFlag = 0;
 				}
-			}
-			if(Tooth_Flag==1){
+			}if(Tooth_Flag==1){
 				if(whilecount %1000 == 0){
 				Check_move();
-				}
-				if(Site_move == 1 && whilecount %800 == 0){
+				}if(Site_move == 1 && whilecount %800 == 0){
 					NoMoveFlag ++;
 					if(NoMoveFlag > 3){
 						BikeLock_number = 0;
 						NoMoveFlag = 0;
 					}
-				}
-				if(Site_move == 0 && whilecount %800 == 0){  //means device is still moving but bulutooth disconnect
+				}if(Site_move == 0 && whilecount %800 == 0){  //means device is still moving but bulutooth disconnect
 					//remind user to connect bluetooth/beep
 					NoMoveFlag = 0;
 				}
@@ -114,7 +106,9 @@ int main(void){
 				beep_lock();
 				char StoreTime[20];
 				snprintf(StoreTime, 11, "%ld", (long int)usingStamp);
+				Update_Store_TimeStamp(StoreTime);
 				cleanIllegalUser();
+				ResetUser();                //reset the user state
 				Save_NowFlash();            //stop drive ->save the data in Flash_Store now
 			}
 		}

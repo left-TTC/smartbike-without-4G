@@ -28,7 +28,7 @@ extern int ifHaveSuperUser;        //Check whether a superuser exists
 time_t usingStamp;   //currently using timestamp
 char Err[20];
 int needUpUsingTime = 0;           //reset =>0=>need updata time;up=>1=>need't
-int change_Super = 0;
+int CanTrust = 0;
 extern int isRent ;
 extern int isSuper;
 //----------------------------------------Init-----------------
@@ -144,13 +144,18 @@ void Blue_check(void){
 		Tooth_Flag = 0;
 	}
 }
+void ResetUser(void){
+	isSuper = 0;
+	isRent = 0;
+	CanTrust = 0;
+}
 //------------------------------verify-------------------------------------------------
 int Verify_Time(const char *time){
 	time_t recievedTime = ConvertUint_time(time);
 	if(((recievedTime +20) > usingStamp )&& needUpUsingTime == 1){
 		return 1;
-	}if(needUpUsingTime == 0 && isSuper == 1){       //upDateTime
-		needUpUsingTime =1;
+	}if(needUpUsingTime == 0 && (isSuper == 1 || CanTrust == 1)){       //upDateTime
+		needUpUsingTime =1;                          //means have already update the time
 		usingStamp = recievedTime;                   //superUser's time update the user's time
 		Update_Store_TimeStamp(time);
 		return 1;

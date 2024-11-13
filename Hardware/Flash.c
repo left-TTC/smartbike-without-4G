@@ -22,6 +22,7 @@ extern time_t usingStamp;
 extern int SureDeviceName;
 extern char Name;
 extern char Address;
+extern int CanTrust;
 //:0x08char DeviceName2[12]00F400 save the userFlag 0x0800F404 save how many pages the data use
 //:0x0800F400:0xAAAA--have superuser,can't change wallet address;0x0800F404 0x01means 1 pages 0x02 means 2 
 uint32_t read_Flash(uint32_t address){
@@ -248,7 +249,10 @@ void VerifyIf_RentUser(void){
 	const char* startPosition = strstr(Flash_RentAddress,&Address);
 	if(startPosition!=NULL && strlen(Flash_RentAddress) > 0){   //means it is a rent user
 		isRent = 1;
-	}//next get can used time
+		if (*(startPosition + 53) == '$'){
+			CanTrust = 1;
+		}
+	}
 }
 void VerifyIf_Superser(void){
 	if(strcmp(Flash_Address, &Address)==0){
