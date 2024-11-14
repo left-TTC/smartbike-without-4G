@@ -6,7 +6,7 @@ void BatteryLock_off(void);
 void BatteryLock_Reset(void);
 void Battery_Init(void);
 void Get_BatteryLockState(void);
-void checkBatteryCommand(void);
+void checkBatteryCommand(char* BatteryState);
 void GetStateWhenopen(void) ;
 void GetUniqueID(void);
 void sendBatteryLockState(char *BatteryState);

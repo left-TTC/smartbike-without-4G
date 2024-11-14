@@ -245,13 +245,19 @@ void Create_FlashStoreJson(void){                    //when the device is fristl
 }
 int isRent = 0;      //means rent user
 int isSuper = 0;     //means super user
+int CanRentOpenBattery = 0;  //means rent user can't open battery lock=>0
+char RentToTime[11];
 void VerifyIf_RentUser(void){
 	const char* startPosition = strstr(Flash_RentAddress,&Address);
 	if(startPosition!=NULL && strlen(Flash_RentAddress) > 0){   //means it is a rent user
 		isRent = 1;
 		if (*(startPosition + 53) == '$'){
 			CanTrust = 1;
-		}
+		}if(*(startPosition + 42) == '0'){
+			CanRentOpenBattery = 0;
+		}else{CanRentOpenBattery = 1;}
+		strncpy(RentToTime, startPosition + 43, 10); 
+		RentToTime[10] = '\0';
 	}
 }
 void VerifyIf_Superser(void){
@@ -263,9 +269,9 @@ int checkUserValid(const char*UserInfo){
 	//0xF12460f0b55A17eD18963F6815cE588237a80619 0 1730811970
 	//012345678901234567890123456789012345678901 2 3456789012
 	//0         1         2         3         4           5
-	char canUseToTime[20];
+	char canUseToTime[15];
 	if (strlen(UserInfo) > 43) {
-        strncpy(canUseToTime, UserInfo + 43, sizeof(canUseToTime) - 1);
+        strncpy(canUseToTime, UserInfo + 43, 10);
 		canUseToTime[sizeof(canUseToTime) - 1] = '\0';       //get the user time
 	}
 	if(ConvertUint_time(canUseToTime)>usingStamp){   //means he can still use
@@ -282,20 +288,27 @@ void cleanIllegalUser(void){
 	int count = cJSON_GetObjectItem(root, "count")->valueint;   //get nowly rentuser
     int validUserCount = 0;
 	cJSON *newRoot = cJSON_CreateObject();         //to save new rent user array
-	cJSON *newUsers = cJSON_CreateObject();
-	for (int i = 1; i <= count; ++i){
+	//cJSON *newUsers = cJSON_CreateObject();
+	int i = 1;
+	while(i <= count){
 		char userKey[20];
         snprintf(userKey, sizeof(userKey), "user%d", i); //use same name
 		cJSON *userItem = cJSON_GetObjectItem(root, userKey);  //get useri's INFO	
 		if (userItem != NULL && checkUserValid(userItem->valuestring)==1){
 			validUserCount++;
             char newUserKey[20];
+			cJSON *count_item = cJSON_GetObjectItem(newRoot, "count");
+			if(cJSON_HasObjectItem(newRoot, "count")){
+				cJSON_ReplaceItemInObject(newRoot,"count",cJSON_CreateNumber(validUserCount));
+			}else{
+				cJSON_AddNumberToObject(newRoot,"count",validUserCount);
+			}
             snprintf(newUserKey, sizeof(newUserKey), "user%d", validUserCount);
-            cJSON_AddStringToObject(newUsers, newUserKey, userItem->valuestring);
-		}
+            cJSON_AddStringToObject(newRoot, newUserKey, userItem->valuestring);
+		}i++;
 	}
-	cJSON_AddNumberToObject(newRoot, "count", validUserCount);
-	cJSON_AddItemToObject(newRoot, "users", newUsers);
+	//cJSON_AddNumberToObject(newRoot, "count", validUserCount);
+	//cJSON_AddItemToObject(newRoot, "users", newUsers);
 	char *updatedJsonStr = cJSON_Print(newRoot);
 	snprintf(Flash_RentAddress, strlen(updatedJsonStr) + 1, "%s", updatedJsonStr);
 	free(updatedJsonStr);
@@ -320,17 +333,30 @@ void Flash_AddRentUser(const char*BikeCommand){
         cJSON_AddNumberToObject(root, "count", 0);  //init the user to 0
     }
 	int count = cJSON_GetObjectItem(root, "count")->valueint; //get nowly user number
-	count += 1;
-	cJSON_ReplaceItemInObject(root, "count", cJSON_CreateNumber(count)); //update the number
-	char userKey[20];
-	snprintf(userKey, sizeof(userKey), "user%d", count);   //give every user a count
-	cJSON_AddStringToObject(root, userKey, Info);
+	int userFound = 0;         //Flag to track if we found a user to update
+	for (int i = 1; i <= count; ++i){
+		char userKey[20];
+		snprintf(userKey, sizeof(userKey), "user%d", i);
+		const char* existingUserData = cJSON_GetObjectItem(root, userKey)->valuestring;   //get useri's data
+		if (existingUserData != NULL && strncmp(existingUserData, Info, 42) == 0){        //means have already the rent user
+			cJSON_ReplaceItemInObject(root, userKey, cJSON_CreateString(Info));
+			userFound = 1;     //flag=>1
+			break;
+		}
+	}if(userFound == 0){     //means it's a new rent user
+		count += 1;
+		cJSON_ReplaceItemInObject(root, "count", cJSON_CreateNumber(count));              //update the count number
+		char userKey[20];
+        snprintf(userKey, sizeof(userKey), "user%d", count);
+		cJSON_AddStringToObject(root, userKey, Info);
+	}
 	char *json_str = cJSON_Print(root);
-	if (json_str != NULL){
-		snprintf(Flash_RentAddress, sizeof(Flash_RentAddress), "%s", json_str);
-	}cJSON_Delete(root);
-	free(json_str);
-	Save_RentAddress();
+    if (json_str != NULL) {    //updata Flash_RentAddress
+        snprintf(Flash_RentAddress, sizeof(Flash_RentAddress), "%s", json_str);
+    } 
+	cJSON_Delete(root);
+    free(json_str);
+	Save_RentAddress();	
 }
 void Flash_Register(const char *Address,const char *Time){//main.c need to register superUser =>fristly Init
 	if(strlen(Address)==42){                                  //Ensure walletaddress is received
@@ -353,15 +379,16 @@ void ChangeSuperUser(const char* BikeCommand){
 		parse_FLASHJSON();
 	}
 }
-void Parse_PhoneAndChat(const char*Info,char Phone[12],char Chat [20]){
+void Parse_PhoneAndChat(const char*Info,char Phone[15],char Chat [20]){
 	cJSON *root = cJSON_Parse(Info);
 	if (root == NULL) {
         return;  
     }
-	for(int i=0;i<11;i++){
-		Phone[i]=Info[i+9];
-	}
-	Phone[11] = '\0';
+	cJSON *Phone_item = cJSON_GetObjectItem(root, "Phone");
+	if (cJSON_IsString(Phone_item) && Phone_item->valuestring != NULL) {
+        strncpy(Phone, Phone_item->valuestring, strlen(Phone_item->valuestring));
+        Phone[strlen(Phone_item->valuestring)] = '\0'; 
+    }
 	cJSON *Chat_item = cJSON_GetObjectItem(root, "Wechat");
 	if (cJSON_IsString(Chat_item) && Chat_item->valuestring != NULL) {
         strncpy(Chat, Chat_item->valuestring, strlen(Chat_item->valuestring));
@@ -373,7 +400,7 @@ void AddPhoneAndChat(const char*BikeCommand){           //get a json with phoneN
 	char INfo[100];
 	strncpy(INfo,BikeCommand+6,sizeof(INfo)-1);
 	INfo[sizeof(INfo)-1]='\0'; 
-	char phone[12];char chat[20];
+	char phone[15];char chat[20];
 	Parse_PhoneAndChat(INfo,phone,chat);
 	Update_Store_ChatNumber(chat);
 	Update_Store_PhoneNumber(phone);

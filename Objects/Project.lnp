@@ -34,6 +34,7 @@
 ".\objects\controller.o"
 ".\objects\beep.o"
 ".\objects\flash.o"
+".\objects\fault.o"
 ".\objects\main.o"
 ".\objects\stm32f10x_it.o"
 ".\objects\cjson.o"

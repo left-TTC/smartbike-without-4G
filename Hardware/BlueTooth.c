@@ -18,6 +18,9 @@ extern char UUiD;
 extern char UUID;
 extern char Flash_Address;
 extern char Flash_store;
+extern char RentToTime;
+extern int CanRentOpenBattery;
+char BatteryState[10];
 char Command[200];
 char PubKey[150];
 char Signature[150];
@@ -31,6 +34,7 @@ int needUpUsingTime = 0;           //reset =>0=>need updata time;up=>1=>need't
 int CanTrust = 0;
 extern int isRent ;
 extern int isSuper;
+extern int needToSendUnusual;
 //----------------------------------------Init-----------------
 void Blue_Init(void){//USART3
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART3, ENABLE);
@@ -119,22 +123,7 @@ void Send_CommandOver(void){        //command over
 void Send_CommandFlashCarve(void){
 	Send_AT_Command("+++");
 }
-//----------------------------------------Send information----------------------
-void Battery_openNotify(void){            //tell bluetooth that my lock'state is open
-	Send_AT_Command("battery1\r\n");
-}
-void Battery_offNotify(void){
-	Send_AT_Command("battery2\r\n");
-}
-void Battery_openFail(void){
-	Send_AT_Command("battery3\r\n");
-}
-void Battery_lockFail(void){
-	Send_AT_Command("battery4\r\n");
-}
-void NormalOperationFlag(void){
-	Send_AT_Command("ready\r\n");
-}
+
 //-----------------------------------check related to BlueTooth-------------------
 void Blue_check(void){
 	uint8_t PIN_State = GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_1);          //BIT_SET.high 1         BIT_RESET.low 0	
@@ -146,7 +135,6 @@ void Blue_check(void){
 }
 void ResetUser(void){
 	isSuper = 0;
-	isRent = 0;
 	CanTrust = 0;
 }
 //------------------------------verify-------------------------------------------------
@@ -316,6 +304,18 @@ void CreateSendToPhoneJson(char*SendJSON,const char*BatteyVoltage,const char*Bat
     cJSON_AddStringToObject(root, "BatteryState", BatteryState);
 	cJSON_AddStringToObject(root, "Rotate", rotata);
 	cJSON_AddStringToObject(root, "UUID", &UUID);
+	cJSON_AddNumberToObject(root, "Now", usingStamp);
+	cJSON_AddNumberToObject(root, "BS", BikeLock_number);
+	if(isRent == 1 ){   //rent user
+		if(CanRentOpenBattery == 1){
+			cJSON_AddStringToObject(root, "RB", "Y");
+		}else{
+			cJSON_AddStringToObject(root, "RB", "N");
+		}
+		if(strlen(&RentToTime)>0){
+			cJSON_AddStringToObject(root, "TLim", &RentToTime);
+		}
+	}
 	if(strlen(Err)!=0){
 		cJSON_AddStringToObject(root, "ERR", Err);
 		memset(Err, 0, sizeof(Err));
@@ -331,11 +331,12 @@ void CreateSendToPhoneJson(char*SendJSON,const char*BatteyVoltage,const char*Bat
 }
 void Date_DeviceToPhone(void){
 	char BatteyVoltage[20];
-	char BatteryState[10];
 	char rotata[10];
 	char SendJSON[800];
 	BatteryVoltage_get(BatteyVoltage);     //get BatteryPower
-	sendBatteryLockState(BatteryState);    //BatteryState
+	if(needToSendUnusual == 0){
+		sendBatteryLockState(BatteryState);    //BatteryState
+	}else{needToSendUnusual = 0;}
 	Send_CurrentRotate(rotata);
 	CreateSendToPhoneJson(SendJSON,BatteyVoltage,BatteryState,rotata);
 	Send_CommandStart();

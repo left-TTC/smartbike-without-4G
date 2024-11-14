@@ -10,6 +10,7 @@
 #include "beep.h"
 #include "Flash.h"
 #include "time.h"
+#include "Fault.h"
 int command_verify(const char *cmdstr,char * signaturestr,char * address,char * publicKeystr);
 
 volatile int check_tooth = 0;
@@ -21,19 +22,12 @@ extern int canDOACommand;
 extern int ifHaveSuperUser;        //Check whether a superuser exists
 extern char Flash_store;
 extern char UUiD;
+extern char BatteryState;
 int NoMoveFlag = 0;
 int NeedClean = 0;
 extern int isRent ;   //means rent user
 extern int isSuper;
 extern time_t usingStamp; 
-
-void Flash_Clean(void){
-	Flash_Erase(0x0800F800);
-	Flash_Erase(0x0800FC00);
-	for (uint32_t i = 0; i < 2048 * 2; i += 4) {
-        Flash_Write(0x0800F800 + i, 0x00000000);  
-    }
-}
 int main(void){	
 	//Flash_Erase(0x0800F000);Flash_Erase(0x0800F400);Flash_Erase(0x0800F800);Flash_Erase(0x0800FC00);
 	AD_Init();     
@@ -46,6 +40,7 @@ int main(void){
 	Controller_Init();
 	changeDeviceName();  //change devicename
 	TimeClock_Init();    //open Clock
+	IWDG_Init();         //open IWDG =>if 2s withoutFeed=>Reset
 	int Bikelockcount = 0;
 	uint32_t whilecount = 0;
 	uint32_t Batterylockcount = 0;	
@@ -53,8 +48,6 @@ int main(void){
 		if(canDOACommand == 1){ //from bluetoothIQ,means need to processe the received data 
 			DoToTheseJson();
 			canDOACommand = 0;
-		}if(NeedClean == 1){
-			Flash_Clean();
 		}
 		whilecount++;                          //100 =1s
 		Delay_ms(10);		
@@ -65,6 +58,14 @@ int main(void){
 			}
 			Get_BatteryLockState();  //every 1s check need to close the lock
 		}
+		if(whilecount%90 == 1){
+			IWDG_Feed();             //evrey 1s Feed IWDG
+		}
+		if(whilecount%3000 == 0){
+			cleanIllegalUser();         //every 30s check wheather the rent time llegal
+		}if(whilecount%500==0){
+			ResetUser();                //reset the user state
+		}
 //----------------------BikeLock on And Bluetooth connected----------------------
 //BikeLock_number£º1-on 0-off;Tooth_Flag: 1-disconnect 0-connect;
 		if(BikeLock_number == 1){
@@ -72,7 +73,6 @@ int main(void){
 				Controller_on();            //supply electricity
 				Bikelockcount ++;           //when Bikelockcount = 1£¬don't enter the loop
 				beep_unlock();
-				NormalOperationFlag();
 			}if(whilecount%100==0){
 				unLockBikeCommand1();
 			}if(whilecount%100==20){
@@ -107,21 +107,20 @@ int main(void){
 				char StoreTime[20];
 				snprintf(StoreTime, 11, "%ld", (long int)usingStamp);
 				Update_Store_TimeStamp(StoreTime);
-				cleanIllegalUser();
-				ResetUser();                //reset the user state
 				Save_NowFlash();            //stop drive ->save the data in Flash_Store now
 			}
 		}
 //-------------------------Battery command----------------------------
 		//batterylock_number:1-on 0-off 2-wait (the number dosen't mean state but action
 		if(BatteryLock_number == 1){             //let Batterylock on
+			isRent = 0;
 			Batterylockcount ++;
 			if(Batterylockcount%101==1){         //when Batterylockcount =1,102
 				BatteryLock_on();
 			}
 			if(Batterylockcount%101==0){         //delay ~1s
 				BatteryLock_Reset();
-				checkBatteryCommand();
+				checkBatteryCommand(&BatteryState);
 				BatteryLock_number = 2;
 				Batterylockcount = 0;            //Batterylockcount(max) == 101
 			}
@@ -133,7 +132,7 @@ int main(void){
 			}
 			if(Batterylockcount%101==0){           //delay ~1s
 				BatteryLock_Reset();
-				checkBatteryCommand();
+				checkBatteryCommand(&BatteryState);
 				BatteryLock_number = 2;
 				Batterylockcount = 0;
 			}

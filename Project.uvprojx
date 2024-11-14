@@ -740,6 +740,16 @@
               <FileType>5</FileType>
               <FilePath>.\Hardware\Flash.h</FilePath>
             </File>
+            <File>
+              <FileName>Fault.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\Fault.c</FilePath>
+            </File>
+            <File>
+              <FileName>Fault.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\Fault.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

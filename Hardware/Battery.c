@@ -9,6 +9,7 @@ uint8_t LastlyPinState ;
 char UUID[30];
 char UUiD[30];
 char Name[12];
+int needToSendUnusual = 0;
 extern int SureDeviceName;
 void Battery_Init(void){
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);	
@@ -76,21 +77,22 @@ void Get_BatteryLockState(void){
 	}	
 	LastlyPinState = PIN_State;
 }
-void checkBatteryCommand(void){
+void checkBatteryCommand(char* BatteryState){
 	int PIN = GPIO_ReadInputDataBit(GPIOA,GPIO_Pin_5);	
 	if(BatteryLock_number == 1){        //means in open command	
 		if(PIN == 1){                   //means is's on now 
-			Battery_openNotify();
+			sprintf(BatteryState,"battery1");
 		}else{
-			Battery_openFail();
+			sprintf(BatteryState,"battery3");       //open fail
 		}
 	}else if (BatteryLock_number == 0){ //means in off command
 		if(PIN == 0){                   //means is's off now 	
-			Battery_offNotify();
+			sprintf(BatteryState,"battery2");
 		}else{
-			Battery_lockFail();
+			sprintf(BatteryState,"battery4");       //lock fail
 		}
-	}	
+	}
+	needToSendUnusual = 1;
 }
 
 
