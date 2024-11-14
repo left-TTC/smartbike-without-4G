@@ -229,8 +229,10 @@ void DoToTheseJson(void){
 						BatteryLock_number = 1;
 					}else if(strcmp(BikeCommand, "bikelock") == 0){
 						BikeLock_number = 1; 
+						GPIO_SetBits(GPIOC, GPIO_Pin_13);
 					}else if(strcmp(BikeCommand, "unbikelock") == 0){
 						BikeLock_number = 0;
+						GPIO_ResetBits(GPIOC, GPIO_Pin_13);
 					}else if(strstr(BikeCommand,"RentAdd")!= NULL){
 						Flash_AddRentUser(BikeCommand);
 					}else if(strstr(BikeCommand,"SuChange")!=NULL){ //every time when lock the car
@@ -248,11 +250,15 @@ void DoToTheseJson(void){
 			if(command_verify(Command,Signature,Address,PubKey) == 1 ){
 				if(Verify_Time(time)==1){
 					if(strcmp(BikeCommand, "batterylock") == 0){
-						BatteryLock_number = 1;
+						if(CanRentOpenBattery ==1){
+							BatteryLock_number = 1;
+						}
 					}else if(strcmp(BikeCommand, "bikelock") == 0){
 						BikeLock_number = 1; 
+						GPIO_SetBits(GPIOC, GPIO_Pin_13);
 					}else if(strcmp(BikeCommand, "unbikelock"  ) == 0){
 						BikeLock_number = 0;
+						GPIO_ResetBits(GPIOC, GPIO_Pin_13);
 					}
 				}else{strcpy(Err, "TimeErr");}//illegal ERR
 			}else{strcpy(Err, "SignErr");}//illegal siganature
@@ -286,7 +292,6 @@ void USART3_IRQHandler(void){
 					strncpy(Get_Recieved, start + 1, length);  //move it into the char 
 					Get_Recieved[length] = '\0';
 					canDOACommand = 1;                     //flag =>1
-					GPIO_SetBits(GPIOC, GPIO_Pin_13);
 				}
 			}
             memset(receivedata1, 0, BUFFER_SIZE3); 
