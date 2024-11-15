@@ -138,14 +138,14 @@ void ResetUser(void){
 	CanTrust = 0;
 }
 //------------------------------verify-------------------------------------------------
-int Verify_Time(const char *time){
-	time_t recievedTime = ConvertUint_time(time);
+int Verify_Time(const char *timeFromPhone){
+	time_t recievedTime = ConvertUint_time(timeFromPhone);
 	if(((recievedTime +20) > usingStamp )&& needUpUsingTime == 1){
 		return 1;
-	}if(needUpUsingTime == 0 && (isSuper == 1 || CanTrust == 1)){       //upDateTime
+	}if(needUpUsingTime == 0 && (isSuper == 1 || CanTrust == 1) && ((recievedTime +20) > usingStamp)){       //upDateTime
 		needUpUsingTime =1;                          //means have already update the time
 		usingStamp = recievedTime;                   //superUser's time update the user's time
-		Update_Store_TimeStamp(time);
+		Update_Store_TimeStamp(timeFromPhone);
 		return 1;
 	}
 	return 0;

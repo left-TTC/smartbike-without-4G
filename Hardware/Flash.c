@@ -1,6 +1,14 @@
+/********************************************************************************
+* @File         name: Flash.c
+* @Author:      Andy Left-TTC @github
+* @Version:     1.01
+* @Date:        2024-11-15
+* @Description: the library of Flash memory-related functions
+********************************************************************************/
 #include "stm32f10x.h"                  // Device header
 #define StorePage 0x0800F000            //use penultimate page as the store
 #define PAGE_SIZE 2048                  //the byte of erevy pages
+#define RentInfoMaxSize 1024 
 #include <string.h>
 #include <stdlib.h> 
 #include <stdio.h>
@@ -173,7 +181,7 @@ void Save_NowFlash(void){        //used to save json ---the json is a string
 		Flash_Write(0x0800F004,0x01);                  //page Flag
 		Flash_Write(0x0800F008,Flash_Size);              //Strlen Flag
 	}
-	if(SureDeviceName==2){                               //means have already changed the deviceName
+	if(SureDeviceName==2 || strlen(&Name)> 0 ){                               //means have already changed the deviceName
 		Flash_Write(0x0800F00C,0x01);
 		if(strstr(Flash_store,"BIKE_")==NULL){
 			Update_Store_DeviceName(&Name);
@@ -195,7 +203,7 @@ void Read_FLASH(void) {                        //remove Flash data to the Flash_
 }
 void Save_RentAddress(void){
 	Flash_Erase(0x0800F800);
-	Flash_Erase(0x0800FC00);
+	Flash_Erase(0x0800FFFF);
 	uint32_t InfoSize = strlen(Flash_RentAddress);
 	Flash_Write(0x0800F800,InfoSize);
 	Flash_WriteString(0x0800F804, Flash_RentAddress);
@@ -204,10 +212,12 @@ void Save_RentAddress(void){
 void Read_RentFLASH(void) {                        //remove Flash data to the Flash_Store
 	uint32_t RentStrlen = read_Flash(0x0800F800); 
     uint32_t addr = 0x0800F804;               //skip the flag and pageSave
-    for (int i = 0; i < RentStrlen; i++) {
-        Flash_RentAddress[i] = (char)read_Flash(addr); 
-        if (Flash_RentAddress[i] == '\0') break; 
-        addr += 4; 
+	if(RentStrlen != 0xFFFFFFFF){
+		for (int i = 0; (i < RentStrlen) && (i < 1023) ; i++) {
+			Flash_RentAddress[i] = (char)read_Flash(addr); 
+			if (Flash_RentAddress[i] == '\0') break; 
+			addr += 4; 
+		}
     }
 }
 time_t ConvertUint_time(const char *timeStampStr){    //get lastly used timestamp
@@ -219,6 +229,7 @@ void Store_Init(void){
 	uint32_t ifFristFlag = read_Flash(StorePage);     //read the frist byte 
 	if(ifFristFlag != 0xAAAA){     //means the store is used fristly
 		ifHaveSuperUser =1;        //can be written means no data
+		Flash_Erase(0x0800F000);Flash_Erase(0x0800F400);Flash_Erase(0x0800F800);Flash_Erase(0x0800FC00);
 	}
 	else{
 		Read_FLASH();          //If there is data, migrated to SRAM 
@@ -324,39 +335,68 @@ void DealRentCommand(const char* BikeCommand,char Info[50]){
 		strncpy(Info, dataStart, strlen(dataStart) + 1);
 	}
 }
-void Flash_AddRentUser(const char*BikeCommand){
+/********************************************************
+* Function name :Flash_AddRentUser
+* Description   :Add a Rent User when Recieve a command containing the RentAdd field
+* Parameter     :
+* @BikeCommand   complete processed command      example:RentAdd+RentAddress+0/1+TimeStamp
+* Return        :
+* 				 0--repetitive Rentuser and have already updatae it's Info
+*     			 1--Adding a RentUser for the frist time successfully	
+*     			 2--Adding a new RentUser successfuly
+*     			 3--no enough space to continue adding RentUser
+*     			 4--It failed for other reasons
+**********************************************************/
+int Flash_AddRentUser(const char*BikeCommand){
 	char Info[100];
+	int userFound = 0;                                             //0=>Unrecorded rentUser
+	int Return;
 	DealRentCommand(BikeCommand,Info);
+	if(strlen(Flash_RentAddress)> RentInfoMaxSize - 60){
+		return 3;
+	}
 	cJSON *root = cJSON_Parse(Flash_RentAddress);
-	if (root == NULL) {
+	if (root == NULL) {                                            //RentUser has never existed
         root = cJSON_CreateObject();
-        cJSON_AddNumberToObject(root, "count", 0);  //init the user to 0
-    }
-	int count = cJSON_GetObjectItem(root, "count")->valueint; //get nowly user number
-	int userFound = 0;         //Flag to track if we found a user to update
-	for (int i = 1; i <= count; ++i){
-		char userKey[20];
-		snprintf(userKey, sizeof(userKey), "user%d", i);
-		const char* existingUserData = cJSON_GetObjectItem(root, userKey)->valuestring;   //get useri's data
-		if (existingUserData != NULL && strncmp(existingUserData, Info, 42) == 0){        //means have already the rent user
-			cJSON_ReplaceItemInObject(root, userKey, cJSON_CreateString(Info));
-			userFound = 1;     //flag=>1
-			break;
+        cJSON_AddNumberToObject(root, "count", 0); 
+		int count = 0; 	
+		if(userFound == 0){   
+			count += 1;
+			cJSON_ReplaceItemInObject(root, "count", cJSON_CreateNumber(count));              //update the count number
+			char userKey[20];
+			snprintf(userKey, sizeof(userKey), "user%d", count);
+			cJSON_AddStringToObject(root, userKey, Info);
+			Return = 1;
 		}
-	}if(userFound == 0){     //means it's a new rent user
-		count += 1;
-		cJSON_ReplaceItemInObject(root, "count", cJSON_CreateNumber(count));              //update the count number
-		char userKey[20];
-        snprintf(userKey, sizeof(userKey), "user%d", count);
-		cJSON_AddStringToObject(root, userKey, Info);
+    }else{                                            
+		int count = cJSON_GetObjectItem(root, "count")->valueint;  //Get the number of existing Rentusers
+		for (int i = 1; i <= count; ++i){
+			char userKey[20];
+			snprintf(userKey, sizeof(userKey), "user%d", i);
+			const char* existingUserData = cJSON_GetObjectItem(root, userKey)->valuestring;   //get useri's data
+			if (existingUserData != NULL && strncmp(existingUserData, Info, 42) == 0){        //means have already the rent user
+				cJSON_ReplaceItemInObject(root, userKey, cJSON_CreateString(Info));
+				userFound = 1;                                     //1=>Recorded RentUser
+				Return = 0;
+				break;
+			}
+		}if(userFound == 0){   
+			count += 1;
+			cJSON_ReplaceItemInObject(root, "count", cJSON_CreateNumber(count));              //update the count number
+			char userKey[20];
+			snprintf(userKey, sizeof(userKey), "user%d", count);
+			cJSON_AddStringToObject(root, userKey, Info);
+			Return = 2;
+		}
 	}
 	char *json_str = cJSON_Print(root);
-    if (json_str != NULL) {    //updata Flash_RentAddress
+    if (json_str != NULL) {          														  //updata Flash_RentAddress
         snprintf(Flash_RentAddress, sizeof(Flash_RentAddress), "%s", json_str);
-    } 
+    }else{Return = 4;} 
 	cJSON_Delete(root);
     free(json_str);
-	Save_RentAddress();	
+	Save_RentAddress();
+	return Return;
 }
 void Flash_Register(const char *Address,const char *Time){//main.c need to register superUser =>fristly Init
 	if(strlen(Address)==42){                                  //Ensure walletaddress is received

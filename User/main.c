@@ -30,6 +30,7 @@ extern int isSuper;
 extern time_t usingStamp; 
 int main(void){	
 	//Flash_Erase(0x0800F000);Flash_Erase(0x0800F400);Flash_Erase(0x0800F800);Flash_Erase(0x0800FC00);
+	IWDG_Init();         //open IWDG =>if 2s withoutFeed=>Reset
 	AD_Init();     
 	Blue_Init();
 	beep_Init();
@@ -37,10 +38,12 @@ int main(void){
 	GetUniqueID();
 	Serial_Init();
 	Battery_Init();
+	GPIO_SetBits(GPIOC, GPIO_Pin_13);
+	Delay_ms(100);
+	GPIO_ResetBits(GPIOC, GPIO_Pin_13);
 	Controller_Init();
 	changeDeviceName();  //change devicename
 	TimeClock_Init();    //open Clock
-	IWDG_Init();         //open IWDG =>if 2s withoutFeed=>Reset
 	int Bikelockcount = 0;
 	uint32_t whilecount = 0;
 	uint32_t Batterylockcount = 0;	
@@ -58,7 +61,7 @@ int main(void){
 			}
 			Get_BatteryLockState();  //every 1s check need to close the lock
 		}
-		if(whilecount%90 == 1){
+		if(whilecount%400 == 1){
 			IWDG_Feed();             //evrey 1s Feed IWDG
 		}
 		if(whilecount%3000 == 0){

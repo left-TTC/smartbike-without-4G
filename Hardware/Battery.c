@@ -48,9 +48,7 @@ void changeDeviceName(void){
 		Send_AT_Command(DEVICENAME);
 		Delay_ms(1000);
 		Send_AT_Command("AT+REST\r\n");         //used to change name
-		if(SureDeviceName == 2){
-			sprintf(Name,"BIKE_%s", DEVICEid);
-		}
+		sprintf(Name,"BIKE_%s", DEVICEid);
 	}
 }
 void GetUniqueID(void){
