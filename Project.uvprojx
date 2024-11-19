@@ -755,6 +755,11 @@
               <FileType>5</FileType>
               <FilePath>.\Hardware\Struct.h</FilePath>
             </File>
+            <File>
+              <FileName>Flashdefine.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\Flashdefine.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -285,11 +285,11 @@ void DoToTheseJson(void){
 	char uuid[30];
 	char Add_prefix_Address[43];
 	if(parse_ALLJSON(Get_Recieved,Add_prefix_Address) != 1){
-		strcpy(Err, "ParsingErr");
+		strcpy(Err, "CommandErr");
 		return;
 	}
 	if(DoToCommand(time,BikeCommand,uuid) != 1){
-		strcpy(Err, "DealCmdErr");
+		strcpy(Err, "FormatErr");
 		return;
 	}
 	if(ifNeedRigisterSuperUser == 1){                 //Run only after receiving data =>superUser init
@@ -316,19 +316,23 @@ void DoToTheseJson(void){
 						GPIO_ResetBits(GPIOC, GPIO_Pin_13);
 					}else if(strstr(BikeCommand,"RentAdd")!= NULL){
 						int i =Flash_AddRentUser(BikeCommand);
-						if(i == 2){
-							strcpy(Err, "NoEnoughSpace");
+						if(i == 0){
+							strcpy(Err, "AddRrentErr");
 						}else if(i==1){
-							strcpy(Err, "update");
+							strcpy(Err, "getRent");
+						}else if(i==2){
+							strcpy(Err, "UpdateOld");
 						}
 					}else if(strstr(BikeCommand,"SuChange")!=NULL){          //every time when lock the car
 						if(ChangeSuperUser(BikeCommand)==1){
 							strcpy(Err, "ChangeSuperOK");
+						}else{
+							strcpy(Err, "ChangeSuperErr");
 						}
 					}else if(strstr(BikeCommand,"addPAC")!=NULL){
 						if(AddPhoneAndChat(BikeCommand)==1){
 							strcpy(Err, "addPACOK");
-						}
+						}                                                    
 					}
 				}else{strcpy(Err, "TimeErr"); return;}
 			}else{int k = command_verify(Command,Signature,Address,PubKey);

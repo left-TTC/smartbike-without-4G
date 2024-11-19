@@ -27,7 +27,7 @@ extern char BatteryState;
 extern time_t usingStamp; 
 int main(void){	
 	//int fla = (Flash_Erase(0x0800F400));Flash_Erase(0x0800F800);Flash_Erase(0x0800FC00);
-	//IWDG_Init();                              //open IWDG =>if 2s withoutFeed=>Reset
+	IWDG_Init();                              //open IWDG =>if 2s withoutFeed=>Reset
 	AD_Init();     
 	Blue_Init();
 	beep_Init();
@@ -59,7 +59,7 @@ int main(void){
 			Get_BatteryLockState();  //every 1s check need to close the lock
 		}
 		if(whilecount%400 == 1){
-			//IWDG_Feed();             //evrey 1s Feed IWDG
+			IWDG_Feed();             //evrey 1s Feed IWDG
 		}
 		if(whilecount%3000 == 0){
 			cleanIllegalUser();         //every 30s check wheather the rent time llegal

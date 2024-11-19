@@ -11,7 +11,7 @@
 #include "BLUETOOTH.h"
 #include "Flash.h"
 #include "Delay.h"
-#define SuperUserFlash_IfRecordName_Record 0x0800F402
+#include "Flashdefine.h"
 extern int BatteryLock_number;
 uint8_t LastlyPinState ; 
 char UUID[30];
@@ -49,7 +49,7 @@ void BatteryLock_Reset(void){        //need wait for unlocking at intervals of 1
 **********************************************************/
 void changeDeviceName(void){
 	uint32_t ifNeedChangeName = read_Flash(SuperUserFlash_IfRecordName_Record);
-	if(ifNeedChangeName != 0x01){          
+	if(ifNeedChangeName != 0xAAAA){          
 		char DEVICEid[7];
 		strncpy(DEVICEid, UUID + strlen(UUID) - 6, 6);
 		DEVICEid[6]='\0';

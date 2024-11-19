@@ -13,14 +13,8 @@
 #include "CJSON.h"
 #include "BlueTooth.h"
 #include "Struct.h"
+#include "Flashdefine.h"
 #define PAGE_SIZE 1024                                      //the byte of erevy pages
-#define RentUserFlash_page_Start 0x0800F800                 //It also records the lenth of RentUser's data
-#define RentUserFlash_Second_page_Start 0x0800FC00
-#define RentUserFlash_Start_Write_Address 0x0800F804
-#define SuperUserFlash_page_Start 0x0800F400                //It also records the Flag Weather the flash data is saved
-#define SuperUserFlash_Strlen_Record 0x0800F404
-#define SuperUserFlash_IfRecordName_Record 0x0800F408
-#define SuperUserFlash_Start_Write_Address 0x0800F40C
 int ifNeedRigisterSuperUser = 0;                            //0 means haven't superuser,state that can be writtern
 extern char UUID;
 extern time_t usingStamp;
@@ -33,17 +27,46 @@ extern char Err;
 uint32_t read_Flash(uint32_t address){
 	return *((__IO uint32_t *)(address));          
 }
+/********************************************************
+* function name :Flash_Erase
+* Description   :Erase the specified Flash page
+* Parameter     :
+* @PageAddress   specified pageaddress;Must be the start of the page
+* Return        :
+*                0--Error
+*                1--success
+**********************************************************/
 int Flash_Erase(uint32_t PageAddress) {
     FLASH_Unlock();
+	FLASH_ClearFlag(FLASH_FLAG_BSY | FLASH_FLAG_EOP | FLASH_FLAG_PGERR | FLASH_FLAG_WRPRTERR | FLASH_FLAG_OPTERR);
 	while (FLASH->SR & FLASH_SR_BSY);
-	int re = FLASH_ErasePage(PageAddress);
+	int EraseStatus = FLASH_ErasePage(PageAddress);
     FLASH_Lock();
-	return re;
+	if(EraseStatus==4){
+		return 1;
+	}else{
+		return 0;
+	}
 }
-void Flash_Write(uint32_t PageAddress, uint32_t data) { 
+/********************************************************
+* function name :Flash_Write
+* Description   :write a 32_bits data to specified Flash address
+* Parameter     :
+* @PageAddress   specified pageaddress
+* @data          32_bits data will be writen in
+* Return        :
+*                0--Error
+*                1--success
+**********************************************************/
+int Flash_Write(uint32_t PageAddress, uint32_t data) { 
     FLASH_Unlock();
-    FLASH_ProgramWord(PageAddress, data);
+    int WriteOneStatus = FLASH_ProgramWord(PageAddress, data);
     FLASH_Lock();
+	if(WriteOneStatus == 4){
+		return 1;
+	}else{
+		return 0;
+	}
 }
 
 SuperUser SuperUser_Flash = {0};
@@ -62,14 +85,17 @@ void Update_Struct_DeviceName(const char* NewName){
 	snprintf(SuperUser_Flash.Bike_Name,sizeof(SuperUser_Flash.Bike_Name),"%s",NewName);
 }
 /********************************************************
-* function name :Flash_Super_WriteStruct
+* function name :Flash_Super_WriteStruct/Flash_Rent_WriteStruct
 * Description   :Write a Struct to Flash
 * Parameter     :
 * @PageAddress   stary Address
 * @user          A structure of type RentUser/SuperUser
-* Return        :None
+* @struct_size   size of struct
+* Return        :
+*                0--A write error occurred
+*                1--success
 **********************************************************/
-void Flash_Super_WriteStruct(uint32_t PageAddress,SuperUser *user,size_t struct_size){   
+int Flash_Super_WriteStruct(uint32_t PageAddress,SuperUser *user,size_t struct_size){   
 	FLASH_Unlock();
 	uint8_t *data = (uint8_t *)user;
 	for(size_t i = 0; i < struct_size; i+= 4){
@@ -79,12 +105,16 @@ void Flash_Super_WriteStruct(uint32_t PageAddress,SuperUser *user,size_t struct_
                 Word_Block |= data[i + j] << (j * 8);
             }
         }
-		FLASH_ProgramWord(PageAddress, Word_Block);
+		if(FLASH_ProgramWord(PageAddress, Word_Block)!=4){
+			FLASH_Lock();
+			return 0;
+		}
         PageAddress += 4;
 	}
 	FLASH_Lock();
+	return 1;
 }
-void Flash_Rent_WriteStruct(uint32_t PageAddress,RentUserList *user,size_t struct_size){   
+int Flash_Rent_WriteStruct(uint32_t PageAddress,RentUserList *user,size_t struct_size){   
 	FLASH_Unlock();
 	uint8_t *data = (uint8_t *)user;
 	for(size_t i = 0; i < struct_size; i+=4){
@@ -94,37 +124,48 @@ void Flash_Rent_WriteStruct(uint32_t PageAddress,RentUserList *user,size_t struc
                 Word_Block |= data[i + j] << (j * 8);
             }
         }
-		FLASH_ProgramWord(PageAddress, Word_Block);
+		if(FLASH_ProgramWord(PageAddress, Word_Block)!=4){
+			FLASH_Lock();
+			return 0;
+		}
         PageAddress += 4;
 	}
 	FLASH_Lock();
+	return 1;
 }
 /********************************************************
 * Function name 	:Save_NowFlashStruct
 * Description   	:Store the current data of the superUser structure
 * Parameter     	:None
 * Return        	:
-*					 0--Out of memory    
+*					 0--fail    
 *					 1--success
 **********************************************************/
 int Save_NowFlashStruct(void){        
-	if(Flash_Erase(SuperUserFlash_page_Start)==4){
+	if(Flash_Erase(SuperUserFlash_page_Start)==1){                              //1 => Erase successfully
 		uint32_t Flash_Struct_Size = sizeof(SuperUser_Flash);
 		if(Flash_Struct_Size > (PAGE_SIZE - 50)){
 			return 0;
 		}
-		Flash_Write(SuperUserFlash_Strlen_Record,Flash_Struct_Size);
+		if(Flash_Write(SuperUserFlash_Strlen_Record,Flash_Struct_Size)!=1){     //1 => write successsfully
+			return 0;
+		}
 		if(SureDeviceName==2 || strlen(&Name)> 0 ){          
-			Flash_Write(SuperUserFlash_IfRecordName_Record,0x01);
+			if(Flash_Write(SuperUserFlash_IfRecordName_Record,0xAAAA)!=1){        //1 => write successsfully
+				return 0;
+			}
 			if(strstr(SuperUser_Flash.Bike_Name,"BIKE_")==NULL){
 				Update_Struct_DeviceName(&Name);
 			}
 		}
-		Flash_Write(SuperUserFlash_page_Start,0xAAAA);
-		Flash_Super_WriteStruct(SuperUserFlash_Start_Write_Address,&SuperUser_Flash,Flash_Struct_Size);
+		if(Flash_Write(SuperUserFlash_page_Start,0xAAAA)!=1){                   //1 => write successsfully
+			return 0;
+		}
+		if(Flash_Super_WriteStruct(SuperUserFlash_Start_Write_Address,&SuperUser_Flash,Flash_Struct_Size)!=1){
+			return 0;
+		}
 		return 1;
 	}else{
-		strcpy(&Err, "SaveErr"); 
 		return 0;
 	}
 }
@@ -157,18 +198,25 @@ int Read_FLASH_Super_Struct(void) {                        //remove Flash data t
 * Description   	:Store the current data of the RentList structure
 * Parameter     	:None
 * Return        	:
-*					 0--Out of memory    
+*					 0--fail   
 *					 1--success
 **********************************************************/
 int Save_RentUser_Struct(void){
-	Flash_Erase(RentUserFlash_page_Start);
-	Flash_Erase(RentUserFlash_Second_page_Start);
-	uint32_t Rent_Struct_Size = sizeof(Rent_Flash_Struct);
-	if(Rent_Struct_Size > (2*PAGE_SIZE - 60)){
+	if(Flash_Erase(RentUserFlash_page_Start)==1 && Flash_Erase(RentUserFlash_Second_page_Start)==1){
+		uint32_t Rent_Struct_Size = sizeof(Rent_Flash_Struct);
+		if(Rent_Struct_Size > (2*PAGE_SIZE - 60)){
+			return 0;
+		}
+		if(Flash_Write(RentUserFlash_page_Start,Rent_Struct_Size)!=1){
+			return 0;
+		}
+		if(Flash_Rent_WriteStruct(RentUserFlash_Start_Write_Address,&Rent_Flash_Struct,Rent_Struct_Size)!= 1){
+			return 0;
+		}
+		return 1;
+	}else{
 		return 0;
 	}
-	Flash_Write(RentUserFlash_page_Start,Rent_Struct_Size);
-	Flash_Rent_WriteStruct(RentUserFlash_Start_Write_Address,&Rent_Flash_Struct,Rent_Struct_Size);
 }
 /********************************************************
 * Function name 	:Read_FLASH_Rent_Struct
@@ -305,7 +353,7 @@ void cleanIllegalUser(void){
 	}
 	Rent_Flash_Struct.userCount = validCount;
 	if(validCount != totalUsers){
-		Save_RentUser_Struct();
+		Save_RentUser_Struct();                        //No need to check, can't ride though it's not be deleted
 	}
 }
 /********************************************************
@@ -397,12 +445,15 @@ int Flash_AddRentUser(const char*BikeCommand){
 	if(IfCheckPass == -1){
 		UpdateUser(Rent_Flash_Struct.userCount, RentingAddress, CanUserOpenBatteryLock, TimeStamp, IfTrustCompletely);
 		Rent_Flash_Struct.userCount++;
-		Save_RentUser_Struct();
-		return 1;
+		if(Save_RentUser_Struct()==1){
+			return 1;
+		}else{
+			return 0;
+		}
 	}else{                                                 //need update
 		UpdateUser(IfCheckPass, RentingAddress, CanUserOpenBatteryLock, TimeStamp, IfTrustCompletely);
 		Save_RentUser_Struct();
-		return 0;
+		return 2;
 	}
 }
 /********************************************************
@@ -412,14 +463,17 @@ int Flash_AddRentUser(const char*BikeCommand){
 * @Address       The address of the currently received data
 * @Time          The timestamp of the currently received data
 * Return        :
-*				 0--The length of the wallet address received is illegal
+*				 0--fail
 * 				 1--success
 **********************************************************/
 int Flash_Struct_Register(const char *Address){     //main.c need to register superUser =>fristly Init
 	if(strlen(Address)==40){                                  //Ensure walletaddress is received
 		snprintf(SuperUser_Flash.WalletAddress,sizeof(SuperUser_Flash.WalletAddress),"%s",Address);
-		Save_NowFlashStruct();
-		return 1;
+		if(Save_NowFlashStruct()==1){
+			return 1;
+		}else{
+			return 0;
+		}
 	}else{
 		return 0;
 	}
@@ -430,7 +484,7 @@ int Flash_Struct_Register(const char *Address){     //main.c need to register su
 * Parameter     :
 * @BikeCommand   command include "SuChange"
 * Return        :
-*				 0--err
+*				 0--fail
 * 				 1--success
 **********************************************************/
 int ChangeSuperUser(const char* BikeCommand){
@@ -505,6 +559,8 @@ int AddPhoneAndChat(const char*BikeCommand){           //get a json with phoneNu
 		}else{
 			return 0;
 		}
-	}else{return 0;}
+	}else{
+		return 0;
+	}
 }
 
