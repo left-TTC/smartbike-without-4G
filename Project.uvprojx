@@ -750,6 +750,11 @@
               <FileType>5</FileType>
               <FilePath>.\Hardware\Fault.h</FilePath>
             </File>
+            <File>
+              <FileName>Struct.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\Struct.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

@@ -41,3 +41,4 @@
 .\objects\main.o: .\Hardware\Flash.h
 .\objects\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\time.h
 .\objects\main.o: .\Hardware\Fault.h
+.\objects\main.o: .\Hardware\Struct.h

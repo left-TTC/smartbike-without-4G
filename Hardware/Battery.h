@@ -9,7 +9,7 @@ void Get_BatteryLockState(void);
 void checkBatteryCommand(char* BatteryState);
 void GetStateWhenopen(void) ;
 void GetUniqueID(void);
-void sendBatteryLockState(char *BatteryState);
+void Check_Now_Battery_Lock_State(char *BatteryState);
 void changeDeviceName(void);
 void BatteryLock_off(void);
 

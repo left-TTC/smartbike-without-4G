@@ -11,30 +11,27 @@
 #include "Flash.h"
 #include "time.h"
 #include "Fault.h"
+#include "Struct.h"
 int command_verify(const char *cmdstr,char * signaturestr,char * address,char * publicKeystr);
 
 volatile int check_tooth = 0;
+int NoMoveFlag = 0;
 int BikeLock_number = 0;
 int BatteryLock_number = 2;
 extern int Tooth_Flag;
 extern int Site_move;
 extern int canDOACommand;
-extern int ifHaveSuperUser;        //Check whether a superuser exists
-extern char Flash_store;
+extern int ifNeedRigisterSuperUser;        //Check whether a superuser exists
 extern char UUiD;
 extern char BatteryState;
-int NoMoveFlag = 0;
-int NeedClean = 0;
-extern int isRent ;   //means rent user
-extern int isSuper;
 extern time_t usingStamp; 
 int main(void){	
-	//Flash_Erase(0x0800F000);Flash_Erase(0x0800F400);Flash_Erase(0x0800F800);Flash_Erase(0x0800FC00);
-	IWDG_Init();         //open IWDG =>if 2s withoutFeed=>Reset
+	//int fla = (Flash_Erase(0x0800F400));Flash_Erase(0x0800F800);Flash_Erase(0x0800FC00);
+	//IWDG_Init();                              //open IWDG =>if 2s withoutFeed=>Reset
 	AD_Init();     
 	Blue_Init();
 	beep_Init();
-	Store_Init();     //get Flash
+	All_Struct_Init();                      //get Flash
 	GetUniqueID();
 	Serial_Init();
 	Battery_Init();
@@ -62,12 +59,10 @@ int main(void){
 			Get_BatteryLockState();  //every 1s check need to close the lock
 		}
 		if(whilecount%400 == 1){
-			IWDG_Feed();             //evrey 1s Feed IWDG
+			//IWDG_Feed();             //evrey 1s Feed IWDG
 		}
 		if(whilecount%3000 == 0){
 			cleanIllegalUser();         //every 30s check wheather the rent time llegal
-		}if(whilecount%500==0){
-			ResetUser();                //reset the user state
 		}
 //----------------------BikeLock on And Bluetooth connected----------------------
 //BikeLock_number£º1-on 0-off;Tooth_Flag: 1-disconnect 0-connect;
@@ -107,16 +102,12 @@ int main(void){
 				Controller_off();
 				Bikelockcount = 0;
 				beep_lock();
-				char StoreTime[20];
-				snprintf(StoreTime, 11, "%ld", (long int)usingStamp);
-				Update_Store_TimeStamp(StoreTime);
-				Save_NowFlash();            //stop drive ->save the data in Flash_Store now
+				Save_NowFlashStruct();            //stop drive ->save the data in Flash_Store now
 			}
 		}
 //-------------------------Battery command----------------------------
 		//batterylock_number:1-on 0-off 2-wait (the number dosen't mean state but action
 		if(BatteryLock_number == 1){             //let Batterylock on
-			isRent = 0;
 			Batterylockcount ++;
 			if(Batterylockcount%101==1){         //when Batterylockcount =1,102
 				BatteryLock_on();

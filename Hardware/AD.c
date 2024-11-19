@@ -11,9 +11,7 @@ uint16_t CheckHelp = 0;
 float BatteryVoltage = 0;  //store power supply voltage
 int if_up = 0;      //==0 means it's up 
 
-
-void AD_Init(void)
-{
+void AD_Init(void){
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1, ENABLE);     //rotation analog input
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC2, ENABLE);
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);    //for pa0
@@ -77,7 +75,6 @@ uint16_t AD1_GetValue(void){
 	while (ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC) == RESET);
 	return ADC_GetConversionValue(ADC1);
 }
-
 uint16_t AD2_GetValue(void){
 	ADC_SoftwareStartConvCmd(ADC2, ENABLE);
 	while (ADC_GetFlagStatus(ADC2, ADC_FLAG_EOC) == RESET);
@@ -89,10 +86,6 @@ void BatteryVoltage_get(char *BatteryPower){
 	sprintf(BatteryPower, "%.1f", BatteryVoltage);
 } 
 //-----------------------mileage calculation------------------
-void Send_CurrentRotate(char *Rotate){
-	sprintf(Rotate, "%u", Rotate_Counter);
-}
-
 void Check_move(void){
 	if(CheckHelp == Rotate_Counter){
 		Site_move = 1;             //means no move
@@ -102,7 +95,6 @@ void Check_move(void){
 	}
 	CheckHelp = Rotate_Counter;
 }
-
 //------------------------------------------------------------
 //void ADC1_2_IRQHandler(void){
 	//if (ADC_GetFlagStatus(ADC1, ADC_FLAG_AWD) == 1) {

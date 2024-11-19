@@ -1,3 +1,10 @@
+/********************************************************************************
+* @File         name: Serial.c
+* @Author:      Andy and Left-TTC @github
+* @Version:     1.01
+* @Date:        2024-11-16
+* @Description: A library of processes related to Bluetooth
+********************************************************************************/
 #include "stm32f10x.h"                  // Device header
 #include <stdio.h>
 #include <stdarg.h>
